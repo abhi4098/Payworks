@@ -2,11 +2,11 @@ package com.payworks.api;
 
 import android.content.Context;
 
-import com.CobaltConnect1.generated.model.Login;
-import com.CobaltConnect1.generated.parser.UserProfileDeserializer;
-import com.CobaltConnect1.utils.LogUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.payworks.generated.model.Login;
+import com.payworks.generated.parser.UserProfileDeserializer;
+import com.payworks.utils.LogUtils;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

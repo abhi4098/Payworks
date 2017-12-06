@@ -1,5 +1,5 @@
 
-package com.payworks.generated;
+package com.payworks.generated.model;
 
 
 import com.google.gson.annotations.Expose;
@@ -9,16 +9,22 @@ public class Login {
 
     public static class LoginDetails {
 
-        private String phone;
-        private String otp;
+        @SerializedName("email")
+        @Expose
+        private String email;
+        @SerializedName("password")
+        @Expose
+        private String password;
 
-        public LoginDetails(String phone) {
-            this.phone = phone;
-        }
+        @SerializedName("token")
+        @Expose
+        private String token;
 
-        public LoginDetails(String phone, String otp) {
-            this.phone = phone;
-            this.otp = otp;
+
+        public LoginDetails(String email, String password,String token) {
+            this.email = email;
+            this.password = password;
+            this.token = token;
         }
 
 
@@ -29,7 +35,7 @@ public class Login {
 
 
 
-    public static class OTPResponse {
+    public static class LoginResponse {
         @SerializedName("id")
         @Expose
         private String id;

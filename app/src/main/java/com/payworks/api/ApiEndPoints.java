@@ -6,7 +6,7 @@ package com.payworks.api;
 
 public class ApiEndPoints {
 
-    public static String MAIN_BASE_URL = "app.cobaltconnect.net/";
+    public static String MAIN_BASE_URL = "www.payworks.bs/service/";
 
     public static String BASE_URL = "http://"+MAIN_BASE_URL;
     /*public static String SERVER = MAIN_BASE_URL;

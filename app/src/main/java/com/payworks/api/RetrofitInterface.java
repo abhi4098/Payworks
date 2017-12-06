@@ -2,11 +2,20 @@ package com.payworks.api;
 
 
 
+import com.payworks.generated.model.Login;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public class RetrofitInterface {
+
+    public interface UserLoginClient {
+
+        @POST("login.html")
+        Call<Login.LoginResponse> userLogIn(@Body Login.LoginDetails loginDetails);
+
+    }
 
     /*public interface MerchantLoginClient {
 
