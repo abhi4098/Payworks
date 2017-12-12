@@ -3,21 +3,38 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_my_profile"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:title="My Profile" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_wallet"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:title="Wallet" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_my_transactions"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="My Transaction" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_sent_money_request"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="Sent Money Request" />
+        <item
+            android:id="@+id/nav_refer_a_friend"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Refer a Friend" />
+        <item
+            android:id="@+id/nav_my_bank_account"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="My Bank Account" />
+        <item
+            android:id="@+id/nav_notification"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Notification" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Logout" />
     </group>
 
     <item android:title="Communicate">

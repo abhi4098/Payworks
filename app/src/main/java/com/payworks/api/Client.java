@@ -38,7 +38,7 @@ public class Client {
                 Request newRequest;
                 newRequest = original.newBuilder()
                         .header("Accept", "application/json")
-                        .header("Authorization", "Token token=" + PrefUtils.getAuthToken(context))
+                        .header("Authorization", "Token token="  /*"83Ide@$321!"*/)
                         .build();
                 return chain.proceed(newRequest);
             }

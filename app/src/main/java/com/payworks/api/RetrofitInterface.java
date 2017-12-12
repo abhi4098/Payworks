@@ -3,9 +3,14 @@ package com.payworks.api;
 
 
 import com.payworks.generated.model.Login;
+import com.payworks.generated.model.MyProfile;
+import com.payworks.generated.model.MyProfileResponse;
+import com.payworks.generated.model.Registration;
+import com.payworks.generated.model.RegistrationResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 public class RetrofitInterface {
@@ -14,6 +19,19 @@ public class RetrofitInterface {
 
         @POST("login.html")
         Call<Login.LoginResponse> userLogIn(@Body Login.LoginDetails loginDetails);
+
+    }
+
+
+    public interface UserRegistrationClient {
+        @POST("register.html")
+        Call<RegistrationResponse> userRegistration(@Body Registration registration);
+
+    }
+
+    public interface UserMyProfileClient {
+        @POST("getProfile")
+        Call<MyProfileResponse> userMyProfile(@Body MyProfile myProfile);
 
     }
 

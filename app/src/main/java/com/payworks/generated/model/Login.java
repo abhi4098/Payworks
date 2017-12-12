@@ -39,131 +39,135 @@ public class Login {
         @SerializedName("id")
         @Expose
         private String id;
-        @SerializedName("auth_token")
+        @SerializedName("role")
         @Expose
-        private String authToken;
+        private String role;
+        @SerializedName("roles_id")
+        @Expose
+        private String rolesId;
+        @SerializedName("role_parent")
+        @Expose
+        private String roleParent;
+        @SerializedName("email")
+        @Expose
+        private String email;
         @SerializedName("phone")
         @Expose
-        private String phone;
-        @SerializedName("created_at")
+        private Object phone;
+        @SerializedName("address")
         @Expose
-        private String createdAt;
-        @SerializedName("updated_at")
+        private String address;
+        @SerializedName("first_name")
         @Expose
-        private String updatedAt;
-
-        @SerializedName("info")
+        private String firstName;
+        @SerializedName("last_name")
         @Expose
-        private String info;
+        private String lastName;
+        @SerializedName("gender")
+        @Expose
+        private String gender;
+        @SerializedName("login")
+        @Expose
+        private String login;
+        @SerializedName("login_date")
+        @Expose
+        private String loginDate;
 
-        /**
-         *
-         * @return
-         * The info
-         */
-        public String getInfo() {
-            return info;
-        }
-
-        /**
-         *
-         * @param info
-         * The info
-         */
-        public void setInfo(String info) {
-            this.info = info;
-        }
-
-        /**
-         *
-         * @return
-         * The id
-         */
         public String getId() {
             return id;
         }
 
-        /**
-         *
-         * @param id
-         * The id
-         */
         public void setId(String id) {
             this.id = id;
         }
 
-        /**
-         *
-         * @return
-         * The authToken
-         */
-        public String getAuthToken() {
-            return authToken;
+        public String getRole() {
+            return role;
         }
 
-        /**
-         *
-         * @param authToken
-         * The auth_token
-         */
-        public void setAuthToken(String authToken) {
-            this.authToken = authToken;
+        public void setRole(String role) {
+            this.role = role;
         }
 
-        /**
-         *
-         * @return
-         * The phone
-         */
-        public String getPhone() {
+        public String getRolesId() {
+            return rolesId;
+        }
+
+        public void setRolesId(String rolesId) {
+            this.rolesId = rolesId;
+        }
+
+        public String getRoleParent() {
+            return roleParent;
+        }
+
+        public void setRoleParent(String roleParent) {
+            this.roleParent = roleParent;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public Object getPhone() {
             return phone;
         }
 
-        /**
-         *
-         * @param phone
-         * The phone
-         */
-        public void setPhone(String phone) {
+        public void setPhone(Object phone) {
             this.phone = phone;
         }
 
-        /**
-         *
-         * @return
-         * The createdAt
-         */
-        public String getCreatedAt() {
-            return createdAt;
+        public String getAddress() {
+            return address;
         }
 
-        /**
-         *
-         * @param createdAt
-         * The created_at
-         */
-        public void setCreatedAt(String createdAt) {
-            this.createdAt = createdAt;
+        public void setAddress(String address) {
+            this.address = address;
         }
 
-        /**
-         *
-         * @return
-         * The updatedAt
-         */
-        public String getUpdatedAt() {
-            return updatedAt;
+        public String getFirstName() {
+            return firstName;
         }
 
-        /**
-         *
-         * @param updatedAt
-         * The updated_at
-         */
-        public void setUpdatedAt(String updatedAt) {
-            this.updatedAt = updatedAt;
+        public void setFirstName(String firstName) {
+            this.firstName = firstName;
         }
 
+        public String getLastName() {
+            return lastName;
+        }
+
+        public void setLastName(String lastName) {
+            this.lastName = lastName;
+        }
+
+        public String getGender() {
+            return gender;
+        }
+
+        public void setGender(String gender) {
+            this.gender = gender;
+        }
+
+        public String getLogin() {
+            return login;
+        }
+
+        public void setLogin(String login) {
+            this.login = login;
+        }
+
+        public String getLoginDate() {
+            return loginDate;
+        }
+
+        public void setLoginDate(String loginDate) {
+            this.loginDate = loginDate;
+        }
     }
     }
 

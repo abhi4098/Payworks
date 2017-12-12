@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.support.multidex.MultiDex;
 
 import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 public class AppController extends Application {
 
@@ -20,6 +21,7 @@ public class AppController extends Application {
         //CustomActivityOnCrash.install(this);
         //Fabric.with(this, new Crashlytics());
         FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
 
 
 
