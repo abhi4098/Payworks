@@ -96,7 +96,7 @@
                 android:lines="1"
                 android:drawablePadding="10dp"
                 android:textColor="@color/text_color"
-                android:textSize="12sp"
+                android:textSize="13sp"
                 android:paddingEnd="5dp"
                 android:paddingStart="5dp"
                 android:textStyle="normal" />
@@ -124,7 +124,7 @@
                 android:paddingEnd="5dp"
                 android:paddingStart="5dp"
                 android:textColor="@color/text_color"
-                android:textSize="12sp"
+                android:textSize="13sp"
                 android:textStyle="normal"
                 tools:ignore="InvalidImeActionId" />
 
@@ -132,7 +132,7 @@
                 android:id="@+id/email_sign_in_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="120dp"
-                android:layout_height="25dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:textColor="@color/white"
@@ -169,7 +169,7 @@
                 android:layout_marginTop="50dp"
                 android:paddingStart="5dp"
                 android:textColor="@color/white"
-                android:background="@color/resister_button_color"
+                android:background="@drawable/button_state_selector"
                 android:text="@string/action_register"
                 android:textStyle="bold" />
 

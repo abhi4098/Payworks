@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,9 +18,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.payworks.R;
+import com.payworks.ui.fragments.ProfileHomePageFragment;
 
 public class NavigationalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    Fragment profileHomePageFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +31,7 @@ public class NavigationalActivity extends AppCompatActivity
         setContentView(R.layout.activity_navigational);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setFragment();
 
       /*  FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +50,15 @@ public class NavigationalActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void setFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        profileHomePageFragment = new ProfileHomePageFragment();
+        fragmentTransaction.add(R.id.fragment_container, profileHomePageFragment, "PROFILE");
+        fragmentTransaction.commit();
+
     }
 
     @Override
@@ -93,9 +109,14 @@ public class NavigationalActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_my_transactions) {
 
-        } else if (id == R.id.nav_sent_money_request) {
+        } else if (id == R.id.nav_sent_money_request)
 
-        } else if (id == R.id.nav_refer_a_friend) {
+        {
+            Intent intent = new Intent(this, SendMoneyRequestActivity.class);
+            startActivity(intent);
+        }
+
+        else if (id == R.id.nav_refer_a_friend) {
 
         } else if (id == R.id.nav_my_bank_account) {
 

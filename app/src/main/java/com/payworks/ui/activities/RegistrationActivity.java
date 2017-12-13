@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
@@ -26,7 +28,7 @@ import retrofit2.Response;
 import static com.payworks.api.ApiEndPoints.BASE_URL;
 
 
-public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener{
+public class RegistrationActivity extends BaseActivity implements View.OnClickListener{
 
     EditText etUserFirstName;
     EditText etUserEmailId;
@@ -34,23 +36,53 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     EditText etUserCountry;
     EditText etUserPhoneNumber;
     EditText etUserPassword;
-    Button btnRegisterAccount;
+    TextView tvAppTitle;
+    android.support.v7.widget.Toolbar toolbar;
+    LinearLayout btnRegisterAccount;
     boolean isPasswordValid =false;
     String userFirstname,userLastName,userPhone,userEmail,userCountry,userPassword;
     private RetrofitInterface.UserRegistrationClient registrationAdapter;
 
     @Override
+    public int getLayoutResourceId() {
+        return R.layout.activity_registration;
+    }
+
+    @Override
+    public int getNavigationIconId() {
+        return 0;
+    }
+
+    @Override
+    public void onNavigationIconClick(View v) {
+
+    }
+
+    @Override
+    public String getActivityTitle() {
+        return null;
+    }
+
+    @Override
+    public boolean focusAtLaunch() {
+        return false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
         etUserFirstName = (EditText) findViewById(R.id.user_first_name);
         etUserLastName = (EditText) findViewById(R.id.user_last_name);
         etUserPhoneNumber = (EditText) findViewById(R.id.user_phone_num);
         etUserEmailId = (EditText) findViewById(R.id.user_email);
         etUserPassword = (EditText) findViewById(R.id.user_password);
         etUserCountry = (EditText) findViewById(R.id.user_country);
-        btnRegisterAccount = (Button) findViewById(R.id.register_account);
+        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        tvAppTitle = (TextView) findViewById(R.id.tv_app_title);
+        btnRegisterAccount = (LinearLayout) findViewById(R.id.register_account);
         btnRegisterAccount.setOnClickListener(this);
+        //setSupportActionBar(toolbar);
+        tvAppTitle.setText("REGISTRATION");
         setUpRestAdapter();
 
     }

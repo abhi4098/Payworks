@@ -115,6 +115,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
     private View mProgressView;
     private View mLoginFormView;
     Button btnRegistration;
+    TextView btnForgotPassword;
     Button mSignInButton;
     SignInButton btnGoogleLogin;
     LoginButton btnFacebookLogin;
@@ -134,6 +135,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
         btnFacebookLogin = (LoginButton) findViewById(R.id.login_with_facebook);
         btnGoogleLogin = (SignInButton) findViewById(R.id.login_with_google);
         btnRegistration = (Button) findViewById(R.id.register);
+        btnForgotPassword = (TextView) findViewById(R.id.click_here);
         mPasswordView = (EditText) findViewById(R.id.password);
         mSignInButton =  (Button) findViewById(R.id.email_sign_in_button);
         setOnClickListener();
@@ -164,6 +166,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
         btnGoogleLogin.setOnClickListener(this);
         btnRegistration.setOnClickListener(this);
         mSignInButton.setOnClickListener(this);
+        btnForgotPassword.setOnClickListener(this);
     }
 
     private void initGoogleAPIClient() {
@@ -425,14 +428,16 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
                 break;
 
             case R.id.register:
-                Intent intent = new Intent(this, RegistrationActivity.class);
+                /*Intent intent = new Intent(this, RegistrationActivity.class);
+                startActivity(intent);*/
+                Intent intent = new Intent(this, NavigationalActivity.class);
                 startActivity(intent);
                 break;
-           /* case R.id.txForgotPassword:
-                intent = new Intent(getActivity(), ForgotPasswordActivity.class);
+            case R.id.click_here:
+                intent = new Intent(this, ForgotPasswordActivity.class);
                 intent.putExtra("isFromOnBoarding", isFromOnBoarding);
                 startActivity(intent);
-                break;*/
+                break;
 
             case R.id.login_with_google:
                 LoadingDialog.showLoadingDialog(this, "Loading..");

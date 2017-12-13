@@ -7,6 +7,7 @@
     <string name="action_sign_in">Next</string>
     <string name="action_register">Register</string>
     <string name="title_edit_profile">Edit Profile</string>
+    <string name="title_registration">REGISTRATION</string>
     <string name="action_submit">Submit</string>
     <string name="action_sign_in_google">Login with google</string>
     <string name="action_sign_in_facebook">Login with facebook</string>
@@ -20,7 +21,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="title_activity_navigational">NavigationalActivity</string>
+    <string name="title_activity_navigational">WELCOME</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

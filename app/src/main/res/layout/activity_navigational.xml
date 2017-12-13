@@ -7,11 +7,48 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
-
-    <include
-        layout="@layout/app_bar_navigational"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main_content"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true"
+        tools:context=".ui.activities.DocChatMainActivity">
+
+        <include
+            android:id="@+id/toolbar_actionbar"
+            layout="@layout/activity_toolbar"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"/>
+
+        <!-- <Spinner
+                 android:id="@+id/User_Details_array"
+                 android:layout_width="wrap_content"
+                 android:background="@color/colorAccent"
+                 android:layout_height="wrap_content"
+
+
+                 />-->
+
+        <LinearLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+        </LinearLayout>
+
+
+        <!--<FrameLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/frame_container"/>
+-->
+    </LinearLayout>
+
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

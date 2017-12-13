@@ -5,23 +5,28 @@
     android:id="@+id/activity_registration"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
+    android:background="@drawable/all_screens_bg"
     tools:context="com.payworks.ui.activities.RegistrationActivity">
+
+    <include
+        android:id="@+id/toolbar_actionbar"
+        layout="@layout/activity_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="135dp"
-
+        android:layout_height="140dp"
+        android:layout_marginTop="30dp"
         >
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/person_image"
-        android:layout_width="@dimen/edit_profile_circle_image_view_width"
-        android:layout_height="@dimen/edit_profile_circle_image_view_height"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="18dp"
         android:src="@drawable/new_customer_icon"
         app:civ_fill_color="@color/lighter_gray"
         android:layout_centerHorizontal="true"></de.hdodenhof.circleimageview.CircleImageView>
@@ -29,12 +34,13 @@
         <TextView
             android:id="@+id/upload_pic"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:padding="5dp"
+            android:textSize="10sp"
             android:text="Upload Image(Optional)"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/rectangular_background"/>
+            android:background="@drawable/rectangular_background_curved_edges"/>
 
     </RelativeLayout>
 
@@ -43,14 +49,16 @@
         android:id="@+id/user_phone_num"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:layout_width="240dp"
+        android:layout_width="match_parent"
         android:layout_height="32dp"
         android:textStyle="normal"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="55dp"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/text_color"
         android:lines="1"
         android:textSize="12sp"
-        android:background="@drawable/rectangular_background"
+        android:background="@drawable/rectangular_background_curved_edges"
         android:layout_marginTop="30dp"
         android:hint="@string/hint_user_phone_num"/>
 
@@ -60,14 +68,16 @@
         android:id="@+id/user_first_name"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:layout_width="240dp"
+        android:layout_width="match_parent"
         android:layout_height="32dp"
         android:textStyle="normal"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="55dp"
         android:textColor="@color/text_color"
         android:lines="1"
         android:textSize="12sp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/rectangular_background"
+        android:background="@drawable/rectangular_background_curved_edges"
         android:layout_marginTop="10dp"
         android:hint="@string/hint_user_first_name"/>
 
@@ -75,7 +85,7 @@
 
     <EditText
         android:id="@+id/user_last_name"
-        android:layout_width="240dp"
+        android:layout_width="match_parent"
         android:layout_height="32dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
@@ -84,8 +94,10 @@
         android:textStyle="normal"
         android:layout_marginTop="10dp"
         android:textSize="12sp"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="55dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/rectangular_background"
+        android:background="@drawable/rectangular_background_curved_edges"
         android:hint="@string/hint_user_last_name"
         android:inputType="textEmailAddress" />
 
@@ -93,7 +105,7 @@
 
     <EditText
         android:id="@+id/user_email"
-        android:layout_width="240dp"
+        android:layout_width="match_parent"
         android:layout_height="32dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
@@ -102,7 +114,9 @@
         android:textStyle="normal"
         android:layout_marginTop="10dp"
         android:textSize="12sp"
-        android:background="@drawable/rectangular_background"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="55dp"
+        android:background="@drawable/rectangular_background_curved_edges"
         android:hint="@string/hint_email"
         android:layout_gravity="center_horizontal"
         android:inputType="textEmailAddress" />
@@ -111,14 +125,16 @@
         android:id="@+id/user_password"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:layout_width="240dp"
+        android:layout_width="match_parent"
         android:layout_height="32dp"
         android:textStyle="normal"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/text_color"
         android:lines="1"
         android:textSize="12sp"
-        android:background="@drawable/rectangular_background"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="55dp"
+        android:background="@drawable/rectangular_background_curved_edges"
         android:layout_marginTop="10dp"
         android:hint="@string/hint_password"/>
 
@@ -126,29 +142,64 @@
 
     <EditText
         android:id="@+id/user_country"
-        android:layout_width="240dp"
+        android:layout_width="match_parent"
         android:layout_height="32dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:lines="1"
         android:textColor="@color/text_color"
         android:textStyle="normal"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="55dp"
         android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
         android:textSize="12sp"
-        android:background="@drawable/rectangular_background"
+        android:background="@drawable/rectangular_background_curved_edges"
         android:hint="@string/hint_country"
         android:inputType="textEmailAddress" />
 
-    <Button
+   <!-- <Button
         android:id="@+id/register_account"
         style="?android:textAppearanceSmall"
-        android:layout_width="240dp"
-        android:layout_height="45dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="55dp"
+        android:textColor="@color/white"
+        android:drawableStart="@drawable/register24"
+        android:background="@color/resister_button_color"
+        android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:text="@string/action_register"
-        android:textStyle="bold" />
+        android:textStyle="bold" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:id="@+id/register_account"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="55dp"
+        android:clickable="true"
+        android:background="@drawable/button_state_selector"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dip"
+            android:background="@drawable/register24"
+            />
+
+        <TextView
+            android:id="@+id/button_text"
+            android:textColor="@color/white"
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit" />
+
+
+    </LinearLayout>
 
 
 </LinearLayout>
