@@ -153,6 +153,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                         if (response.body().getTokenid() !=null) {
 
                             if (response.body().getType() == 1) {
+                                PrefUtils.storeUsernId(response.body().getTokenid().toString(),RegistrationActivity.this);
 
                                 Intent intent = new Intent(RegistrationActivity.this, NavigationalActivity.class);
                                 startActivity(intent);

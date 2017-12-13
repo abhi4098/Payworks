@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
     //private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private EditText mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -130,7 +130,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = (EditText) findViewById(R.id.email);
         btnFacebookLogin = (LoginButton) findViewById(R.id.login_with_facebook);
         btnGoogleLogin = (SignInButton) findViewById(R.id.login_with_google);
         btnRegistration = (Button) findViewById(R.id.register);
@@ -427,7 +427,6 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
             case R.id.register:
                 Intent intent = new Intent(this, RegistrationActivity.class);
                 startActivity(intent);
-                finish();
                 break;
            /* case R.id.txForgotPassword:
                 intent = new Intent(getActivity(), ForgotPasswordActivity.class);

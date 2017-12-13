@@ -2,7 +2,7 @@
     <string name="app_name">Payworks</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Enter your mobile number/Email</string>
+    <string name="prompt_email">  Enter your mobile number/Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Next</string>
     <string name="action_register">Register</string>
@@ -37,5 +37,7 @@
     <string name="hint_password">Enter password</string>
     <string name="hint_country">Enter country</string>
     <string name="error_compulsory_field">This field is compulsory</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="click_here">click here</string>
 
 </resources>
