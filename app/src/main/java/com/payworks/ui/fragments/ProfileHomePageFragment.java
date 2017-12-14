@@ -111,7 +111,7 @@ public class ProfileHomePageFragment extends Fragment {
 
                     if (response.isSuccessful()) {
                         Log.e(TAG, "onResponse: " +response.body() );
-                        tvWalletBalance.setText(response.message());
+                        tvWalletBalance.setText(response.body().toString());
                         LoadingDialog.cancelLoading();
 
 

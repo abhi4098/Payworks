@@ -6,24 +6,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/all_screens_bg"
-    tools:context="com.payworks.ui.activities.MyProfileActivity">
+    tools:context="com.payworks.ui.fragments.MyProfileFragment">
 
 
-    <include
-        android:id="@+id/toolbar_actionbar"
-        layout="@layout/activity_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#000000">
+        android:background="@drawable/wallet_bg">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_centerInParent="true"
             android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/wallet24"
+                android:layout_marginEnd="5dp"
+                />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,14 +48,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
+      android:background="@drawable/profile_bg"
 
         >
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/person_image"
-            android:layout_width="@dimen/edit_profile_circle_image_view_width"
-            android:layout_height="@dimen/edit_profile_circle_image_view_height"
-            android:src="@drawable/new_customer_icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/pic_uploader"
             android:layout_marginTop="50dp"
             app:civ_fill_color="@color/lighter_gray"
             android:layout_centerHorizontal="true"
@@ -61,10 +65,12 @@
         <Button
             android:id="@+id/edit_Profile"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:padding="3dp"
+            android:layout_height="25dp"
+            android:padding="5dp"
             android:textColor="@color/white"
             android:layout_marginTop="20dp"
+            android:drawableLeft="@drawable/edit_profile18"
+            android:drawablePadding="3dp"
             android:layout_marginRight="20dp"
             android:textSize="10sp"
             android:background="@drawable/button_state_selector"

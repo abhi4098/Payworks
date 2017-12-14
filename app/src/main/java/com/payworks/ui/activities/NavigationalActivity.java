@@ -16,32 +16,34 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.payworks.R;
+import com.payworks.ui.fragments.MyProfileFragment;
 import com.payworks.ui.fragments.ProfileHomePageFragment;
+import com.payworks.utils.PrefUtils;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class NavigationalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Fragment profileHomePageFragment;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.tv_app_title)
+    TextView tvAppTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigational);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        ButterKnife.bind(this);
+        //setSupportActionBar(toolbar);
         setFragment();
-
-      /*  FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -50,15 +52,41 @@ public class NavigationalActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_Home);
+        //navigationView.setItemTextColor(ColorStateList.valueOf(Color.BLACK));
+        MenuItem itemid = navigationView.getMenu().findItem(R.id.nav_Home);
+
+        if (getFragmentManager().findFragmentById(R.id.fragment_container) == null) {
+            onNavigationItemSelected(itemid);
+        }
+
+        setUserLoggedIn();
     }
 
     public void setFragment() {
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         profileHomePageFragment = new ProfileHomePageFragment();
         fragmentTransaction.add(R.id.fragment_container, profileHomePageFragment, "PROFILE");
         fragmentTransaction.commit();
+        tvAppTitle.setText("WELCOME");
 
+    }
+
+    private void setUserLoggedIn() {
+        PrefUtils.storeUserLoggedIn(true, this);
+    }
+
+    private void callRestart() {
+        //NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        //notificationManager.cancel(5555);
+        //notificationManager.cancel(4444);
+        PrefUtils.storeUserLoggedIn(false, this);
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -98,39 +126,70 @@ public class NavigationalActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Fragment fragment = null;
+        switch (id) {
 
-        if (id == R.id.nav_my_profile) {
-            // Handle the camera action
-            Intent intent = new Intent(this, MyProfileActivity.class);
-            startActivity(intent);
+
+            case R.id.nav_Home:
+                fragment = new ProfileHomePageFragment();
+                tvAppTitle.setText(item.getTitle());
+
+                break;
+            case R.id.nav_my_profile:
+                fragment = new MyProfileFragment();
+                tvAppTitle.setText(item.getTitle());
+
+                break;
+
+            case R.id.nav_wallet:
+                //fragment = new NewlyUpdatedFragment();
+                tvAppTitle.setText(item.getTitle());
+
+                break;
+
+            case R.id.nav_my_transactions:
+                //fragment = new ManageCategoriesfragment();
+                tvAppTitle.setText(item.getTitle());
+                break;
+
+            case R.id.nav_sent_money_request:
+                //fragment = new MyProductsFragment();
+                tvAppTitle.setText(item.getTitle());
+                break;
+
+            case R.id.nav_refer_a_friend:
+                //fragment = new StockDetailsfragment();
+                tvAppTitle.setText(item.getTitle());
+                break;
+
+            case R.id.nav_my_bank_account:
+                //fragment = new StockDetailsfragment();
+                tvAppTitle.setText(item.getTitle());
+                break;
+
+            case R.id.nav_notification:
+               // fragment = new ChangePasswordFragment();
+                tvAppTitle.setText(item.getTitle());
+                break;
+
+            case R.id.nav_logout:
+                callRestart();
+                break;
+
+            default:
+                fragment = new ProfileHomePageFragment();
+                tvAppTitle.setText(item.getTitle());
+                break;
+
+
         }
 
-        else if (id == R.id.nav_wallet) {
-
-        } else if (id == R.id.nav_my_transactions) {
-
-        } else if (id == R.id.nav_sent_money_request)
-
-        {
-            Intent intent = new Intent(this, SendMoneyRequestActivity.class);
-            startActivity(intent);
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
         }
-
-        else if (id == R.id.nav_refer_a_friend) {
-
-        } else if (id == R.id.nav_my_bank_account) {
-
-        }
-        else if (id == R.id.nav_notification) {
-
-        }
-        else if (id == R.id.nav_logout) {
-
-        }
-
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }

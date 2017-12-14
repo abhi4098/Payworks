@@ -15,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.payworks.R;
+import com.payworks.utils.PrefUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,15 +43,24 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                intent.putExtra("type", "GetStarted");
-                startActivity(intent);
+                CheckLogin();
                 finish();
             }
         }, SPLASH_TIME_OUT);
     }
 
 
+
+    private void CheckLogin() {
+        Boolean isLoggedIn = PrefUtils.getUserLoggedIn(this);
+        if (isLoggedIn) {
+            Intent i = new Intent(SplashActivity.this, NavigationalActivity.class);
+            startActivity(i);
+        } else {
+            Intent i = new Intent(SplashActivity.this, LoginActivity.class);
+            startActivity(i);
+        }
+    }
     }
 
 
