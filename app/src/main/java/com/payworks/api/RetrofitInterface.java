@@ -2,6 +2,8 @@ package com.payworks.api;
 
 
 
+import com.payworks.generated.model.ForgotPassword;
+import com.payworks.generated.model.ForgotPasswordResponse;
 import com.payworks.generated.model.Login;
 import com.payworks.generated.model.MyProfile;
 import com.payworks.generated.model.MyProfileResponse;
@@ -32,6 +34,18 @@ public class RetrofitInterface {
     public interface UserMyProfileClient {
         @POST("getProfile")
         Call<MyProfileResponse> userMyProfile(@Body MyProfile myProfile);
+
+    }
+
+    public interface UserWalletClient {
+        @POST("walletbalance")
+        Call<MyProfileResponse> userWallet(@Body MyProfile myProfile);
+
+    }
+
+    public interface UserForgotPasswordClient {
+        @POST("forgot.html")
+        Call<ForgotPasswordResponse> userForgotPassword(@Body ForgotPassword forgotPassword);
 
     }
 

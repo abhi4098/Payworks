@@ -40,7 +40,7 @@ public class EditProfileActivity extends BaseActivity {
 
     @Override
     public int getNavigationIconId() {
-        return R.drawable.icon_back;
+        return R.drawable.ic_keyboard_arrow_left_white_24dp;
     }
 
     @Override
