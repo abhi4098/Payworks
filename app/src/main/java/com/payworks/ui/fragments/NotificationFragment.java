@@ -1,8 +1,11 @@
-package com.payworks.ui.activities;
+package com.payworks.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.payworks.R;
@@ -10,6 +13,7 @@ import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
 import com.payworks.generated.model.MyProfile;
 import com.payworks.generated.model.MyProfileResponse;
+import com.payworks.ui.activities.EditProfileActivity;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.LogUtils;
 import com.payworks.utils.NetworkUtils;
@@ -25,8 +29,12 @@ import retrofit2.Response;
 
 import static com.payworks.api.ApiEndPoints.BASE_URL;
 
-public class MyProfileActivity extends BaseActivity {
-    private static final String TAG = LogUtils.makeLogTag(MyProfileActivity.class);
+/**
+ * Created by Abhinandan on 18/8/17.
+ */
+public class NotificationFragment extends Fragment {
+
+    private static final String TAG = LogUtils.makeLogTag(NotificationFragment.class);
     private RetrofitInterface.UserMyProfileClient MyProfileAdapter;
 
     @BindView(R.id.user_qr_code)
@@ -42,52 +50,28 @@ public class MyProfileActivity extends BaseActivity {
 
     @OnClick(R.id.edit_Profile)
     public void editProfile() {
-        Intent activityChangeIntent = new Intent(MyProfileActivity.this, EditProfileActivity.class);
+        Intent activityChangeIntent = new Intent(getActivity(), EditProfileActivity.class);
         startActivity(activityChangeIntent);
     }
 
 
-    @Override
-    public int getLayoutResourceId() {
-        return R.layout.fragment_my_profile;
+    public NotificationFragment() {
     }
 
     @Override
-    public int getNavigationIconId() {
-        return R.drawable.ic_keyboard_arrow_left_white_24dp;
-    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-    @Override
-    public void onNavigationIconClick(View v) {
-        super.onBackPressed();
-    }
-
-    @Override
-    public String getActivityTitle() {
-        return null;
-    }
-
-    @Override
-    public boolean focusAtLaunch() {
-        return false;
-    }
-
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
+        View rootView = inflater.inflate(R.layout.fragment_my_profile, container, false);
+        ButterKnife.bind(this,rootView);
         setUpRestAdapter();
         getMyProfileDetails();
-       // this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
+        return rootView;
     }
 
     private void getMyProfileDetails() {
-        LoadingDialog.showLoadingDialog(this,"Loading...");
-        Call<MyProfileResponse> call = MyProfileAdapter.userMyProfile(new MyProfile("profile", PrefUtils.getUserId(this),"83Ide@$321!"));
-        if (NetworkUtils.isNetworkConnected(MyProfileActivity.this)) {
+        LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
+        Call<MyProfileResponse> call = MyProfileAdapter.userMyProfile(new MyProfile("profile", PrefUtils.getUserId(getActivity()),"83Ide@$321!"));
+        if (NetworkUtils.isNetworkConnected(getActivity())) {
             call.enqueue(new Callback<MyProfileResponse>() {
 
                 @Override
@@ -103,21 +87,7 @@ public class MyProfileActivity extends BaseActivity {
                         LoadingDialog.cancelLoading();
 
 
-                       /* if (response.body().getTokenid() !=null) {
 
-                            if (response.body().getType() == 1) {
-
-                                Intent intent = new Intent(RegistrationActivity.this, NavigationalActivity.class);
-                                startActivity(intent);
-                                LoadingDialog.cancelLoading();
-                            }
-                            else
-                                Toast.makeText(getApplicationContext(),"You have already registered ",Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(),"Invalid Details",Toast.LENGTH_SHORT).show();
-                        }*/
                     }
                 }
 
@@ -130,15 +100,15 @@ public class MyProfileActivity extends BaseActivity {
             });
 
         } else {
-            SnakBarUtils.networkConnected(MyProfileActivity.this);
+            SnakBarUtils.networkConnected(getActivity());
         }
     }
 
 
     private void setUpRestAdapter() {
-        MyProfileAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserMyProfileClient.class, BASE_URL, this);
+        MyProfileAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserMyProfileClient.class, BASE_URL, getActivity());
 
     }
-    
-    
+
+
 }

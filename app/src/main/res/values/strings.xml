@@ -40,5 +40,17 @@
     <string name="error_compulsory_field">This field is compulsory</string>
     <string name="forgot_your_password">Forgot your password?</string>
     <string name="click_here">click here</string>
+    <string name="transactions">Transactions</string>
+    <string name="received_request">Received Request</string>
+    <string name="send_money">Send Money</string>
+    <string name="add_money">Add Money</string>
+    <string name="request_money">Request Money</string>
+    <string name="check_for_latest_offers">Check for latest offers</string>
+    <string name="enter_amount">Enter Amount</string>
+    <string name="enter_coupon_code_optional">Enter coupon code(Optional)</string>
+    <string name="saved_cards">Saved Cards</string>
+    <string name="credit_debit_card">Credit/Debit Card</string>
+    <string name="add_money_title">ADD MONEY</string>
+    <string name="we_accept">We accept:</string>
 
 </resources>

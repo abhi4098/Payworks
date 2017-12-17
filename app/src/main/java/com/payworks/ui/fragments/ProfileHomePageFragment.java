@@ -1,37 +1,19 @@
 package com.payworks.ui.fragments;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.WakefulBroadcastReceiver;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.ApiEndPoints;
 import com.payworks.api.RetrofitInterface;
 import com.payworks.generated.model.MyProfile;
 import com.payworks.generated.model.MyProfileResponse;
-import com.payworks.ui.activities.MyProfileActivity;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.NetworkUtils;
 import com.payworks.utils.PrefUtils;
@@ -49,9 +31,6 @@ public class ProfileHomePageFragment extends Fragment {
     private static final String TAG = "ProfileHomePageFragment";
     private RetrofitInterface.UserWalletClient UserWalletAdapter;
 
-
-    @BindView(R.id.wallet_balance)
-    TextView tvWalletBalance;
 
 
 
@@ -94,12 +73,13 @@ public class ProfileHomePageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile_home_page, container, false);
         Log.e(TAG, "onCreateView: " );
         ButterKnife.bind(this, view);
-        setUpRestAdapter();
-        getWalletBalance();
+        /*setUpRestAdapter();
+        getWalletBalance();*/
         return view;
 
     }
 
+/*
     private void getWalletBalance() {
         LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
         Call<MyProfileResponse> call = UserWalletAdapter.userWallet(new MyProfile("walletbalance", PrefUtils.getUserId(getActivity()),"83Ide@$321!"));
@@ -111,7 +91,7 @@ public class ProfileHomePageFragment extends Fragment {
 
                     if (response.isSuccessful()) {
                         Log.e(TAG, "onResponse: " +response.body() );
-                        tvWalletBalance.setText(response.body().toString());
+                        //tvWalletBalance.setText(response.body().toString());
                         LoadingDialog.cancelLoading();
 
 
@@ -138,6 +118,7 @@ public class ProfileHomePageFragment extends Fragment {
         UserWalletAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserWalletClient.class, ApiEndPoints.BASE_URL, getActivity());
        // QueryNotificationAdapterForHome = ApiAdapter.createRestAdapter(RetrofitInterface.QueryNotificationClient.class, ApiEndPoints.BASE_URL, getActivity());
     }
+*/
 
 
 

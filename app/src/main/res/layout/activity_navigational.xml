@@ -17,6 +17,7 @@
         android:id="@+id/main_content"
         android:orientation="vertical"
         android:fitsSystemWindows="true"
+        android:weightSum="1"
         tools:context=".ui.activities.DocChatMainActivity">
 
         <include
@@ -25,22 +26,185 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/wallet_bg">
+
+            <ImageView
+                android:id="@+id/back_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/ic_navigate_before_white_36dp"
+                android:layout_marginEnd="5dp"
+
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content">
+
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/wallet18"
+                    android:layout_marginEnd="5dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@color/white"
+                    android:text="Wallet Balance :"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/wallet_balance"
+                    android:text="100$"
+                    android:textSize="15sp"
+                    android:textColor="@color/white"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:orientation="vertical"
+            android:layout_weight=".92"
             >
+
+
         </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:orientation="vertical"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
             android:gravity="bottom"
-            android:background="#000000"
-            android:id="@+id/frame_container"/>
+            android:layout_weight=".08"
+            android:id="@+id/frame_container">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:background="@color/bottom_bar"
+                android:weightSum="1"
+                android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="30dp"
+                android:layout_weight=".2"
+                android:id="@+id/recharge"
+                android:paddingTop="5dp"
+                android:drawableTop="@drawable/recharge18"
+                android:text="Recharge"
+                android:textSize="10sp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_height="match_parent" />
+
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="match_parent" >
+
+                    <View style="@style/Divider_light_gray" />
+                </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight=".2"
+                android:layout_height="match_parent"
+                android:id="@+id/tickets"
+                android:drawableTop="@drawable/ticket18"
+                android:text="Tickets"
+                android:textSize="10sp"
+                android:paddingTop="5dp"
+                android:gravity="center"
+                android:textColor="@color/white"/>
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="match_parent" >
+
+                    <View style="@style/Divider_light_gray" />
+                </LinearLayout>
+
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_weight=".2"
+                android:id="@+id/offers"
+                android:drawableTop="@drawable/offer18"
+                android:paddingTop="5dp"
+                android:text="Offers"
+                android:textSize="10sp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="match_parent" >
+
+                    <View style="@style/Divider_light_gray" />
+                </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight=".2"
+                android:layout_height="match_parent"
+                android:id="@+id/stores"
+                android:paddingTop="5dp"
+                android:drawableTop="@drawable/store18"
+                android:text="Stores"
+                android:textSize="10sp"
+                android:gravity="center"
+                android:textColor="@color/white"/>
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="match_parent" >
+
+                    <View style="@style/Divider_light_gray" />
+                </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight=".2"
+                android:layout_height="match_parent"
+                android:id="@+id/wallet"
+                android:paddingTop="5dp"
+                android:drawableTop="@drawable/paywork18"
+                android:text="Wallet"
+                android:textSize="10sp"
+                android:gravity="center"
+                android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
     </LinearLayout>
 
 

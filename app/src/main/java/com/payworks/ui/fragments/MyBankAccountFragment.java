@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
@@ -33,9 +32,9 @@ import static com.payworks.api.ApiEndPoints.BASE_URL;
 /**
  * Created by Abhinandan on 18/8/17.
  */
-public class MyProfileFragment extends Fragment {
+public class MyBankAccountFragment extends Fragment {
 
-    private static final String TAG = LogUtils.makeLogTag(MyProfileFragment.class);
+    private static final String TAG = LogUtils.makeLogTag(MyBankAccountFragment.class);
     private RetrofitInterface.UserMyProfileClient MyProfileAdapter;
 
     @BindView(R.id.user_qr_code)
@@ -56,7 +55,7 @@ public class MyProfileFragment extends Fragment {
     }
 
 
-    public MyProfileFragment() {
+    public MyBankAccountFragment() {
     }
 
     @Override

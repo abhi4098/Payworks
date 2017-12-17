@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_registration"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/all_screens_bg"
+    tools:context="com.payworks.ui.fragments.AddMoneyFragment">
+
+
+
+    <EditText
+        android:id="@+id/enter_amount"
+        android:layout_marginStart="20dp"
+        android:layout_width="match_parent"
+        android:layout_marginEnd="20dp"
+        android:layout_height="wrap_content"
+        android:textStyle="normal"
+        android:textColor="@color/text_color"
+        android:lines="1"
+        android:textSize="15sp"
+        android:hint="@string/enter_amount"
+        android:layout_marginTop="30dp"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+
+    <EditText
+        android:id="@+id/enter_coupon"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textStyle="normal"
+        android:textColor="@color/text_color"
+        android:lines="1"
+        android:textSize="15sp"
+        android:hint="@string/enter_coupon_code_optional"
+        />
+
+    <Button
+        android:id="@+id/Apply"
+        style="?android:textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignParentEnd="true"
+        android:text="Apply"
+        android:textColor="@color/white"
+        android:background="@drawable/button_state_selector"
+        android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/profile_bg"
+        >
+
+
+        <TextView
+            android:id="@+id/payment_text_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="18sp"
+            android:gravity="center_horizontal"
+            android:text="Payment Options"
+            />
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="20dp"
+            android:padding="2dp"
+            android:id="@+id/wallet_balance"
+            android:text="$100"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/payment_text_header"
+            android:background="@drawable/button_state_selector"/>
+
+        <TextView
+            android:id="@+id/saved_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:padding="8dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textSize="15sp"
+            android:drawablePadding="30dp"
+            android:gravity="center_vertical"
+            android:text="@string/saved_cards"
+            android:drawableStart="@drawable/payment_option36"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/wallet_balance"
+            android:background="@drawable/rectangular_background_white_border"/>
+
+        <TextView
+            android:id="@+id/credit_debit_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:padding="8dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textSize="15sp"
+            android:drawablePadding="30dp"
+            android:gravity="center_vertical"
+            android:text="@string/credit_debit_card"
+            android:drawableStart="@drawable/paymenttwo36"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_below="@+id/saved_card"
+            android:background="@drawable/rectangular_background_white_border"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>
+

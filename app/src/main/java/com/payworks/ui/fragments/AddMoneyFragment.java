@@ -8,12 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
 import com.payworks.generated.model.MyProfile;
 import com.payworks.generated.model.MyProfileResponse;
+import com.payworks.ui.activities.AddCardDetailActivity;
 import com.payworks.ui.activities.EditProfileActivity;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.LogUtils;
@@ -33,12 +33,12 @@ import static com.payworks.api.ApiEndPoints.BASE_URL;
 /**
  * Created by Abhinandan on 18/8/17.
  */
-public class MyProfileFragment extends Fragment {
+public class AddMoneyFragment extends Fragment {
 
-    private static final String TAG = LogUtils.makeLogTag(MyProfileFragment.class);
+    private static final String TAG = LogUtils.makeLogTag(AddMoneyFragment.class);
     private RetrofitInterface.UserMyProfileClient MyProfileAdapter;
 
-    @BindView(R.id.user_qr_code)
+    /*@BindView(R.id.user_qr_code)
     TextView tvQrCode;
     @BindView(R.id.user_name)
     TextView tvUserName;
@@ -47,29 +47,29 @@ public class MyProfileFragment extends Fragment {
     @BindView(R.id.user_email)
     TextView tvUserEmail;
     @BindView(R.id.user_country)
-    TextView tvUserCountry;
+    TextView tvUserCountry;*/
 
-    @OnClick(R.id.edit_Profile)
+    @OnClick(R.id.saved_card)
     public void editProfile() {
-        Intent activityChangeIntent = new Intent(getActivity(), EditProfileActivity.class);
+        Intent activityChangeIntent = new Intent(getActivity(), AddCardDetailActivity.class);
         startActivity(activityChangeIntent);
     }
 
 
-    public MyProfileFragment() {
+    public AddMoneyFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_my_profile, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_add_money, container, false);
         ButterKnife.bind(this,rootView);
-        setUpRestAdapter();
-        getMyProfileDetails();
+       // setUpRestAdapter();
+       // getMyProfileDetails();
         return rootView;
     }
 
-    private void getMyProfileDetails() {
+    /*private void getMyProfileDetails() {
         LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
         Call<MyProfileResponse> call = MyProfileAdapter.userMyProfile(new MyProfile("profile", PrefUtils.getUserId(getActivity()),"83Ide@$321!"));
         if (NetworkUtils.isNetworkConnected(getActivity())) {
@@ -80,11 +80,11 @@ public class MyProfileFragment extends Fragment {
 
                     if (response.isSuccessful()) {
 
-                        tvQrCode.setText(response.body().getBio());
+                      *//*  tvQrCode.setText(response.body().getBio());
                         tvUserName.setText(String.format("%s%s", response.body().getFirstName(), response.body().getLastName()));
                         tvUserCountry.setText(response.body().getCountry());
                         tvUserEmail.setText(response.body().getEmail());
-                        tvUserPhone.setText(response.body().getPhone());
+                        tvUserPhone.setText(response.body().getPhone());*//*
                         LoadingDialog.cancelLoading();
 
 
@@ -111,5 +111,5 @@ public class MyProfileFragment extends Fragment {
 
     }
 
-
+*/
 }
