@@ -134,7 +134,7 @@ public class NavigationalActivity extends AppCompatActivity
             Log.e("abhi", "onBackPressed: "+getFragmentManager().getBackStackEntryCount() );
             tvAppTitle.setText("Welcome");
             super.onBackPressed();
-            
+
 
         }
         else
@@ -259,11 +259,17 @@ public class NavigationalActivity extends AppCompatActivity
 
             MenuItem itemid = navigationView.getMenu().findItem(R.id.nav_Home);
             if (getFragmentManager().findFragmentById(R.id.fragment_container) == null) {
+                Log.e("abhi", "onClick: ----------------if"  );
                 onNavigationItemSelected(itemid);
+                tvAppTitle.setText("Welcome");
+                ivBackIcon.setVisibility(View.INVISIBLE);
             }
-            tvAppTitle.setText("Welcome");
-            ivBackIcon.setVisibility(View.INVISIBLE);
-            super.onBackPressed();
+
+            else
+            {
+                Log.e("abhi", "onClick: ----------------else"  );
+                super.onBackPressed();
+            }
 
 
         }
@@ -296,7 +302,7 @@ public class NavigationalActivity extends AppCompatActivity
 
                 @Override
                 public void onFailure(Call<MyProfileResponse> call, Throwable t) {
-                    Log.e("abhi", "onFailure: ------------" +t.toString());
+                    Log.e("abhi", "onFailure: walletbalance------------" +t.toString());
                     LoadingDialog.cancelLoading();
                 }
 

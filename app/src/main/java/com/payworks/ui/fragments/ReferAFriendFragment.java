@@ -37,7 +37,7 @@ public class ReferAFriendFragment extends Fragment {
     private static final String TAG = LogUtils.makeLogTag(ReferAFriendFragment.class);
     private RetrofitInterface.UserMyProfileClient MyProfileAdapter;
 
-    @BindView(R.id.user_qr_code)
+   /* @BindView(R.id.user_qr_code)
     TextView tvQrCode;
     @BindView(R.id.user_name)
     TextView tvUserName;
@@ -54,21 +54,21 @@ public class ReferAFriendFragment extends Fragment {
         startActivity(activityChangeIntent);
     }
 
-
+*/
     public ReferAFriendFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_my_profile, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_refer_a_friend, container, false);
         ButterKnife.bind(this,rootView);
-        setUpRestAdapter();
-        getMyProfileDetails();
+       // setUpRestAdapter();
+       // getMyProfileDetails();
         return rootView;
     }
 
-    private void getMyProfileDetails() {
+   /* private void getMyProfileDetails() {
         LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
         Call<MyProfileResponse> call = MyProfileAdapter.userMyProfile(new MyProfile("profile", PrefUtils.getUserId(getActivity()),"83Ide@$321!"));
         if (NetworkUtils.isNetworkConnected(getActivity())) {
@@ -108,7 +108,7 @@ public class ReferAFriendFragment extends Fragment {
     private void setUpRestAdapter() {
         MyProfileAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserMyProfileClient.class, BASE_URL, getActivity());
 
-    }
+    }*/
 
 
 }

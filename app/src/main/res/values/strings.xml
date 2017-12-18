@@ -52,5 +52,7 @@
     <string name="credit_debit_card">Credit/Debit Card</string>
     <string name="add_money_title">ADD MONEY</string>
     <string name="we_accept">We accept:</string>
+    <string name="refer_a_friend">Refer a friend</string>
+    <string name="refer_a_friend_to_payworks">Refer a friend to Payworks.You and your friend will get $10 on first transaction.</string>
 
 </resources>
