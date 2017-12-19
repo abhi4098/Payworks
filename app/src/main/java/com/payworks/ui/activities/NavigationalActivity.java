@@ -30,10 +30,12 @@ import com.payworks.ui.fragments.AddMoneyFragment;
 import com.payworks.ui.fragments.MyBankAccountFragment;
 import com.payworks.ui.fragments.MyProfileFragment;
 import com.payworks.ui.fragments.MyTransactionFragment;
+import com.payworks.ui.fragments.MyTransactionsFragment;
 import com.payworks.ui.fragments.NotificationFragment;
 import com.payworks.ui.fragments.ProfileHomePageFragment;
 import com.payworks.ui.fragments.ReferAFriendFragment;
 import com.payworks.ui.fragments.SentMoneyRequestFragment;
+import com.payworks.ui.fragments.dummy.DummyContent;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.NetworkUtils;
 import com.payworks.utils.PrefUtils;
@@ -46,7 +48,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class NavigationalActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener,MyTransactionsFragment.OnListFragmentInteractionListener {
 
     Fragment profileHomePageFragment;
     private static final String TAG = "NavigationalActivity";
@@ -197,7 +199,7 @@ public class NavigationalActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_my_transactions:
-                fragment = new MyTransactionFragment();
+                fragment = new MyTransactionsFragment();
                 tvAppTitle.setText(item.getTitle());
                 ivBackIcon.setVisibility(View.VISIBLE);
                 break;
@@ -318,5 +320,10 @@ public class NavigationalActivity extends AppCompatActivity
     private void setUpRestAdapter() {
         UserWalletAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserWalletClient.class, ApiEndPoints.BASE_URL, this);
         // QueryNotificationAdapterForHome = ApiAdapter.createRestAdapter(RetrofitInterface.QueryNotificationClient.class, ApiEndPoints.BASE_URL, getActivity());
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
     }
 }

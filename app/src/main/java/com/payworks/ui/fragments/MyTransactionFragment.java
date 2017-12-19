@@ -3,6 +3,7 @@ package com.payworks.ui.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,9 @@ import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
 import com.payworks.generated.model.MyProfile;
 import com.payworks.generated.model.MyProfileResponse;
+import com.payworks.generated.model.MyTransactionList;
+import com.payworks.generated.model.MyTransactions;
+import com.payworks.generated.model.MyTransactionsResponse;
 import com.payworks.ui.activities.EditProfileActivity;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.LogUtils;
@@ -35,9 +39,9 @@ import static com.payworks.api.ApiEndPoints.BASE_URL;
 public class MyTransactionFragment extends Fragment {
 
     private static final String TAG = LogUtils.makeLogTag(MyTransactionFragment.class);
-    private RetrofitInterface.UserMyProfileClient MyProfileAdapter;
+    private RetrofitInterface.UserTransactionsClient MyTransactionAdapter;
 
-    @BindView(R.id.user_qr_code)
+   /* @BindView(R.id.user_qr_code)
     TextView tvQrCode;
     @BindView(R.id.user_name)
     TextView tvUserName;
@@ -52,7 +56,7 @@ public class MyTransactionFragment extends Fragment {
     public void editProfile() {
         Intent activityChangeIntent = new Intent(getActivity(), EditProfileActivity.class);
         startActivity(activityChangeIntent);
-    }
+    }*/
 
 
     public MyTransactionFragment() {
@@ -64,26 +68,22 @@ public class MyTransactionFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_my_profile, container, false);
         ButterKnife.bind(this,rootView);
         setUpRestAdapter();
-        getMyProfileDetails();
+        getUserTransactions();
         return rootView;
     }
 
-    private void getMyProfileDetails() {
+    private void getUserTransactions() {
         LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
-        Call<MyProfileResponse> call = MyProfileAdapter.userMyProfile(new MyProfile("profile", PrefUtils.getUserId(getActivity()),"83Ide@$321!"));
+        Call<MyTransactionList> call = MyTransactionAdapter.userTransactions(new MyTransactions("usertransactions", "7"/*PrefUtils.getUserId(getActivity())*/,"83Ide@$321!"));
         if (NetworkUtils.isNetworkConnected(getActivity())) {
-            call.enqueue(new Callback<MyProfileResponse>() {
+            call.enqueue(new Callback<MyTransactionList>() {
 
                 @Override
-                public void onResponse(Call<MyProfileResponse> call, Response<MyProfileResponse> response) {
+                public void onResponse(Call<MyTransactionList> call, Response<MyTransactionList> response) {
 
                     if (response.isSuccessful()) {
+                        Log.e(TAG, "onResponse: " +response.body().getMyTransactionsResponse() );
 
-                        tvQrCode.setText(response.body().getBio());
-                        tvUserName.setText(String.format("%s%s", response.body().getFirstName(), response.body().getLastName()));
-                        tvUserCountry.setText(response.body().getCountry());
-                        tvUserEmail.setText(response.body().getEmail());
-                        tvUserPhone.setText(response.body().getPhone());
                         LoadingDialog.cancelLoading();
 
 
@@ -92,7 +92,8 @@ public class MyTransactionFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<MyProfileResponse> call, Throwable t) {
+                public void onFailure(Call<MyTransactionList> call, Throwable t) {
+                    Log.e("abhi", "onFailure: my transactions------------" +t.toString());
                     LoadingDialog.cancelLoading();
                 }
 
@@ -101,12 +102,13 @@ public class MyTransactionFragment extends Fragment {
 
         } else {
             SnakBarUtils.networkConnected(getActivity());
+            LoadingDialog.cancelLoading();
         }
     }
 
 
     private void setUpRestAdapter() {
-        MyProfileAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserMyProfileClient.class, BASE_URL, getActivity());
+        MyTransactionAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserTransactionsClient.class, BASE_URL, getActivity());
 
     }
 

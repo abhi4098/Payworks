@@ -7,6 +7,9 @@ import com.payworks.generated.model.ForgotPasswordResponse;
 import com.payworks.generated.model.Login;
 import com.payworks.generated.model.MyProfile;
 import com.payworks.generated.model.MyProfileResponse;
+import com.payworks.generated.model.MyTransactionList;
+import com.payworks.generated.model.MyTransactions;
+import com.payworks.generated.model.MyTransactionsResponse;
 import com.payworks.generated.model.Registration;
 import com.payworks.generated.model.RegistrationResponse;
 
@@ -46,6 +49,12 @@ public class RetrofitInterface {
     public interface UserForgotPasswordClient {
         @POST("forgot.html")
         Call<ForgotPasswordResponse> userForgotPassword(@Body ForgotPassword forgotPassword);
+
+    }
+
+    public interface UserTransactionsClient {
+        @POST("getusertransactions")
+        Call<MyTransactionList> userTransactions(@Body MyTransactions myTransactions);
 
     }
 
