@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_Home"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="WELCOME" />
+        <item
+            android:id="@+id/nav_my_profile"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="MY PROFILE" />
+
+        <item
+            android:id="@+id/nav_add_money"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="ADD MONEY" />
+
+
+        <item
+            android:id="@+id/nav_my_transactions"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="MY TRANSACTION" />
+        <item
+            android:id="@+id/nav_sent_money_request"
+            android:icon="@drawable/sent_money24"
+            android:title="SENT MONEY REQUEST" />
+
+
+        <item
+            android:id="@+id/nav_refer_a_friend"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="REFER A FRIEND" />
+        <item
+            android:id="@+id/nav_my_bank_account"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="MY BANK ACCOUNT" />
+        <item
+            android:id="@+id/nav_notification"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="NOTIFICATION" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/logout36"
+            android:title="LOGOUT" />
+    </group>
+
+    <!--<item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>
+-->
+</menu>

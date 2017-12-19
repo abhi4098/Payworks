@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/all_screens_bg"
+  >
+
+
+       <!-- <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/wallet_bg">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/wallet18"
+                            android:layout_marginEnd="5dp"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:textColor="@color/white"
+                            android:text="Wallet Balance :"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:id="@+id/wallet_balance"
+                            android:text="100$"
+                            android:textSize="15sp"
+                            android:textColor="@color/white"
+                            android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+        </RelativeLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:weightSum="1">
+
+      <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="5dp"
+            android:id="@+id/ll_transaction"
+            android:background="@drawable/button_state_selector_green"
+            android:layout_weight=".5">
+
+              <TextView
+                  android:id="@+id/transactions"
+                  android:layout_width="30dp"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center"
+                  android:gravity="end"
+                  android:lines="1"
+                  android:textSize="13sp"
+                  android:textColor="@color/white"
+                  android:layout_marginEnd="5dp"
+                  android:text="0"/>
+
+              <TextView
+                  android:layout_width="115dp"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center"
+                  android:gravity="start"
+                  android:textSize="13sp"
+                  android:lines="1"
+                  android:textColor="@color/white"
+                  android:text="@string/transactions"/>
+
+       </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight=".5"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:id="@+id/ll_receive_request"
+                    android:orientation="horizontal"
+                    android:background="@drawable/button_state_selector"
+                    android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/received_request"
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="end"
+                            android:textSize="13sp"
+                            android:lines="1"
+                            android:textColor="@color/white"
+                            android:layout_marginEnd="5dp"
+                            android:text="1"/>
+                        <TextView
+                            android:layout_width="115dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:textSize="13sp"
+                            android:lines="1"
+                            android:textColor="@color/white"
+                            android:text="@string/received_request"/>
+
+                </LinearLayout>
+
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            >
+            <View style="@style/Divider_light_gray" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                >
+
+                <View style="@style/Divider_light_gray" />
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:id="@+id/ll_add_money"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+
+            <TextView
+                android:layout_width="115dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="13sp"
+                android:drawablePadding="5dp"
+                android:drawableTop="@drawable/add_money"
+                android:textColor="@color/black"
+                android:text="@string/add_money"/>
+
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                >
+
+                <View style="@style/Divider_light_gray" />
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_weight=".5"
+            android:id="@+id/ll_send_money"
+            android:gravity="center"
+            android:padding="10dp"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="115dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="13sp"
+                android:drawablePadding="5dp"
+                android:drawableTop="@drawable/send_money"
+                android:textColor="@color/black"
+                android:text="@string/send_money"/>
+
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                >
+
+                <View style="@style/Divider_light_gray" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            >
+            <View style="@style/Divider_light_gray" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:orientation="vertical"
+        >
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                >
+
+                <View style="@style/Divider_light_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_request_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+
+                <TextView
+                    android:layout_width="115dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/request_money"
+                    android:textColor="@color/black"
+                    android:text="@string/request_money"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                >
+
+                <View style="@style/Divider_light_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_weight=".5"
+                android:gravity="center"
+                android:padding="8dp"
+                android:id="@+id/ll_pay_money"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="115dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:drawableTop="@drawable/pay_money"
+                    android:textColor="@color/black"
+                    android:drawablePadding="5dp"
+                    android:text="Pay or send using QR code"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                >
+
+                <View style="@style/Divider_light_gray" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            >
+            <View style="@style/Divider_light_gray" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="15dp"
+    android:background="@drawable/check_latest_news_bg"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:paddingTop="2dp"
+        android:textColor="@color/white"
+        android:gravity="center_vertical"
+        android:text="@string/check_for_latest_offers"
+        />
+
+
+</LinearLayout>
+
+
+
+
+
+</LinearLayout>
+
+
+

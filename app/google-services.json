@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1078252452743",
+    "project_id": "firebase-payworks"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1078252452743:android:27d689d63f1b7a06",
+        "android_client_info": {
+          "package_name": "com.google.samples.quickstart.signin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1078252452743-8fko0ihmms2qfa1oqh86acnlem9gvtc2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.google.samples.quickstart.signin",
+            "certificate_hash": "dc250ee40eef235f94e56feaf2b010119da80d39"
+          }
+        },
+        {
+          "client_id": "1078252452743-tk5nvhft5kkaciuhc7hokp9bguujcnl4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcin2bhx-1FF10wB_IBUbB-GTfqB6ALRQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
