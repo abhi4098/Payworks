@@ -5,14 +5,14 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MyTransactionsResponse {
+public class MerchantSubscriptionsResponse {
 
     @SerializedName("msg")
     @Expose
     private String msg;
-    @SerializedName("usertransactions")
+    @SerializedName("subscription")
     @Expose
-    private List<Usertransaction> usertransactions = null;
+    private List<Subscription> subscription = null;
 
     public String getMsg() {
         return msg;
@@ -22,12 +22,12 @@ public class MyTransactionsResponse {
         this.msg = msg;
     }
 
-    public List<Usertransaction> getUsertransactions() {
-        return usertransactions;
+    public List<Subscription> getSubscription() {
+        return subscription;
     }
 
-    public void setUsertransactions(List<Usertransaction> usertransactions) {
-        this.usertransactions = usertransactions;
+    public void setSubscription(List<Subscription> subscription) {
+        this.subscription = subscription;
     }
 
 }

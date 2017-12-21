@@ -62,15 +62,17 @@
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
                     android:textColor="@color/white"
-                    android:text="Wallet Balance :"/>
+                    android:text="Wallet Balance :$ "/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:id="@+id/wallet_balance"
-                    android:text="100$"
                     android:textSize="15sp"
                     android:textColor="@color/white"
                     android:layout_height="wrap_content" />
+
+
+
 
             </LinearLayout>
 

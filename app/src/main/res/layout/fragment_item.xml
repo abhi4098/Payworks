@@ -18,7 +18,7 @@
         android:background="@drawable/round_top36"/>
 
         <TextView
-            android:id="@+id/id"
+            android:id="@+id/date"
             android:text="19 Dec 2017"
             android:textSize="12dp"
            android:layout_gravity="center"
@@ -50,18 +50,21 @@
             android:layout_toEndOf="@+id/round_icon"
             android:orientation="vertical">
         <TextView
+            android:id="@+id/transaction_comment"
             android:layout_width="wrap_content"
              android:layout_height="wrap_content"
             android:text="Money Transfer"
             android:textSize="12sp"/>
 
             <TextView
+                android:id="@+id/transaction_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 android:layout_marginTop="-2dp"
                 android:text="via Credit card"/>
             <TextView
+                android:id="@+id/transaction_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -75,6 +78,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerInParent="true"
             android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
             android:textColor="@color/theme_primary_dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

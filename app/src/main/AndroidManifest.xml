@@ -76,6 +76,9 @@
         <activity android:name=".ui.activities.SendMoneyRequestActivity" />
         <activity android:name=".ui.activities.ForgotPasswordActivity" />
         <activity android:name=".ui.activities.AddCardDetailActivity"></activity>
+        <activity android:name=".ui.activities.MyProductActivity" />
+        <activity android:name=".ui.activities.MyDonationsActivity" />
+        <activity android:name=".ui.activities.MyInvoicesActivity" />
     </application>
 
 </manifest>

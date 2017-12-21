@@ -6,14 +6,30 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.payworks.R;
+import com.payworks.api.ApiAdapter;
+import com.payworks.api.RetrofitInterface;
+import com.payworks.generated.model.MyTransactions;
+import com.payworks.generated.model.MyTransactionsResponse;
+import com.payworks.generated.model.Usertransaction;
 import com.payworks.ui.adapters.MyItemRecyclerViewAdapter;
-import com.payworks.ui.fragments.dummy.DummyContent;
-import com.payworks.ui.fragments.dummy.DummyContent.DummyItem;
+import com.payworks.utils.LoadingDialog;
+import com.payworks.utils.LogUtils;
+import com.payworks.utils.NetworkUtils;
+import com.payworks.utils.SnakBarUtils;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.payworks.api.ApiEndPoints.BASE_URL;
 
 /**
  * A fragment representing a list of Items.
@@ -28,6 +44,9 @@ public class MyTransactionsFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private static final String TAG = LogUtils.makeLogTag(MyTransactionFragment.class);
+    private RetrofitInterface.UserTransactionsClient MyTransactionAdapter;
+    ArrayList<Usertransaction> myTransactionList = null;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -59,18 +78,10 @@ public class MyTransactionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
-
+        setUpRestAdapter();
+        getUserTransactions(view);
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-        }
+
         return view;
     }
 
@@ -104,6 +115,82 @@ public class MyTransactionsFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Usertransaction item);
+    }
+
+    private void getUserTransactions(final View view) {
+        LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
+        Call<MyTransactionsResponse> call = MyTransactionAdapter.userTransactions(new MyTransactions("usertransactions", "7"/*PrefUtils.getUserId(getActivity())*/,"83Ide@$321!"));
+        if (NetworkUtils.isNetworkConnected(getActivity())) {
+            call.enqueue(new Callback<MyTransactionsResponse>() {
+
+                @Override
+                public void onResponse(Call<MyTransactionsResponse> call, Response<MyTransactionsResponse> response) {
+
+                    if (response.isSuccessful()) {
+                        Log.e(TAG, "onResponse: " +response.body().getUsertransactions().size() );
+                        setUserTransaction(response,view);
+                        LoadingDialog.cancelLoading();
+
+
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MyTransactionsResponse> call, Throwable t) {
+                    Log.e("abhi", "onFailure: my transactions------------" +t.toString());
+                    LoadingDialog.cancelLoading();
+                }
+
+
+            });
+
+        } else {
+            SnakBarUtils.networkConnected(getActivity());
+            LoadingDialog.cancelLoading();
+        }
+    }
+
+    private void setUserTransaction(Response<MyTransactionsResponse> response, View view) {
+
+        myTransactionList = new ArrayList<>();
+        for (int i = 0; i < response.body().getUsertransactions().size(); i++) {
+            Usertransaction usertransaction = new Usertransaction();
+            usertransaction.setCreatedDate(response.body().getUsertransactions().get(i).getCreatedDate());
+            usertransaction.setEmail(response.body().getUsertransactions().get(i).getEmail());
+            usertransaction.setId(response.body().getUsertransactions().get(i).getId());
+            usertransaction.setEmailotheruser(response.body().getUsertransactions().get(i).getEmailotheruser());
+            usertransaction.setTransactionMode(response.body().getUsertransactions().get(i).getTransactionMode());
+            usertransaction.setFullname(response.body().getUsertransactions().get(i).getFullname());
+            usertransaction.setMerchantType(response.body().getUsertransactions().get(i).getMerchantType());
+            usertransaction.setFullothername(response.body().getUsertransactions().get(i).getFullothername());
+            usertransaction.setTransactionId(response.body().getUsertransactions().get(i).getTransactionId());
+            usertransaction.setTransactionStatus(response.body().getUsertransactions().get(i).getTransactionStatus());
+            usertransaction.setReferenceid(response.body().getUsertransactions().get(i).getReferenceid());
+            usertransaction.setTransactionComment(response.body().getUsertransactions().get(i).getTransactionComment());
+            usertransaction.setTransactionAmount(response.body().getUsertransactions().get(i).getTransactionAmount());
+            Log.e(TAG, "setUserTransaction: =========" );
+
+            myTransactionList.add(usertransaction);
+        }
+
+        if (view instanceof RecyclerView) {
+            Context context = view.getContext();
+            RecyclerView recyclerView = (RecyclerView) view;
+            if (mColumnCount <= 1) {
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            } else {
+                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+            }
+            Log.e(TAG, "onCreateView: ------------reached set adapter" );
+            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(myTransactionList, mListener));
+        }
+    }
+
+
+    private void setUpRestAdapter() {
+        MyTransactionAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserTransactionsClient.class, BASE_URL, getActivity());
+
     }
 }

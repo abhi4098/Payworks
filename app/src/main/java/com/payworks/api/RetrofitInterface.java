@@ -5,17 +5,23 @@ package com.payworks.api;
 import com.payworks.generated.model.ForgotPassword;
 import com.payworks.generated.model.ForgotPasswordResponse;
 import com.payworks.generated.model.Login;
+import com.payworks.generated.model.MerchantData;
+import com.payworks.generated.model.MerchantDonationResponse;
+import com.payworks.generated.model.MerchantInvoicesResponse;
+import com.payworks.generated.model.MerchantProductResponse;
+import com.payworks.generated.model.MerchantSubscriptionsResponse;
+import com.payworks.generated.model.MerchantTicketsResponse;
 import com.payworks.generated.model.MyProfile;
 import com.payworks.generated.model.MyProfileResponse;
 import com.payworks.generated.model.MyTransactionList;
 import com.payworks.generated.model.MyTransactions;
 import com.payworks.generated.model.MyTransactionsResponse;
+import com.payworks.generated.model.MyWalletResponse;
 import com.payworks.generated.model.Registration;
 import com.payworks.generated.model.RegistrationResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 public class RetrofitInterface {
@@ -42,7 +48,7 @@ public class RetrofitInterface {
 
     public interface UserWalletClient {
         @POST("walletbalance")
-        Call<MyProfileResponse> userWallet(@Body MyProfile myProfile);
+        Call<MyWalletResponse> userWallet(@Body MyProfile myProfile);
 
     }
 
@@ -54,7 +60,34 @@ public class RetrofitInterface {
 
     public interface UserTransactionsClient {
         @POST("getusertransactions")
-        Call<MyTransactionList> userTransactions(@Body MyTransactions myTransactions);
+        Call<MyTransactionsResponse> userTransactions(@Body MyTransactions myTransactions);
+
+    }
+
+    public interface UserMyProductClient {
+        @POST("getmyproducts")
+        Call<MerchantProductResponse> merchantsData(@Body MerchantData merchantData);
+
+    }
+
+    public interface UserMyInvoicesClient {
+        @POST("getmyinvoices")
+        Call<MerchantInvoicesResponse> merchantsData(@Body MerchantData merchantData);
+
+    }
+    public interface UserMySubscriptionClient {
+        @POST("usersubscriptions")
+        Call<MerchantSubscriptionsResponse> merchantsData(@Body MerchantData merchantData);
+
+    }
+    public interface UserMyTicketsClient {
+        @POST("getmytickets")
+        Call<MerchantTicketsResponse> merchantsData(@Body MerchantData merchantData);
+
+    }
+    public interface UserMyDonationstClient {
+        @POST("getmydonations")
+        Call<MerchantDonationResponse> merchantsData(@Body MerchantData merchantData);
 
     }
 

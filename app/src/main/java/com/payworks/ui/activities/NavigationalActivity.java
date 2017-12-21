@@ -2,8 +2,6 @@ package com.payworks.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -26,16 +24,17 @@ import com.payworks.api.ApiEndPoints;
 import com.payworks.api.RetrofitInterface;
 import com.payworks.generated.model.MyProfile;
 import com.payworks.generated.model.MyProfileResponse;
+import com.payworks.generated.model.MyWalletResponse;
+import com.payworks.generated.model.Usertransaction;
 import com.payworks.ui.fragments.AddMoneyFragment;
+import com.payworks.ui.fragments.MerchantFragment;
 import com.payworks.ui.fragments.MyBankAccountFragment;
 import com.payworks.ui.fragments.MyProfileFragment;
-import com.payworks.ui.fragments.MyTransactionFragment;
 import com.payworks.ui.fragments.MyTransactionsFragment;
 import com.payworks.ui.fragments.NotificationFragment;
 import com.payworks.ui.fragments.ProfileHomePageFragment;
 import com.payworks.ui.fragments.ReferAFriendFragment;
 import com.payworks.ui.fragments.SentMoneyRequestFragment;
-import com.payworks.ui.fragments.dummy.DummyContent;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.NetworkUtils;
 import com.payworks.utils.PrefUtils;
@@ -53,6 +52,7 @@ public class NavigationalActivity extends AppCompatActivity
     Fragment profileHomePageFragment;
     private static final String TAG = "NavigationalActivity";
     private RetrofitInterface.UserWalletClient UserWalletAdapter;
+    String walletBalance;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -62,6 +62,8 @@ public class NavigationalActivity extends AppCompatActivity
 
     @BindView(R.id.tv_app_title)
     TextView tvAppTitle;
+    @BindView(R.id.wallet_balance)
+    TextView tvWalletBalance;
     private String frag;
 
     NavigationView navigationView;
@@ -103,6 +105,8 @@ public class NavigationalActivity extends AppCompatActivity
         fragmentTransaction.add(R.id.fragment_container, profileHomePageFragment, "PROFILE").addToBackStack(null);
         fragmentTransaction.commit();
         tvAppTitle.setText("WELCOME");
+        Log.e(TAG, "setFragment: =================="+walletBalance );
+       // tvWalletBalance.setText(walletBalance);
 
     }
 
@@ -191,8 +195,15 @@ public class NavigationalActivity extends AppCompatActivity
 
                 break;
 
-            case R.id.nav_add_money:
+            /*case R.id.nav_add_money:
                 fragment = new AddMoneyFragment();
+                tvAppTitle.setText(item.getTitle());
+                ivBackIcon.setVisibility(View.VISIBLE);
+
+                break;*/
+
+            case R.id.nav_merchant:
+                fragment = new MerchantFragment();
                 tvAppTitle.setText(item.getTitle());
                 ivBackIcon.setVisibility(View.VISIBLE);
 
@@ -249,6 +260,9 @@ public class NavigationalActivity extends AppCompatActivity
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
             getWalletBalance();
+
+            Log.e(TAG, "onNavigationItemSelected: ============wallet balance" +walletBalance );
+
         }
         return true;
     }
@@ -285,16 +299,17 @@ public class NavigationalActivity extends AppCompatActivity
 
     private void getWalletBalance() {
         LoadingDialog.showLoadingDialog(this,"Loading...");
-        Call<MyProfileResponse> call = UserWalletAdapter.userWallet(new MyProfile("walletbalance", PrefUtils.getUserId(this),"83Ide@$321!"));
+        Call<MyWalletResponse> call = UserWalletAdapter.userWallet(new MyProfile("walletbalance", PrefUtils.getUserId(this),"83Ide@$321!"));
         if (NetworkUtils.isNetworkConnected(this)) {
-            call.enqueue(new Callback<MyProfileResponse>() {
+            call.enqueue(new Callback<MyWalletResponse>() {
 
                 @Override
-                public void onResponse(Call<MyProfileResponse> call, Response<MyProfileResponse> response) {
+                public void onResponse(Call<MyWalletResponse> call, Response<MyWalletResponse> response) {
 
                     if (response.isSuccessful()) {
-                        Log.e(TAG, "onResponse: " +response.body() );
-                        //tvWalletBalance.setText(response.body().toString());
+                        Log.e(TAG, "onResponse: " +response.body().getWalletbalance() );
+                        tvWalletBalance.setText(walletBalance);
+                        walletBalance = response.body().getWalletbalance();
                         LoadingDialog.cancelLoading();
 
 
@@ -303,7 +318,7 @@ public class NavigationalActivity extends AppCompatActivity
                 }
 
                 @Override
-                public void onFailure(Call<MyProfileResponse> call, Throwable t) {
+                public void onFailure(Call<MyWalletResponse> call, Throwable t) {
                     Log.e("abhi", "onFailure: walletbalance------------" +t.toString());
                     LoadingDialog.cancelLoading();
                 }
@@ -323,7 +338,7 @@ public class NavigationalActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(Usertransaction item) {
 
     }
 }

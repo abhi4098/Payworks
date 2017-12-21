@@ -1,32 +1,23 @@
 package com.payworks.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
-import com.payworks.generated.model.MyProfile;
-import com.payworks.generated.model.MyProfileResponse;
 import com.payworks.generated.model.MyTransactionList;
 import com.payworks.generated.model.MyTransactions;
-import com.payworks.generated.model.MyTransactionsResponse;
-import com.payworks.ui.activities.EditProfileActivity;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.LogUtils;
 import com.payworks.utils.NetworkUtils;
-import com.payworks.utils.PrefUtils;
 import com.payworks.utils.SnakBarUtils;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,10 +29,10 @@ import static com.payworks.api.ApiEndPoints.BASE_URL;
  */
 public class MyTransactionFragment extends Fragment {
 
-    private static final String TAG = LogUtils.makeLogTag(MyTransactionFragment.class);
+    /*private static final String TAG = LogUtils.makeLogTag(MyTransactionFragment.class);
     private RetrofitInterface.UserTransactionsClient MyTransactionAdapter;
 
-   /* @BindView(R.id.user_qr_code)
+   *//* @BindView(R.id.user_qr_code)
     TextView tvQrCode;
     @BindView(R.id.user_name)
     TextView tvUserName;
@@ -56,7 +47,7 @@ public class MyTransactionFragment extends Fragment {
     public void editProfile() {
         Intent activityChangeIntent = new Intent(getActivity(), EditProfileActivity.class);
         startActivity(activityChangeIntent);
-    }*/
+    }*//*
 
 
     public MyTransactionFragment() {
@@ -74,7 +65,7 @@ public class MyTransactionFragment extends Fragment {
 
     private void getUserTransactions() {
         LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
-        Call<MyTransactionList> call = MyTransactionAdapter.userTransactions(new MyTransactions("usertransactions", "7"/*PrefUtils.getUserId(getActivity())*/,"83Ide@$321!"));
+        Call<MyTransactionList> call = MyTransactionAdapter.userTransactions(new MyTransactions("usertransactions", "7"*//*PrefUtils.getUserId(getActivity())*//*,"83Ide@$321!"));
         if (NetworkUtils.isNetworkConnected(getActivity())) {
             call.enqueue(new Callback<MyTransactionList>() {
 
@@ -110,7 +101,7 @@ public class MyTransactionFragment extends Fragment {
     private void setUpRestAdapter() {
         MyTransactionAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserTransactionsClient.class, BASE_URL, getActivity());
 
-    }
+    }*/
 
 
 }
