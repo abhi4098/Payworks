@@ -23,10 +23,8 @@ import com.payworks.api.ApiAdapter;
 import com.payworks.api.ApiEndPoints;
 import com.payworks.api.RetrofitInterface;
 import com.payworks.generated.model.MyProfile;
-import com.payworks.generated.model.MyProfileResponse;
 import com.payworks.generated.model.MyWalletResponse;
 import com.payworks.generated.model.Usertransaction;
-import com.payworks.ui.fragments.AddMoneyFragment;
 import com.payworks.ui.fragments.MerchantFragment;
 import com.payworks.ui.fragments.MyBankAccountFragment;
 import com.payworks.ui.fragments.MyProfileFragment;
@@ -104,7 +102,7 @@ public class NavigationalActivity extends AppCompatActivity
         profileHomePageFragment = new ProfileHomePageFragment();
         fragmentTransaction.add(R.id.fragment_container, profileHomePageFragment, "PROFILE").addToBackStack(null);
         fragmentTransaction.commit();
-        tvAppTitle.setText("WELCOME");
+        tvAppTitle.setText("WALLET");
         Log.e(TAG, "setFragment: =================="+walletBalance );
        // tvWalletBalance.setText(walletBalance);
 
@@ -138,7 +136,7 @@ public class NavigationalActivity extends AppCompatActivity
                 onNavigationItemSelected(itemid);
             }
             Log.e("abhi", "onBackPressed: "+getFragmentManager().getBackStackEntryCount() );
-            tvAppTitle.setText("Welcome");
+            tvAppTitle.setText("WALLET");
             super.onBackPressed();
 
 
@@ -277,7 +275,7 @@ public class NavigationalActivity extends AppCompatActivity
             if (getFragmentManager().findFragmentById(R.id.fragment_container) == null) {
                 Log.e("abhi", "onClick: ----------------if"  );
                 onNavigationItemSelected(itemid);
-                tvAppTitle.setText("Welcome");
+                tvAppTitle.setText("WALLET");
                 ivBackIcon.setVisibility(View.INVISIBLE);
             }
 

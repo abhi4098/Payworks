@@ -6,25 +6,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.payworks.R;
-import com.payworks.api.ApiAdapter;
-import com.payworks.api.ApiEndPoints;
 import com.payworks.api.RetrofitInterface;
-import com.payworks.generated.model.MyProfile;
-import com.payworks.generated.model.MyProfileResponse;
-import com.payworks.utils.LoadingDialog;
-import com.payworks.utils.NetworkUtils;
-import com.payworks.utils.PrefUtils;
-import com.payworks.utils.SnakBarUtils;
 
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class ProfileHomePageFragment extends Fragment {

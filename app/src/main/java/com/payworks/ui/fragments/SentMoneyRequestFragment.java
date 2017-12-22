@@ -79,11 +79,11 @@ public class SentMoneyRequestFragment extends Fragment {
 
                     if (response.isSuccessful()) {
 
-                        tvQrCode.setText(response.body().getBio());
+                      /*  tvQrCode.setText(response.body().getBio());
                         tvUserName.setText(String.format("%s%s", response.body().getFirstName(), response.body().getLastName()));
                         tvUserCountry.setText(response.body().getCountry());
                         tvUserEmail.setText(response.body().getEmail());
-                        tvUserPhone.setText(response.body().getPhone());
+                        tvUserPhone.setText(response.body().getPhone());*/
                         LoadingDialog.cancelLoading();
 
 

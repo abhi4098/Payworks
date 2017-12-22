@@ -13,7 +13,6 @@ import com.payworks.generated.model.MerchantSubscriptionsResponse;
 import com.payworks.generated.model.MerchantTicketsResponse;
 import com.payworks.generated.model.MyProfile;
 import com.payworks.generated.model.MyProfileResponse;
-import com.payworks.generated.model.MyTransactionList;
 import com.payworks.generated.model.MyTransactions;
 import com.payworks.generated.model.MyTransactionsResponse;
 import com.payworks.generated.model.MyWalletResponse;

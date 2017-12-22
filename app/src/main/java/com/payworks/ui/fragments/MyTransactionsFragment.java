@@ -21,6 +21,7 @@ import com.payworks.ui.adapters.MyItemRecyclerViewAdapter;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.LogUtils;
 import com.payworks.utils.NetworkUtils;
+import com.payworks.utils.PrefUtils;
 import com.payworks.utils.SnakBarUtils;
 
 import java.util.ArrayList;
@@ -120,7 +121,7 @@ public class MyTransactionsFragment extends Fragment {
 
     private void getUserTransactions(final View view) {
         LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
-        Call<MyTransactionsResponse> call = MyTransactionAdapter.userTransactions(new MyTransactions("usertransactions", "7"/*PrefUtils.getUserId(getActivity())*/,"83Ide@$321!"));
+        Call<MyTransactionsResponse> call = MyTransactionAdapter.userTransactions(new MyTransactions("usertransactions", PrefUtils.getUserId(getActivity()),"83Ide@$321!"));
         if (NetworkUtils.isNetworkConnected(getActivity())) {
             call.enqueue(new Callback<MyTransactionsResponse>() {
 

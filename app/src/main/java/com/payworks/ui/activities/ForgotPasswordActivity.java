@@ -1,6 +1,5 @@
 package com.payworks.ui.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -16,11 +15,8 @@ import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
 import com.payworks.generated.model.ForgotPassword;
 import com.payworks.generated.model.ForgotPasswordResponse;
-import com.payworks.generated.model.MyProfile;
-import com.payworks.generated.model.MyProfileResponse;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.NetworkUtils;
-import com.payworks.utils.PrefUtils;
 import com.payworks.utils.SnakBarUtils;
 
 import butterknife.BindView;

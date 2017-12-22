@@ -428,10 +428,10 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
                 break;
 
             case R.id.register:
-               /* Intent intent = new Intent(this, RegistrationActivity.class);
-                startActivity(intent);*/
-                Intent intent = new Intent(this, NavigationalActivity.class);
+                Intent intent = new Intent(this, RegistrationActivity.class);
                 startActivity(intent);
+               /* Intent intent = new Intent(this, NavigationalActivity.class);
+                startActivity(intent);*/
                 break;
             case R.id.click_here:
                 intent = new Intent(this, ForgotPasswordActivity.class);

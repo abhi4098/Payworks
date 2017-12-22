@@ -18,59 +18,80 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@drawable/top_balance_bg">
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="horizontal"
+        android:background="@drawable/rectangular_background">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="20dp"
             android:layout_alignParentStart="true"
-            android:layout_marginEnd="20dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:text="Payable Amount"
+            android:layout_gravity="center_vertical"
+            android:text="Search"
+            android:id="@+id/Search_text"
+            android:layout_centerInParent="true"
             android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/payable_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <EditText
+            android:id="@+id/search_item"
+            android:layout_width="150dp"
+            android:layout_height="32dp"
+            android:layout_toEndOf="@+id/Search_text"
+            android:layout_centerInParent="true"
+            android:hint="@string/donation_name"
+            android:padding="5dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/rectangular_background_grey"
+            android:textSize="13sp" />
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_gravity="end"
+            android:background="@drawable/button_state_selector"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="20dp"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="10dp"
+            android:textSize="12sp"
+            android:textColor="@color/white"
             android:layout_marginStart="20dp"
-            android:layout_centerVertical="true"
-            android:text="$349"
-            android:textSize="15sp" />
+            android:text="Add New"/>
     </RelativeLayout>
 
-
-    <TextView
-        android:id="@+id/saved_card"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginStart="20dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:textSize="13sp"
-        android:gravity="center_vertical"
-        android:text="@string/we_accept"
-        android:drawableEnd="@drawable/accepted_cards_small"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
-        android:lines="1"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/rectangular_background"/>
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/submit"
-        style="?android:textAppearanceSmall"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:text="@string/action_submit"
-        android:textStyle="bold" />
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+
+            >
+        </ListView>
+
+
+        <TextView
+            android:id="@+id/empty"
+            android:text="@string/no_data_available"
+            android:visibility="gone"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            />
+
+
+    </LinearLayout>
 
 
 </LinearLayout>

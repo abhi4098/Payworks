@@ -80,11 +80,11 @@ public class MyProfileFragment extends Fragment {
 
                     if (response.isSuccessful()) {
 
-                        tvQrCode.setText(response.body().getBio());
-                        tvUserName.setText(String.format("%s%s", response.body().getFirstName(), response.body().getLastName()));
-                        tvUserCountry.setText(response.body().getCountry());
-                        tvUserEmail.setText(response.body().getEmail());
-                        tvUserPhone.setText(response.body().getPhone());
+                        tvQrCode.setText(response.body().getProfile().getBio());
+                        tvUserName.setText(String.format("%s%s", response.body().getProfile().getFirstName(), response.body().getProfile().getLastName()));
+                        tvUserCountry.setText(response.body().getProfile().getCountry());
+                        tvUserEmail.setText(response.body().getProfile().getEmail());
+                        tvUserPhone.setText(response.body().getProfile().getPhone());
                         LoadingDialog.cancelLoading();
 
 

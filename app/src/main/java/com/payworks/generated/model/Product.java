@@ -53,7 +53,7 @@ public class Product {
     private String status;
     @SerializedName("updated_date")
     @Expose
-    private Object updatedDate;
+    private String updatedDate;
 
     public String getId() {
         return id;
@@ -175,11 +175,11 @@ public class Product {
         this.status = status;
     }
 
-    public Object getUpdatedDate() {
+    public String getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(Object updatedDate) {
+    public void setUpdatedDate(String updatedDate) {
         this.updatedDate = updatedDate;
     }
 

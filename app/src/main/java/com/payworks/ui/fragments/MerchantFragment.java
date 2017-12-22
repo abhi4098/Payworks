@@ -6,31 +6,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.payworks.R;
-import com.payworks.api.ApiAdapter;
-import com.payworks.api.RetrofitInterface;
-import com.payworks.generated.model.MyProfile;
-import com.payworks.generated.model.MyProfileResponse;
 import com.payworks.ui.activities.EditProfileActivity;
 import com.payworks.ui.activities.MyDonationsActivity;
 import com.payworks.ui.activities.MyProductActivity;
-import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.LogUtils;
-import com.payworks.utils.NetworkUtils;
-import com.payworks.utils.PrefUtils;
-import com.payworks.utils.SnakBarUtils;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.payworks.api.ApiEndPoints.BASE_URL;
 
 /**
  * Created by Abhinandan on 18/8/17.
