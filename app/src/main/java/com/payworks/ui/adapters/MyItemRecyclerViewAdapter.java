@@ -38,10 +38,57 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mDateView.setText(mValues.get(position).getCreatedDate());
-        holder.mTransactionIdView.setText(mValues.get(position).getTransactionId());
-        holder.mTransactionTypeView.setText(mValues.get(position).getTransactionMode());
-        holder.mTransactionCommentView.setText(mValues.get(position).getTransactionComment());
+        String status;
+        String mode;
+        if (mValues.get(position).getCreatedDate() != null) {
+            String date = mValues.get(position).getCreatedDate();
+            String[] splited = date.split("\\s+");
+            String transactionDate = splited[0];
+            holder.mDateView.setText(transactionDate);
+        }
+
+
+        if (mValues.get(position).getTransactionMode() !=null)
+
+        {
+            if (mValues.get(position).getTransactionMode().equals("1")) {
+                mode = "Deposit";
+            } else if (mValues.get(position).getTransactionMode().equals("2")) {
+                mode = "Withdraw";
+            } else if (mValues.get(position).getTransactionMode().equals("3")) {
+                mode = "Money Added to wallet";
+            } else if (mValues.get(position).getTransactionMode().equals("4")) {
+                mode = "Deposit(Merchant Sale)";
+            } else if (mValues.get(position).getTransactionMode().equals("5")) {
+                mode = "Withdrawal(Merchant Sale)";
+            } else if (mValues.get(position).getTransactionMode().equals("6")) {
+                mode = "Withdrawal Request";
+            } else if (mValues.get(position).getTransactionMode().equals("7")) {
+                mode = "Withdrawal Request Cancel";
+            } else {
+                mode = "Failed";
+            }
+            holder.mTransactionIdView.setText(mode);
+        }
+
+
+        if (mValues.get(position).getTransactionStatus() !=null) {
+            if (mValues.get(position).getTransactionStatus().equals("1")) {
+                status = "Success";
+            } else if (mValues.get(position).getTransactionStatus().equals("2")) {
+                status = "Pending";
+            } else if (mValues.get(position).getTransactionStatus().equals("3")) {
+                status = "Pending";
+            } else if (mValues.get(position).getTransactionStatus().equals("4")) {
+                status = "Cancelled";
+            } else {
+                status = "Failed";
+            }
+            holder.mTransactionTypeView.setText(status);
+        }
+        holder.mTransactionCommentView.setText(mValues.get(position).getFullothername());
+        holder.mAmount.setText(mValues.get(position).getTransactionAmount());
+
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +110,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mDateView;
+        public final TextView mAmount;
         public final TextView mTransactionIdView;
         public final TextView mTransactionCommentView;
         public final TextView mTransactionTypeView;
@@ -73,6 +121,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             mView = view;
 
             mDateView = (TextView) view.findViewById(R.id.date);
+            mAmount = (TextView) view.findViewById(R.id.content);
             mTransactionCommentView = (TextView) view.findViewById(R.id.transaction_comment);
             mTransactionTypeView = (TextView) view.findViewById(R.id.transaction_type);
             mTransactionIdView = (TextView) view.findViewById(R.id.transaction_id);

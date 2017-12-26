@@ -85,7 +85,14 @@ public class MyProductAdapter extends ArrayAdapter<Product> {
             holder.productShipping.setText(product.getProductshipping());
             holder.productSold.setText(product.getSold());
             holder.productPrice.setText(product.getProductprice());
-            holder.productUpdateDate.setText(product.getUpdatedDate());
+
+            if (product.getUpdatedDate() != null) {
+                String date = product.getUpdatedDate();
+                String[] splited = date.split("\\s+");
+                String productDate = splited[0];
+                holder.productUpdateDate.setText(productDate);
+            }
+
 
 
 

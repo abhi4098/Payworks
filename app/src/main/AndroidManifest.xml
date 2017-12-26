@@ -28,9 +28,11 @@
         android:icon="@drawable/paywork36"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:screenOrientation="portrait"
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.activities.SplashActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,6 +43,7 @@
         <activity
             android:name=".ui.activities.NavigationalActivity"
             android:label="@string/title_activity_navigational"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.activities.LoginActivity" />
 
@@ -72,13 +75,25 @@
         <activity
             android:name=".ui.activities.RegistrationActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.EditProfileActivity" />
-        <activity android:name=".ui.activities.SendMoneyRequestActivity" />
-        <activity android:name=".ui.activities.ForgotPasswordActivity" />
-        <activity android:name=".ui.activities.AddCardDetailActivity"></activity>
-        <activity android:name=".ui.activities.MyProductActivity" />
-        <activity android:name=".ui.activities.MyDonationsActivity" />
-        <activity android:name=".ui.activities.MyInvoicesActivity" />
+        <activity android:name=".ui.activities.EditProfileActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.activities.SendMoneyRequestActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.ForgotPasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.AddCardDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.MyProductActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.MyDonationsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.MyInvoicesActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.MyTicketsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.MySubscriptionsActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

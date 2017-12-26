@@ -44,7 +44,7 @@ public class Ticket {
     private String ticketavailable;
     @SerializedName("sold")
     @Expose
-    private Object sold;
+    private String sold;
     @SerializedName("paidby")
     @Expose
     private String paidby;
@@ -151,11 +151,11 @@ public class Ticket {
         this.ticketavailable = ticketavailable;
     }
 
-    public Object getSold() {
+    public String getSold() {
         return sold;
     }
 
-    public void setSold(Object sold) {
+    public void setSold(String sold) {
         this.sold = sold;
     }
 

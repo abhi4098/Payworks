@@ -63,5 +63,8 @@
     <string name="no_data_available">No Data Available</string>
     <string name="product_name">Product Name</string>
     <string name="donation_name">Donation Name</string>
+    <string name="invoice_name">Invoice Name</string>
+    <string name="ticketname">TicketName</string>
+
 
 </resources>

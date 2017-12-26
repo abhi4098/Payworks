@@ -51,8 +51,8 @@ public class MyProfileFragment extends Fragment {
 
     @OnClick(R.id.edit_Profile)
     public void editProfile() {
-        Intent activityChangeIntent = new Intent(getActivity(), EditProfileActivity.class);
-        startActivity(activityChangeIntent);
+       /* Intent activityChangeIntent = new Intent(getActivity(), EditProfileActivity.class);
+        startActivity(activityChangeIntent);*/
     }
 
 
@@ -80,8 +80,8 @@ public class MyProfileFragment extends Fragment {
 
                     if (response.isSuccessful()) {
 
-                        tvQrCode.setText(response.body().getProfile().getBio());
-                        tvUserName.setText(String.format("%s%s", response.body().getProfile().getFirstName(), response.body().getProfile().getLastName()));
+                        //tvQrCode.setText(response.body().getProfile().getBio());
+                        tvUserName.setText(String.format("%s %s", response.body().getProfile().getFirstName(), response.body().getProfile().getLastName()));
                         tvUserCountry.setText(response.body().getProfile().getCountry());
                         tvUserEmail.setText(response.body().getProfile().getEmail());
                         tvUserPhone.setText(response.body().getProfile().getPhone());

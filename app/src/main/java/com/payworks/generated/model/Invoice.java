@@ -23,13 +23,13 @@ public class Invoice {
     private String amount;
     @SerializedName("paidby")
     @Expose
-    private Object paidby;
+    private String paidby;
     @SerializedName("invoicenumber")
     @Expose
     private String invoicenumber;
     @SerializedName("invoicebutton")
     @Expose
-    private Object invoicebutton;
+    private String invoicebutton;
     @SerializedName("status")
     @Expose
     private String status;
@@ -38,13 +38,13 @@ public class Invoice {
     private String createdDate;
     @SerializedName("updated_date")
     @Expose
-    private Object updatedDate;
+    private String updatedDate;
     @SerializedName("notes")
     @Expose
     private String notes;
     @SerializedName("isdeleted")
     @Expose
-    private Object isdeleted;
+    private String isdeleted;
     @SerializedName("user_id")
     @Expose
     private String userId;
@@ -89,11 +89,11 @@ public class Invoice {
         this.amount = amount;
     }
 
-    public Object getPaidby() {
+    public String getPaidby() {
         return paidby;
     }
 
-    public void setPaidby(Object paidby) {
+    public void setPaidby(String paidby) {
         this.paidby = paidby;
     }
 
@@ -105,11 +105,11 @@ public class Invoice {
         this.invoicenumber = invoicenumber;
     }
 
-    public Object getInvoicebutton() {
+    public String getInvoicebutton() {
         return invoicebutton;
     }
 
-    public void setInvoicebutton(Object invoicebutton) {
+    public void setInvoicebutton(String invoicebutton) {
         this.invoicebutton = invoicebutton;
     }
 
@@ -129,11 +129,11 @@ public class Invoice {
         this.createdDate = createdDate;
     }
 
-    public Object getUpdatedDate() {
+    public String getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(Object updatedDate) {
+    public void setUpdatedDate(String updatedDate) {
         this.updatedDate = updatedDate;
     }
 
@@ -145,11 +145,11 @@ public class Invoice {
         this.notes = notes;
     }
 
-    public Object getIsdeleted() {
+    public String getIsdeleted() {
         return isdeleted;
     }
 
-    public void setIsdeleted(Object isdeleted) {
+    public void setIsdeleted(String isdeleted) {
         this.isdeleted = isdeleted;
     }
 

@@ -10,7 +10,10 @@ import android.view.ViewGroup;
 import com.payworks.R;
 import com.payworks.ui.activities.EditProfileActivity;
 import com.payworks.ui.activities.MyDonationsActivity;
+import com.payworks.ui.activities.MyInvoicesActivity;
 import com.payworks.ui.activities.MyProductActivity;
+import com.payworks.ui.activities.MySubscriptionsActivity;
+import com.payworks.ui.activities.MyTicketsActivity;
 import com.payworks.utils.LogUtils;
 
 import butterknife.ButterKnife;
@@ -49,19 +52,19 @@ public class MerchantFragment extends Fragment {
 
     @OnClick(R.id.my_tickets)
     public void myTicket() {
-        Intent activityChangeIntent = new Intent(getActivity(), EditProfileActivity.class);
+        Intent activityChangeIntent = new Intent(getActivity(), MyTicketsActivity.class);
         startActivity(activityChangeIntent);
     }
 
     @OnClick(R.id.my_subscription)
     public void mySubscriptions() {
-        Intent activityChangeIntent = new Intent(getActivity(), EditProfileActivity.class);
+        Intent activityChangeIntent = new Intent(getActivity(), MySubscriptionsActivity.class);
         startActivity(activityChangeIntent);
     }
 
     @OnClick(R.id.my_invoices)
     public void myInvoices() {
-        Intent activityChangeIntent = new Intent(getActivity(), EditProfileActivity.class);
+        Intent activityChangeIntent = new Intent(getActivity(), MyInvoicesActivity.class);
         startActivity(activityChangeIntent);
     }
 

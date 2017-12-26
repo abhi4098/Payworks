@@ -19,7 +19,6 @@
 
         <TextView
             android:id="@+id/update_date"
-            android:text="19 Dec 2017"
             android:textSize="12dp"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
@@ -66,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:layout_marginTop="-2dp"
-                    android:text="Price: $"/>
+                    android:text="Amount: $"/>
 
                 <TextView
                     android:id="@+id/product_price"
@@ -76,7 +75,7 @@
                     android:layout_marginTop="-2dp"
                     android:text="100"/>
 
-                <TextView
+               <!-- <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -90,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:layout_marginTop="-2dp"
-                    android:text="0.00"/>
+                    android:text="0.00"/>-->
 
 
             </LinearLayout>
@@ -107,10 +106,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:textSize="12sp"
-                    android:text="Sold: "/>
+                        android:text="Invoice Num: "/>
 
                 <TextView
-                    android:id="@+id/product_sold"
+                    android:id="@+id/invoice_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"

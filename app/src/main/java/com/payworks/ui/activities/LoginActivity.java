@@ -237,7 +237,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
     }
 
     private void getLoginDetails() {
-
+        LoadingDialog.showLoadingDialog(this,"Loading...");
         Call<Login.LoginResponse> call = UserLoginAdapter.userLogIn(new Login.LoginDetails(/*PrefUtils.getAuthToken(getContext()),*/ email,password,"83Ide@$321!"));
         if (NetworkUtils.isNetworkConnected(this)) {
             call.enqueue(new Callback<Login.LoginResponse>() {
@@ -256,10 +256,12 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
 
                         PrefUtils.storeDoctorPassword(response.body().getChatPassword(), DocAppLoginActivity.this);
 
+
 */                     Intent intent = new Intent(getApplicationContext(), NavigationalActivity.class);
                         intent.putExtra("type", "GetStarted");
                         startActivity(intent);
                         finish();
+                        LoadingDialog.cancelLoading();
 
                     }
                 }
@@ -267,7 +269,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
                 @Override
                 public void onFailure(Call<Login.LoginResponse> call, Throwable t) {
                     Log.e("abhi", "onFailure: ---------------" +t.getLocalizedMessage());
-
+                    LoadingDialog.cancelLoading();
                 }
 
 

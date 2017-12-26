@@ -75,7 +75,14 @@ public class MyDonationsAdapter extends ArrayAdapter<Donation> {
 
             holder.donationName.setText(donation.getDonationname());
             holder.donationPrice.setText(donation.getDonationprice());
-            holder.donationUpdateDate.setText(donation.getUpdatedDate());
+
+            if (donation.getUpdatedDate() != null) {
+                String date = donation.getUpdatedDate();
+                String[] splited = date.split("\\s+");
+                String donationDate = splited[0];
+                holder.donationUpdateDate.setText(donationDate);
+            }
+
 
 
         }
