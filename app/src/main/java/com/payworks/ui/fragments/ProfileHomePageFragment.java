@@ -1,11 +1,15 @@
 package com.payworks.ui.fragments;
 
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.payworks.R;
@@ -13,6 +17,9 @@ import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
 import com.payworks.generated.model.MyTransactions;
 import com.payworks.generated.model.MyTransactionsResponse;
+import com.payworks.ui.activities.AddCardDetailActivity;
+import com.payworks.ui.activities.MyDonationsActivity;
+import com.payworks.ui.activities.RequestMoneyActivity;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.NetworkUtils;
 import com.payworks.utils.PrefUtils;
@@ -21,6 +28,7 @@ import com.payworks.utils.SnakBarUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,12 +40,17 @@ public class ProfileHomePageFragment extends Fragment {
     private static final String TAG = "ProfileHomePageFragment";
     private RetrofitInterface.UserWalletClient UserWalletAdapter;
     private RetrofitInterface.UserTransactionsClient MyTransactionAdapter;
-    //private RetrofitInterface.UserTransactionsClient MyTransactionAdapter;
 
 
     @BindView(R.id.transactions)
     TextView tvTransaction;
 
+    @OnClick(R.id.ll_request_money)
+    public void requestMoney() {
+
+        Intent activityChangeIntent = new Intent(getActivity(), RequestMoneyActivity.class);
+        startActivity(activityChangeIntent);
+    }
 
     public ProfileHomePageFragment() {
         // Required empty public constructor

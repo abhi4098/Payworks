@@ -47,7 +47,7 @@ public class Subscription {
     private String subscriptionbutton;
     @SerializedName("sold")
     @Expose
-    private Object sold;
+    private String sold;
     @SerializedName("user_id")
     @Expose
     private String userId;
@@ -56,13 +56,13 @@ public class Subscription {
     private String createdDate;
     @SerializedName("paidby")
     @Expose
-    private Object paidby;
+    private String paidby;
     @SerializedName("status")
     @Expose
     private String status;
     @SerializedName("updated_date")
     @Expose
-    private Object updatedDate;
+    private String updatedDate;
 
     public String getId() {
         return id;
@@ -168,11 +168,11 @@ public class Subscription {
         this.subscriptionbutton = subscriptionbutton;
     }
 
-    public Object getSold() {
+    public String getSold() {
         return sold;
     }
 
-    public void setSold(Object sold) {
+    public void setSold(String sold) {
         this.sold = sold;
     }
 
@@ -192,11 +192,11 @@ public class Subscription {
         this.createdDate = createdDate;
     }
 
-    public Object getPaidby() {
+    public String getPaidby() {
         return paidby;
     }
 
-    public void setPaidby(Object paidby) {
+    public void setPaidby(String paidby) {
         this.paidby = paidby;
     }
 
@@ -208,11 +208,11 @@ public class Subscription {
         this.status = status;
     }
 
-    public Object getUpdatedDate() {
+    public String getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(Object updatedDate) {
+    public void setUpdatedDate(String updatedDate) {
         this.updatedDate = updatedDate;
     }
 

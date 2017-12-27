@@ -43,7 +43,7 @@
             android:layout_height="32dp"
             android:layout_toEndOf="@+id/Search_text"
             android:layout_centerInParent="true"
-            android:hint="@string/invoice_name"
+            android:hint="@string/names_search"
             android:padding="5dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/rectangular_background_grey"

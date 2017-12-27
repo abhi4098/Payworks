@@ -94,6 +94,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activities.MySubscriptionsActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.RequestMoneyActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

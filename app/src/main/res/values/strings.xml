@@ -64,7 +64,8 @@
     <string name="product_name">Product Name</string>
     <string name="donation_name">Donation Name</string>
     <string name="invoice_name">Invoice Name</string>
-    <string name="ticketname">TicketName</string>
+    <string name="ticketname">Ticket Name</string>
+    <string name="names_search">Name</string>
 
 
 </resources>

@@ -75,7 +75,7 @@ public class RetrofitInterface {
 
     }
     public interface UserMySubscriptionClient {
-        @POST("usersubscriptions")
+        @POST("getmysubscriptions")
         Call<MerchantSubscriptionsResponse> merchantsData(@Body MerchantData merchantData);
 
     }

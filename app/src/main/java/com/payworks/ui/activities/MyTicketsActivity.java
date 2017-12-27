@@ -60,7 +60,7 @@ public class MyTicketsActivity extends BaseActivity {
 
     @Override
     public void onNavigationIconClick(View v) {
-
+    onBackPressed();
     }
 
     @Override
