@@ -66,6 +66,17 @@
     <string name="invoice_name">Invoice Name</string>
     <string name="ticketname">Ticket Name</string>
     <string name="names_search">Name</string>
+    <string name="request_money_please_fill_the_details_below">Please fill the Details Below</string>
+    <string name="enter_email_phone_number">Enter Email/Phone Number</string>
+    <string name="add_request_amount">Add Amount</string>
+    <string name="user_priority">Priority</string>
+    <string name="due_date">Due Date</string>
+    <string name="comment_optional">Comment (Optional)</string>
 
+    <string-array name="priority_array">
+        <item>Normal</item>
+        <item>High</item>
+        <item>Low</item>
 
+    </string-array>
 </resources>
