@@ -2,6 +2,7 @@ package com.payworks.ui.activities;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,8 +15,19 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.payworks.R;
+import com.payworks.api.ApiAdapter;
+import com.payworks.api.RetrofitInterface;
+import com.payworks.generated.model.Registration;
+import com.payworks.generated.model.RegistrationResponse;
+import com.payworks.generated.model.RequestMoney;
+import com.payworks.generated.model.RequestMoneyResponse;
+import com.payworks.utils.LoadingDialog;
+import com.payworks.utils.NetworkUtils;
+import com.payworks.utils.PrefUtils;
+import com.payworks.utils.SnakBarUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -24,9 +36,17 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.payworks.api.ApiEndPoints.BASE_URL;
 
 public class RequestMoneyActivity extends BaseActivity {
 
+
+    String userPhone,userEmail,userPriority,userDate,userAmount,userComment;
+    private RetrofitInterface.UserRequestMoneyClient requestMoneyAdapter;
     Calendar myCalendar = Calendar.getInstance();
     String selectedPriority;
     @BindView(R.id.toolbar)
@@ -38,8 +58,12 @@ public class RequestMoneyActivity extends BaseActivity {
     @BindView(R.id.user_Date)
     EditText etDueDate;
 
-    @BindView(R.id.user_email_phone_name)
-    EditText etUserEmailOrPhone;
+    @BindView(R.id.user_email_name)
+    EditText etUserEmail;
+
+    @BindView(R.id.user_phone_number)
+    EditText etUserPhoneNum;
+
 
     @BindView(R.id.user_add_amount)
     EditText etAddAmount;
@@ -68,6 +92,56 @@ public class RequestMoneyActivity extends BaseActivity {
         new DatePickerDialog(RequestMoneyActivity.this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+
+    }
+
+    @OnClick(R.id.request_money_button)
+    public void requestMoney()
+    {
+        userAmount = etAddAmount.getText().toString();
+        userDate = etDueDate.getText().toString();
+        userEmail = etUserEmail.getText().toString();
+        userPhone = etUserPhoneNum.getText().toString();
+        userPriority = spPriority.getText().toString();
+        userComment = etUserComment.getText().toString();
+
+        Log.e("abhi", "user email ......... " +userEmail );
+        Log.e("abhi", "user phone ......... " +userPhone );
+        Log.e("abhi", "user priority ......... " +userPriority );
+        Log.e("abhi", "user date ......... " +userDate );
+      if ((userPhone != null && !userPhone.equals("")) || (userEmail != null && !userEmail.equals("")))
+        {
+
+            Log.e("abhi", "inside 1 if statement ............." );
+            if ((userPhone == null) ||(userPhone.equals("")))
+            {
+                Log.e("abhi", "if phone number is null ............." );
+                if (!isValidEmail(userEmail) ) {
+                    etUserEmail.setError("Invalid Email");
+                }
+                else
+                {
+                    if (isRegistrationValid()) {
+                        Log.e("abhi", "requestMoney: valid............" );
+                         sendRequestMoney();
+                    }
+                }
+            }
+            else
+            {
+                if (isRegistrationValid()) {
+                    Log.e("abhi", "requestMoney: valid............" );
+                    sendRequestMoney();
+                }
+            }
+
+        }
+        else
+      {
+          etUserEmail.setError(getString(R.string.error_one_compulsory_field));
+          etUserPhoneNum.setError(getString(R.string.error_compulsory_field));
+      }
+
 
     }
 
@@ -113,6 +187,14 @@ public class RequestMoneyActivity extends BaseActivity {
             }
         });
 
+       setUpRestAdapter();
+
+    }
+
+
+    private void setUpRestAdapter() {
+        requestMoneyAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserRequestMoneyClient.class, BASE_URL, this);
+
     }
 
     private void updateLabel() {
@@ -136,4 +218,78 @@ public class RequestMoneyActivity extends BaseActivity {
         }
 
     };
+
+    public final static boolean isValidEmail(CharSequence target) {
+        if (target == null) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
+
+    private boolean isRegistrationValid() {
+
+        if (userPriority == null || userPriority.equals("") || userDate == null || userDate.equals("") || userAmount == null || userAmount.equals(""))
+
+        {
+
+            if (userPriority == null || userPriority.equals("") )
+                Toast.makeText(getApplicationContext(),"Select Priority ",Toast.LENGTH_SHORT).show();
+
+            if (userDate == null || userDate.equals(""))
+                Toast.makeText(getApplicationContext(),"Select Due Date ",Toast.LENGTH_SHORT).show();
+
+            if (userAmount == null || userAmount.equals(""))
+                etAddAmount.setError(getString(R.string.error_compulsory_field));
+
+
+            return false;
+        } else
+            return true;
+
+    }
+
+
+    private void sendRequestMoney() {
+        LoadingDialog.showLoadingDialog(this,"Loading...");
+        Call<RequestMoneyResponse> call = requestMoneyAdapter.requestMoneyData(new RequestMoney("requestmoney", PrefUtils.getUserId(this),"83Ide@$321!",userComment,userDate,userPriority,userAmount,userPhone,userEmail));
+        if (NetworkUtils.isNetworkConnected(RequestMoneyActivity.this)) {
+            call.enqueue(new Callback<RequestMoneyResponse>() {
+
+                @Override
+                public void onResponse(Call<RequestMoneyResponse> call, Response<RequestMoneyResponse> response) {
+
+                    if (response.isSuccessful()) {
+
+
+                        if (response.body().getTokenid() !=null) {
+
+                            if (response.body().getType() == 1) {
+                                Log.e("abhi", "onResponse: "+response.body().getMsg() );
+                                Toast.makeText(getApplicationContext(),"Request Successfully Sent ",Toast.LENGTH_SHORT).show();
+                                LoadingDialog.cancelLoading();
+                                finish();
+                            }
+
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(),"Invalid Details",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<RequestMoneyResponse> call, Throwable t) {
+                    LoadingDialog.cancelLoading();
+                }
+
+
+            });
+
+        } else {
+            SnakBarUtils.networkConnected(RequestMoneyActivity.this);
+            LoadingDialog.cancelLoading();
+        }
+    }
 }

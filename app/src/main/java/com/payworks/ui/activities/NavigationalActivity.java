@@ -75,7 +75,7 @@ public class NavigationalActivity extends AppCompatActivity
         //setSupportActionBar(toolbar);
         setUpRestAdapter();
         getWalletBalance();
-       setFragment();
+        setFragment();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -306,8 +306,9 @@ public class NavigationalActivity extends AppCompatActivity
 
                     if (response.isSuccessful()) {
                         Log.e(TAG, "onResponse: " +response.body().getWalletbalance() );
-                        tvWalletBalance.setText(walletBalance);
                         walletBalance = response.body().getWalletbalance();
+                        tvWalletBalance.setText(walletBalance);
+
                         LoadingDialog.cancelLoading();
 
 
@@ -339,4 +340,5 @@ public class NavigationalActivity extends AppCompatActivity
     public void onListFragmentInteraction(Usertransaction item) {
 
     }
+
 }

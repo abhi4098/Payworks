@@ -18,6 +18,7 @@ import com.payworks.api.RetrofitInterface;
 import com.payworks.generated.model.MyTransactions;
 import com.payworks.generated.model.MyTransactionsResponse;
 import com.payworks.ui.activities.AddCardDetailActivity;
+import com.payworks.ui.activities.AddMoneyActivity;
 import com.payworks.ui.activities.MyDonationsActivity;
 import com.payworks.ui.activities.RequestMoneyActivity;
 import com.payworks.utils.LoadingDialog;
@@ -49,6 +50,13 @@ public class ProfileHomePageFragment extends Fragment {
     public void requestMoney() {
 
         Intent activityChangeIntent = new Intent(getActivity(), RequestMoneyActivity.class);
+        startActivity(activityChangeIntent);
+    }
+
+    @OnClick(R.id.ll_add_money)
+    public void addMoney() {
+
+        Intent activityChangeIntent = new Intent(getActivity(), AddMoneyActivity.class);
         startActivity(activityChangeIntent);
     }
 

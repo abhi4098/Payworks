@@ -16,10 +16,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@drawable/top_balance_bg">
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rectangular_background">
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,7 +40,8 @@
             android:layout_marginEnd="20dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
-            android:text="Payable Amount"
+            android:text="@string/add_amount"
+            android:id="@+id/add_amount"
             android:textSize="15sp" />
 
         <TextView
@@ -44,34 +57,201 @@
     </RelativeLayout>
 
 
-    <TextView
-        android:id="@+id/saved_card"
+
+    <LinearLayout
+        android:id="@+id/card_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:orientation="vertical"
+        >
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/add_card_details"
+        style="?android:textAppearanceSmall"
+        android:layout_width="200dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_state_selector"
+        android:text="ADD CARD"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        android:id="@+id/additional_Details">
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:textSize="13sp"
-        android:gravity="center_vertical"
-        android:text="@string/we_accept"
-        android:drawableEnd="@drawable/accepted_cards_small"
-        android:layout_marginEnd="20dp"
-        android:lines="1"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/rectangular_background"/>
+        android:layout_marginEnd="20dp">
 
-    <Button
-        android:id="@+id/submit"
+        <EditText
+            android:id="@+id/user_country"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:layout_width="140dp"
+            android:layout_height="32dp"
+            android:textStyle="normal"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/text_color"
+            android:lines="1"
+            android:textSize="15sp"
+            android:background="@drawable/rectangular_background_grey"
+            android:layout_marginTop="10dp"
+            android:hint="@string/enter_country"/>
+
+        <EditText
+            android:id="@+id/user_state"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:layout_width="140dp"
+            android:layout_height="32dp"
+            android:textStyle="normal"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/text_color"
+            android:lines="1"
+            android:textSize="15sp"
+            android:background="@drawable/rectangular_background_grey"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentEnd="true"
+            android:hint="@string/hint_enter_state"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+        <EditText
+            android:id="@+id/user_city"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:layout_width="140dp"
+            android:layout_height="32dp"
+            android:textStyle="normal"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/text_color"
+            android:lines="1"
+            android:textSize="15sp"
+            android:background="@drawable/rectangular_background_grey"
+            android:layout_marginTop="10dp"
+            android:hint="@string/enter_city"/>
+
+        <EditText
+            android:id="@+id/user_postal_code"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:layout_width="140dp"
+            android:layout_height="32dp"
+            android:textStyle="normal"
+
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/text_color"
+            android:lines="1"
+            android:textSize="15sp"
+            android:background="@drawable/rectangular_background_grey"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentEnd="true"
+            android:hint="Postal Code"/>
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/user_comment"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="normal"
+        android:textColor="@color/text_color"
+        android:lines="3"
+        android:textSize="15sp"
+        android:padding="10dp"
+        android:gravity="top"
+        android:background="@drawable/rectangular_background"
+        android:hint="@string/enter_address"
+
+
+        />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkbox_agree"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="I Agree Terms and services"
+                android:textColor="@color/text_color"
+                android:layout_marginEnd="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="@string/save_card"
+                android:textColor="@color/text_color"
+                android:layout_marginEnd="10dp"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/save_card_checkbox"/>
+
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+
+        <Button
+        android:id="@+id/add_money_button"
         style="?android:textAppearanceSmall"
         android:layout_width="200dp"
-        android:layout_height="40dp"
+        android:layout_height="35dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:text="@string/action_submit"
+        android:background="@drawable/button_state_selector"
+        android:text="ADD MONEY"
+        android:textColor="@color/white"
         android:textStyle="bold" />
 
+</LinearLayout>
+        </LinearLayout>
+</ScrollView>
 
 </LinearLayout>
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.payworks">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
@@ -30,6 +31,9 @@
         android:supportsRtl="true"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme">
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"
+            tools:replace="android:value" />
         <activity
             android:name=".ui.activities.SplashActivity"
             android:screenOrientation="portrait"
@@ -75,6 +79,9 @@
         <activity
             android:name=".ui.activities.RegistrationActivity"
             android:screenOrientation="portrait" />
+        <activity android:name="com.cooltechworks.creditcarddesign.CardEditActivity"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".ui.activities.EditProfileActivity"
             android:screenOrientation="portrait"
             />
@@ -95,6 +102,8 @@
         <activity android:name=".ui.activities.MySubscriptionsActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activities.RequestMoneyActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.AddMoneyActivity"
             android:screenOrientation="portrait"/>
     </application>
 
