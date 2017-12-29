@@ -81,11 +81,20 @@
     <string name="enter_city">Enter City</string>
     <string name="enter_address">Enter Address</string>
     <string name="save_card">Save card</string>
+    <string name="todo">TODO</string>
 
     <string-array name="priority_array">
         <item>Normal</item>
         <item>High</item>
         <item>Low</item>
+
+    </string-array>
+
+
+    <string-array name="card_type">
+        <item>MasterCard</item>
+        <item>VISA</item>
+
 
     </string-array>
 </resources>

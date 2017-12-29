@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cooltechworks.creditcarddesign.CardEditActivity;
 import com.cooltechworks.creditcarddesign.CreditCardUtils;
@@ -57,11 +58,15 @@ public class AddMoneyActivity extends BaseActivity {
 
         addAmount = etEnterAmount.getText().toString();
         addCoupon= etEnterCoupon.getText().toString();
-
-        Intent activityChangeIntent = new Intent(this, AddCardDetailActivity.class);
-        activityChangeIntent.putExtra("AMOUNT", addAmount);
-        activityChangeIntent.putExtra("COUPON", addCoupon);
-        startActivity(activityChangeIntent);
+        if (addAmount == null || addAmount.equals("")) {
+            etEnterAmount.setError(getString(R.string.error_compulsory_field));
+        }
+        else {
+            Intent activityChangeIntent = new Intent(this, AddCardDetailActivity.class);
+            activityChangeIntent.putExtra("AMOUNT", addAmount);
+            activityChangeIntent.putExtra("COUPON", addCoupon);
+            startActivity(activityChangeIntent);
+        }
     }
 
 

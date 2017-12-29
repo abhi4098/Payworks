@@ -80,6 +80,7 @@
         android:textColor="@color/text_color"
         android:lines="1"
         android:textSize="15sp"
+        android:inputType="phone"
         android:hint="@string/enter_amount"
         android:layout_marginTop="30dp"
         />

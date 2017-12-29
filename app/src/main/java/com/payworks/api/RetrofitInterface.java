@@ -2,6 +2,8 @@ package com.payworks.api;
 
 
 
+import com.payworks.generated.model.AddMoney;
+import com.payworks.generated.model.AddMoneyResponse;
 import com.payworks.generated.model.ForgotPassword;
 import com.payworks.generated.model.ForgotPasswordResponse;
 import com.payworks.generated.model.Login;
@@ -95,6 +97,12 @@ public class RetrofitInterface {
     public interface UserRequestMoneyClient {
         @POST("requestmoney.html")
         Call<RequestMoneyResponse> requestMoneyData(@Body RequestMoney requestMoney);
+
+    }
+
+    public interface UserAddMoneyClient {
+        @POST("add_money.html")
+        Call<AddMoneyResponse> addMoneyData(@Body AddMoney addMoney);
 
     }
 
