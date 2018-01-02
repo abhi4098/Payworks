@@ -84,6 +84,7 @@
     <string name="save_card">Save card</string>
     <string name="todo">TODO</string>
     <string name="pay">Pay</string>
+    <string name="insufficient_balance">Insufficient Balance</string>
 
     <string-array name="priority_array">
         <item>Normal</item>

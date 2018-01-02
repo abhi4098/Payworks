@@ -198,7 +198,7 @@ public class RecievedMoneyRequestActivity extends BaseActivity {
             myReceivedRequestList.add(receivedrequest);
         }
 
-        receivedMoneyRequestAdapter = new ReceivedMoneyRequestAdapter(this, R.layout.layout_received_money_request, R.id.payee_name, myReceivedRequestList);
+        receivedMoneyRequestAdapter = new ReceivedMoneyRequestAdapter(this, R.layout.layout_received_money_request, R.id.payee_name, myReceivedRequestList,walletBalance);
         listview.setAdapter(receivedMoneyRequestAdapter);
         LoadingDialog.cancelLoading();
         listview.setDivider(new ColorDrawable(getResources().getColor(R.color.lighter_gray)));

@@ -37,6 +37,7 @@ public class AddMoneyActivity extends BaseActivity {
 
     private RetrofitInterface.UserWalletClient UserWalletAdapter;
     String walletBalance, addAmount,addCoupon;
+    String isComingFrom;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -100,6 +101,13 @@ public class AddMoneyActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         tvAppTitle.setText(R.string.add_money_title);
+
+        isComingFrom = getIntent().getStringExtra("PATH");
+        if (isComingFrom.equals("receivedRequest"))
+        {
+            addAmount =getIntent().getStringExtra("AMOUNT");
+            etEnterAmount.setText(addAmount);
+        }
         setUpRestAdapter();
         getWalletBalance();
 

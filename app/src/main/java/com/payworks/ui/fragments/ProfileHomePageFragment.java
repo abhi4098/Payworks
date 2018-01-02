@@ -65,6 +65,7 @@ public class ProfileHomePageFragment extends Fragment {
     public void addMoney() {
 
         Intent activityChangeIntent = new Intent(getActivity(), AddMoneyActivity.class);
+        activityChangeIntent.putExtra("PATH", "homeFragment");
         startActivity(activityChangeIntent);
     }
 

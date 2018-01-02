@@ -5,16 +5,24 @@ package com.payworks.ui.adapters;
  */
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.payworks.R;
 import com.payworks.generated.model.Donation;
 import com.payworks.generated.model.Receivedrequest;
+import com.payworks.ui.activities.AddMoneyActivity;
 import com.payworks.ui.activities.MyDonationsActivity;
 import com.payworks.ui.activities.RecievedMoneyRequestActivity;
 
@@ -27,14 +35,15 @@ public class ReceivedMoneyRequestAdapter extends ArrayAdapter<Receivedrequest> {
     ArrayList<Receivedrequest> myrecReqList;
     Context context;
     String userPriority;
+    String walletBalance;
 
 
-    public ReceivedMoneyRequestAdapter(RecievedMoneyRequestActivity recievedMoneyRequestActivity, int layout_received_money_request, int payee_name, ArrayList<Receivedrequest> myrecReqList) {
+    public ReceivedMoneyRequestAdapter(RecievedMoneyRequestActivity recievedMoneyRequestActivity, int layout_received_money_request, int payee_name, ArrayList<Receivedrequest> myrecReqList, String walletBalance) {
         super(recievedMoneyRequestActivity,layout_received_money_request,payee_name,myrecReqList);
         groupid=layout_received_money_request;
         this.context = recievedMoneyRequestActivity;
         this.myrecReqList = myrecReqList;
-
+        this.walletBalance = walletBalance;
     }
 
     // Hold views of the ListView to improve its scrolling performance
@@ -43,6 +52,7 @@ public class ReceivedMoneyRequestAdapter extends ArrayAdapter<Receivedrequest> {
         public TextView payableAmount;
         public TextView priority;
         public TextView dueDate;
+        public Button btnPayNow;
 
 
 
@@ -63,6 +73,7 @@ public class ReceivedMoneyRequestAdapter extends ArrayAdapter<Receivedrequest> {
             viewHolder.payableAmount= (TextView) rowView.findViewById(R.id.payable_amount);
             viewHolder.priority= (TextView) rowView.findViewById(R.id.user_priority);
             viewHolder.dueDate= (TextView) rowView.findViewById(R.id.user_due_date);
+            viewHolder.btnPayNow= (Button) rowView.findViewById(R.id.pay_button);
 
 
             rowView.setTag(viewHolder);
@@ -103,6 +114,47 @@ public class ReceivedMoneyRequestAdapter extends ArrayAdapter<Receivedrequest> {
                 holder.dueDate.setText(userDueDate);
             }
 
+            holder.btnPayNow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    double payableAmount = Double.parseDouble(receivedrequest.getAmount());
+                    double userWalletBalance = Double.parseDouble(walletBalance);
+                    Log.e("abhi", "onClick: button "  +payableAmount + " wallet" + userWalletBalance);
+
+                    if ( payableAmount > userWalletBalance)
+                    {
+                        View popupView = LayoutInflater.from(getContext()).inflate(R.layout.layout_popup, null);
+                        final PopupWindow popupWindow = new PopupWindow(popupView, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                        Button btnDismiss = (Button) popupView.findViewById(R.id.btn_close_popup);
+                        Button btnAddMoney = (Button) popupView.findViewById(R.id.add_money_button);
+                        btnDismiss.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                popupWindow.dismiss();
+                            }
+                        });
+                        btnAddMoney.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent activityChangeIntent = new Intent(getContext(), AddMoneyActivity.class);
+                                activityChangeIntent.putExtra("AMOUNT", receivedrequest.getAmount());
+                                activityChangeIntent.putExtra("PATH", "receivedRequest");
+                                getContext().startActivity(activityChangeIntent);
+                                popupWindow.dismiss();
+                            }
+                        });
+                        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+
+                        //popupWindow.showAsDropDown(popupView, 0, 0);
+                    }
+                    else
+                    {
+
+                    }
+                }
+            });
+
 
 
         }
@@ -111,6 +163,7 @@ public class ReceivedMoneyRequestAdapter extends ArrayAdapter<Receivedrequest> {
 
         return rowView;
     }
+
 
 
 }
