@@ -82,7 +82,7 @@ public class AddMoneyActivity extends BaseActivity {
 
     @Override
     public void onNavigationIconClick(View v) {
-
+    onBackPressed();
     }
 
     @Override
@@ -103,6 +103,13 @@ public class AddMoneyActivity extends BaseActivity {
         setUpRestAdapter();
         getWalletBalance();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpRestAdapter();
+        getWalletBalance();
     }
 
     private void getWalletBalance() {
@@ -127,7 +134,6 @@ public class AddMoneyActivity extends BaseActivity {
 
                 @Override
                 public void onFailure(Call<MyWalletResponse> call, Throwable t) {
-
                     LoadingDialog.cancelLoading();
                 }
 

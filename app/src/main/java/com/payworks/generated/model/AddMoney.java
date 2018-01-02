@@ -49,9 +49,12 @@ public class AddMoney {
     @Expose
     private String token;
 
+    @SerializedName("userID")
+    @Expose
+    private String userID;
 
     public AddMoney(String type,String token,String amount,String state,String city,String country,String zip,String nameoncard
-            ,String cardnumber,String cardexpmonth,String cardexpyear,String cardtype,String cvvnumber,String address) {
+            ,String cardnumber,String cardexpmonth,String cardexpyear,String cardtype,String cvvnumber,String address,String userID) {
         this.type = type;
         this.amount = amount;
         this.token = token;
@@ -66,6 +69,7 @@ public class AddMoney {
         this.cardtype= cardtype;
         this.cvvnumber=cvvnumber;
         this.address= address;
+        this.userID = userID;
 
     }
 }

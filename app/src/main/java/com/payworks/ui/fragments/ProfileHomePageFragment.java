@@ -14,12 +14,16 @@ import android.widget.TextView;
 
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
+import com.payworks.api.ApiEndPoints;
 import com.payworks.api.RetrofitInterface;
 import com.payworks.generated.model.MyTransactions;
 import com.payworks.generated.model.MyTransactionsResponse;
+import com.payworks.generated.model.ReceiveMoneyRequests;
+import com.payworks.generated.model.ReceiveMoneyRequestsResponse;
 import com.payworks.ui.activities.AddCardDetailActivity;
 import com.payworks.ui.activities.AddMoneyActivity;
 import com.payworks.ui.activities.MyDonationsActivity;
+import com.payworks.ui.activities.RecievedMoneyRequestActivity;
 import com.payworks.ui.activities.RequestMoneyActivity;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.NetworkUtils;
@@ -41,10 +45,14 @@ public class ProfileHomePageFragment extends Fragment {
     private static final String TAG = "ProfileHomePageFragment";
     private RetrofitInterface.UserWalletClient UserWalletAdapter;
     private RetrofitInterface.UserTransactionsClient MyTransactionAdapter;
+    private RetrofitInterface.UserReceivedMoneyRequestClient UserReceivedMoneyRequestAdapter;
 
 
     @BindView(R.id.transactions)
     TextView tvTransaction;
+
+    @BindView(R.id.received_request)
+    TextView tvReceivedRequests;
 
     @OnClick(R.id.ll_request_money)
     public void requestMoney() {
@@ -57,6 +65,13 @@ public class ProfileHomePageFragment extends Fragment {
     public void addMoney() {
 
         Intent activityChangeIntent = new Intent(getActivity(), AddMoneyActivity.class);
+        startActivity(activityChangeIntent);
+    }
+
+    @OnClick(R.id.ll_send_money)
+    public void sendMoney() {
+
+        Intent activityChangeIntent = new Intent(getActivity(), RecievedMoneyRequestActivity.class);
         startActivity(activityChangeIntent);
     }
 
@@ -99,6 +114,7 @@ public class ProfileHomePageFragment extends Fragment {
         ButterKnife.bind(this, view);
         setUpRestAdapter();
         getUserTransactions();
+        getReceivedMoneyRequests();
         return view;
 
     }
@@ -182,9 +198,42 @@ public class ProfileHomePageFragment extends Fragment {
     }
     private void setUpRestAdapter() {
         MyTransactionAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserTransactionsClient.class, BASE_URL, getActivity());
-
+        UserReceivedMoneyRequestAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserReceivedMoneyRequestClient.class, ApiEndPoints.BASE_URL, getActivity());
     }
 
+    private void getReceivedMoneyRequests() {
+        LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
+        Call<ReceiveMoneyRequestsResponse> call = UserReceivedMoneyRequestAdapter.receiveMoneyRequestData(new ReceiveMoneyRequests("usermoneyrequests", PrefUtils.getUserId(getActivity()),"83Ide@$321!"));
+        if (NetworkUtils.isNetworkConnected(getActivity())) {
+            call.enqueue(new Callback<ReceiveMoneyRequestsResponse>() {
 
+                @Override
+                public void onResponse(Call<ReceiveMoneyRequestsResponse> call, Response<ReceiveMoneyRequestsResponse> response) {
+
+                    if (response.isSuccessful()) {
+
+                        Log.e(TAG, "onResponse: " +response.body().getReceivedrequests().size() );
+                        String receivedRequests = String.valueOf(response.body().getReceivedrequests().size());
+                        tvReceivedRequests.setText(receivedRequests);
+                        LoadingDialog.cancelLoading();
+
+
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ReceiveMoneyRequestsResponse> call, Throwable t) {
+                    LoadingDialog.cancelLoading();
+                }
+
+
+            });
+
+        } else {
+            SnakBarUtils.networkConnected(getActivity());
+            LoadingDialog.cancelLoading();
+        }
+    }
 
 }

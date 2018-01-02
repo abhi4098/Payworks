@@ -5,45 +5,45 @@
 
         <item
             android:id="@+id/nav_Home"
-            android:icon="@drawable/wallet64"
+            android:icon="@drawable/sliding_wallet48"
             android:title="WALLET" />
         <item
             android:id="@+id/nav_my_profile"
-            android:icon="@drawable/myprofile64"
+            android:icon="@drawable/sliding_propfile48"
             android:title="MY PROFILE" />
 
         <item
             android:id="@+id/nav_merchant"
-            android:icon="@drawable/myprofile64"
+            android:icon="@drawable/sliding_propfile48"
             android:title="MERCHANT" />
 
 
         <item
             android:id="@+id/nav_my_transactions"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/sliding_transactions48"
             android:title="MY TRANSACTION" />
         <item
             android:id="@+id/nav_sent_money_request"
-            android:icon="@drawable/sentmoney48"
+            android:icon="@drawable/sliding_sent_request64"
             android:title="SENT MONEY REQUEST" />
 
 
         <item
             android:id="@+id/nav_refer_a_friend"
-            android:icon="@drawable/referfriend48"
+            android:icon="@drawable/sliding_add_friend128"
             android:title="REFER A FRIEND" />
         <item
             android:id="@+id/nav_my_bank_account"
-            android:icon="@drawable/mybank48"
+            android:icon="@drawable/sliding_bank_account48"
             android:title="MY BANK ACCOUNT" />
         <item
             android:id="@+id/nav_notification"
-            android:icon="@drawable/noti48"
+            android:icon="@drawable/sliding_notification48"
             android:title="NOTIFICATION" />
 
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/logout64"
+            android:icon="@drawable/sliding_logoutn48"
             android:title="LOGOUT" />
     </group>
 

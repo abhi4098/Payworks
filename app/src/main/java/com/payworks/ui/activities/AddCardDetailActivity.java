@@ -153,7 +153,7 @@ public class AddCardDetailActivity extends BaseActivity {
 
     @Override
     public void onNavigationIconClick(View v) {
-
+        onBackPressed();
     }
 
     @Override
@@ -281,7 +281,7 @@ public class AddCardDetailActivity extends BaseActivity {
 
     private void sendAddMoney() {
         LoadingDialog.showLoadingDialog(this,"Loading...");
-        Call<AddMoneyResponse> call = addMoneyAdapter.addMoneyData(new AddMoney("add_money","83Ide@$321!",userAmount,userState,userCity,userCountry,userPostalCode,cardHolderName,cardNumber,expiryMonth,expiryYear,cardType,cvv,userAddress));
+        Call<AddMoneyResponse> call = addMoneyAdapter.addMoneyData(new AddMoney("add_money","83Ide@$321!",userAmount,userState,userCity,userCountry,userPostalCode,cardHolderName,cardNumber,expiryMonth,expiryYear,cardType,cvv,userAddress,PrefUtils.getUserId(this)));
         if (NetworkUtils.isNetworkConnected(AddCardDetailActivity.this)) {
             call.enqueue(new Callback<AddMoneyResponse>() {
 
@@ -289,29 +289,24 @@ public class AddCardDetailActivity extends BaseActivity {
                 public void onResponse(Call<AddMoneyResponse> call, Response<AddMoneyResponse> response) {
 
                     if (response.isSuccessful()) {
-                        Log.e("abhi", "onResponse: ======================================" );
-                        LoadingDialog.cancelLoading();
 
-
-                        if (response.body().getTokenid() ==0) {
-
-                            if (response.body().getType() == 0) {
+                        if (response.body().getType() ==0) {
                                 Toast.makeText(getApplicationContext(),"Fraud Detected ",Toast.LENGTH_SHORT).show();
                                 LoadingDialog.cancelLoading();
                                 finish();
-                            }
-
                         }
                         else
                         {
-                            Toast.makeText(getApplicationContext(),"Invalid Details",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Money Added Successfully ",Toast.LENGTH_SHORT).show();
+                            LoadingDialog.cancelLoading();
+                            finish();
                         }
                     }
                 }
 
                 @Override
                 public void onFailure(Call<AddMoneyResponse> call, Throwable t) {
-                    Log.e("abhi", "onFailure: " +t.getMessage() );
+                    Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
                     LoadingDialog.cancelLoading();
                 }
 

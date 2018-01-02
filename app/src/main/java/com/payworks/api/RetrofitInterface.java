@@ -18,6 +18,8 @@ import com.payworks.generated.model.MyProfileResponse;
 import com.payworks.generated.model.MyTransactions;
 import com.payworks.generated.model.MyTransactionsResponse;
 import com.payworks.generated.model.MyWalletResponse;
+import com.payworks.generated.model.ReceiveMoneyRequests;
+import com.payworks.generated.model.ReceiveMoneyRequestsResponse;
 import com.payworks.generated.model.Registration;
 import com.payworks.generated.model.RegistrationResponse;
 import com.payworks.generated.model.RequestMoney;
@@ -103,6 +105,13 @@ public class RetrofitInterface {
     public interface UserAddMoneyClient {
         @POST("add_money.html")
         Call<AddMoneyResponse> addMoneyData(@Body AddMoney addMoney);
+
+    }
+
+
+    public interface UserReceivedMoneyRequestClient {
+        @POST("receivedrequest")
+        Call<ReceiveMoneyRequestsResponse> receiveMoneyRequestData(@Body ReceiveMoneyRequests receiveMoneyRequests);
 
     }
 
