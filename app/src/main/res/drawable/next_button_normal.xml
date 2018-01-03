@@ -4,5 +4,10 @@
         android:startColor="@color/theme_primary_dark"
         android:endColor="@color/theme_primary_dark"
         android:angle="90" />
+    <corners
+        android:bottomLeftRadius="5dp"
+        android:bottomRightRadius="5dp"
+        android:topLeftRadius="5dp"
+        android:topRightRadius="5dp" />
 
 </shape>

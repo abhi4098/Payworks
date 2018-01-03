@@ -192,8 +192,9 @@ public class RecievedMoneyRequestActivity extends BaseActivity {
             receivedrequest.setDuedate(response.body().getReceivedrequests().get(i).getDuedate());
             receivedrequest.setFullname(response.body().getReceivedrequests().get(i).getFullname());
             receivedrequest.setPriority(response.body().getReceivedrequests().get(i).getPriority());
+            receivedrequest.setId(response.body().getReceivedrequests().get(i).getId());
 
-            Log.e("abhi", "setUserProducts: =========" );
+
 
             myReceivedRequestList.add(receivedrequest);
         }

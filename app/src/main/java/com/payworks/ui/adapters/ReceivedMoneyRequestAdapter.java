@@ -24,6 +24,7 @@ import com.payworks.generated.model.Donation;
 import com.payworks.generated.model.Receivedrequest;
 import com.payworks.ui.activities.AddMoneyActivity;
 import com.payworks.ui.activities.MyDonationsActivity;
+import com.payworks.ui.activities.OtpVerificationScreenActivity;
 import com.payworks.ui.activities.RecievedMoneyRequestActivity;
 
 import java.util.ArrayList;
@@ -151,6 +152,11 @@ public class ReceivedMoneyRequestAdapter extends ArrayAdapter<Receivedrequest> {
                     else
                     {
 
+                        Log.e("abhi", "user pay id: =========" +receivedrequest.getId() );
+                        Intent activityChangeIntent = new Intent(getContext(), OtpVerificationScreenActivity.class);
+                        activityChangeIntent.putExtra("PAYID", receivedrequest.getId());
+
+                        getContext().startActivity(activityChangeIntent);
                     }
                 }
             });

@@ -6,6 +6,8 @@ import com.payworks.generated.model.AddMoney;
 import com.payworks.generated.model.AddMoneyResponse;
 import com.payworks.generated.model.ForgotPassword;
 import com.payworks.generated.model.ForgotPasswordResponse;
+import com.payworks.generated.model.GetOTP;
+import com.payworks.generated.model.GetOTPResponse;
 import com.payworks.generated.model.Login;
 import com.payworks.generated.model.MerchantData;
 import com.payworks.generated.model.MerchantDonationResponse;
@@ -24,6 +26,8 @@ import com.payworks.generated.model.Registration;
 import com.payworks.generated.model.RegistrationResponse;
 import com.payworks.generated.model.RequestMoney;
 import com.payworks.generated.model.RequestMoneyResponse;
+import com.payworks.generated.model.SendMoneyVerified;
+import com.payworks.generated.model.SendMoneyVerifiedReponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -112,6 +116,18 @@ public class RetrofitInterface {
     public interface UserReceivedMoneyRequestClient {
         @POST("receivedrequest")
         Call<ReceiveMoneyRequestsResponse> receiveMoneyRequestData(@Body ReceiveMoneyRequests receiveMoneyRequests);
+
+    }
+
+    public interface getOTPClient {
+        @POST("generateSendOTP.html")
+        Call<GetOTPResponse> getOTPData(@Body GetOTP getOTP);
+
+    }
+
+    public interface sendMoneyVerifiedClient {
+        @POST("paymoneyrequest.html")
+        Call<SendMoneyVerifiedReponse> sendMoneyVerifiedData(@Body SendMoneyVerified sendMoneyVerified);
 
     }
 

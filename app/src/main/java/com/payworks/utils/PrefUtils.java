@@ -23,6 +23,7 @@ public class PrefUtils {
     public static String LOGGED_IN_USER_ROLE= "user_role";
     public static String LOGGED_IN_USER_ROLE_PARENT = "user_role_parent";
     public static String LOGGED_IN_USER_ID = "user_id";
+    public static String GENERATED_OTP= "gen_otp";
 
     /**
      * Constant string for file name to store the SharedPreferences of the
@@ -235,6 +236,19 @@ public class PrefUtils {
     public static String getPhone(Context context) {
         SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
         return sharedPreferences.getString(KEY_USER_PHONE, "");
+    }
+
+    public static void storeOTP(String otp, Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        sharedPreferences.edit()
+                .putString(GENERATED_OTP, otp)
+                .apply();
+
+    }
+
+    public static String getSavedOTP(Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        return sharedPreferences.getString(GENERATED_OTP, "");
     }
 
 

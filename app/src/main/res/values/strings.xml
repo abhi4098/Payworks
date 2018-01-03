@@ -52,6 +52,7 @@
     <string name="saved_cards">Saved Cards</string>
     <string name="credit_debit_card">Credit/Debit Card</string>
     <string name="add_money_title">ADD MONEY</string>
+    <string name="otp_verification_title">OTP Verification</string>
     <string name="received_money_request_title">RECEIVED REQUESTS</string>
     <string name="add_card_Details_title">ADD CARD DETAILS</string>
     <string name="my_product">MY PRODUCTS</string>
