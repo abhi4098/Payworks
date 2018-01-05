@@ -27,7 +27,11 @@ import com.payworks.utils.NetworkUtils;
 import com.payworks.utils.PrefUtils;
 import com.payworks.utils.SnakBarUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -189,10 +193,23 @@ public class RecievedMoneyRequestActivity extends BaseActivity {
             Receivedrequest receivedrequest = new Receivedrequest();
 
             receivedrequest.setAmount(response.body().getReceivedrequests().get(i).getAmount());
-            receivedrequest.setDuedate(response.body().getReceivedrequests().get(i).getDuedate());
+
+            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy");
+            String inputDateStr=response.body().getReceivedrequests().get(i).getDuedate();
+            Date date = null;
+            try {
+                date = inputFormat.parse(inputDateStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            String outputDateStr = outputFormat.format(date);
+            Log.e("abhi", "setReceivedMoneyRequests: due date........."+response.body().getReceivedrequests().get(i).getDuedate() + " " +outputDateStr );
+            receivedrequest.setDuedate(outputDateStr);
             receivedrequest.setFullname(response.body().getReceivedrequests().get(i).getFullname());
             receivedrequest.setPriority(response.body().getReceivedrequests().get(i).getPriority());
             receivedrequest.setId(response.body().getReceivedrequests().get(i).getId());
+            receivedrequest.setStatus(response.body().getReceivedrequests().get(i).getStatus());
 
 
 

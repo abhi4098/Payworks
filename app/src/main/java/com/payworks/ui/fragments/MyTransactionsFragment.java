@@ -24,7 +24,11 @@ import com.payworks.utils.NetworkUtils;
 import com.payworks.utils.PrefUtils;
 import com.payworks.utils.SnakBarUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -158,7 +162,18 @@ public class MyTransactionsFragment extends Fragment {
         myTransactionList = new ArrayList<>();
         for (int i = 0; i < response.body().getUsertransactions().size(); i++) {
             Usertransaction usertransaction = new Usertransaction();
-            usertransaction.setCreatedDate(response.body().getUsertransactions().get(i).getCreatedDate());
+
+            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy");
+            String inputDateStr=response.body().getUsertransactions().get(i).getCreatedDate();
+            Date date = null;
+            try {
+                date = inputFormat.parse(inputDateStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            String outputDateStr = outputFormat.format(date);
+            usertransaction.setCreatedDate(outputDateStr);
             usertransaction.setEmail(response.body().getUsertransactions().get(i).getEmail());
             usertransaction.setId(response.body().getUsertransactions().get(i).getId());
             usertransaction.setEmailotheruser(response.body().getUsertransactions().get(i).getEmailotheruser());

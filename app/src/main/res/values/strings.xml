@@ -32,7 +32,7 @@
     <string name="fb_login_protocol_scheme">fb1803588002984563</string>
     <string name="hint_user_first_name">Enter first name</string>
     <string name="hint_user_last_name">Enter last name</string>
-    <string name="hint_user_phone_num">Enter phone name</string>
+    <string name="hint_user_phone_num">Phone Number with country code </string>
     <string name="hint_email">Enter email id</string>
     <string name="hint_address">Address</string>
     <string name="hint_password">Enter password</string>

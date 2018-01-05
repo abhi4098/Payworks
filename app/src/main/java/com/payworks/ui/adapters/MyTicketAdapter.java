@@ -85,13 +85,8 @@ public class MyTicketAdapter extends ArrayAdapter<Ticket> {
             holder.ticketTax.setText(ticket.getTickettax());
             holder.ticketSold.setText(ticket.getSold());
             holder.ticketAvail.setText(ticket.getTicketavailable());
+            holder.ticketUpdateDate.setText(ticket.getUpdatedDate());
 
-            if (ticket.getUpdatedDate() != null) {
-                String date = ticket.getUpdatedDate();
-                String[] splited = date.split("\\s+");
-                String ticketDate = splited[0];
-                holder.ticketUpdateDate.setText(ticketDate);
-            }
 
 
 

@@ -23,7 +23,11 @@ import com.payworks.utils.NetworkUtils;
 import com.payworks.utils.PrefUtils;
 import com.payworks.utils.SnakBarUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -118,9 +122,21 @@ public class MyTicketsActivity extends BaseActivity {
         for (int i = 0; i < response.body().getTicket().size(); i++) {
             Ticket ticket = new Ticket();
 
+
+            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy");
+            String inputDateStr=response.body().getTicket().get(i).getCreatedDate();
+            Date date = null;
+            try {
+                date = inputFormat.parse(inputDateStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            String outputDateStr = outputFormat.format(date);
+
             ticket.setTicketname(response.body().getTicket().get(i).getTicketname());
             ticket.setTicketprice(response.body().getTicket().get(i).getTicketprice());
-            ticket.setUpdatedDate(response.body().getTicket().get(i).getCreatedDate());
+            ticket.setUpdatedDate(outputDateStr);
             ticket.setTickettax(response.body().getTicket().get(i).getTickettax());
             ticket.setTicketavailable(response.body().getTicket().get(i).getTicketavailable());
             ticket.setSold(response.body().getTicket().get(i).getSold());

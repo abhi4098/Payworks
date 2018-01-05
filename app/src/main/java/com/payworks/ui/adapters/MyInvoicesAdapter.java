@@ -78,13 +78,8 @@ public class MyInvoicesAdapter extends ArrayAdapter<Invoice> {
             holder.invoiceName.setText(invoice.getCustomerName());
             holder.invoiceNum.setText(invoice.getInvoicenumber());
             holder.invoicePrice.setText(invoice.getAmount());
+            holder.invoiceUpdateDate.setText(invoice.getUpdatedDate());
 
-            if (invoice.getUpdatedDate() != null) {
-                String date = invoice.getUpdatedDate();
-                String[] splited = date.split("\\s+");
-                String invoiceDate = splited[0];
-                holder.invoiceUpdateDate.setText(invoiceDate);
-            }
 
 
 

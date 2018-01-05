@@ -23,7 +23,11 @@ import com.payworks.utils.NetworkUtils;
 import com.payworks.utils.PrefUtils;
 import com.payworks.utils.SnakBarUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -119,9 +123,21 @@ public class MyDonationsActivity extends BaseActivity {
         for (int i = 0; i < response.body().getDonations().size(); i++) {
             Donation donation = new Donation();
 
+
+            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy");
+            String inputDateStr=response.body().getDonations().get(i).getUpdatedDate();
+            Date date = null;
+            try {
+                date = inputFormat.parse(inputDateStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            String outputDateStr = outputFormat.format(date);
+
             donation.setDonationname(response.body().getDonations().get(i).getDonationname());
             donation.setDonationprice(response.body().getDonations().get(i).getDonationprice());
-            donation.setUpdatedDate(response.body().getDonations().get(i).getUpdatedDate());
+            donation.setUpdatedDate(outputDateStr);
 
             Log.e("abhi", "setUserProducts: =========" );
 

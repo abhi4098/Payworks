@@ -85,13 +85,7 @@ public class MySubscriptionAdapter extends ArrayAdapter<Subscription> {
             holder.subsTax.setText(ticket.getSubscriptiontax());
             holder.subsSold.setText(ticket.getSold());
             holder.subsPeriod.setText(ticket.getSubscriptiontrialperiod());
-
-            if (ticket.getUpdatedDate() != null) {
-                String date = ticket.getUpdatedDate();
-                String[] splited = date.split("\\s+");
-                String subsDate = splited[0];
-                holder.subsUpdateDate.setText(subsDate);
-            }
+            holder.subsUpdateDate.setText(ticket.getUpdatedDate());
 
 
 

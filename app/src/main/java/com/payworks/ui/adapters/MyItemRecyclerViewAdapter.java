@@ -40,12 +40,9 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.mItem = mValues.get(position);
         String status;
         String mode;
-        if (mValues.get(position).getCreatedDate() != null) {
-            String date = mValues.get(position).getCreatedDate();
-            String[] splited = date.split("\\s+");
-            String transactionDate = splited[0];
-            holder.mDateView.setText(transactionDate);
-        }
+
+        holder.mDateView.setText(mValues.get(position).getCreatedDate());
+
 
 
         if (mValues.get(position).getTransactionMode() !=null)

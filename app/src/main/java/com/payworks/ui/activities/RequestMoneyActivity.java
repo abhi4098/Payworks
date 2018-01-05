@@ -31,6 +31,7 @@ import com.payworks.utils.SnakBarUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -89,9 +90,12 @@ public class RequestMoneyActivity extends BaseActivity {
     {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etDueDate.getWindowToken(), 0);
-        new DatePickerDialog(RequestMoneyActivity.this, date, myCalendar
+
+       DatePickerDialog dpd = new DatePickerDialog(RequestMoneyActivity.this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                myCalendar.get(Calendar.DAY_OF_MONTH));
+       dpd.getDatePicker().setMinDate(System.currentTimeMillis());
+       dpd.show();
 
     }
 
@@ -235,6 +239,7 @@ public class RequestMoneyActivity extends BaseActivity {
 
             if (userPriority == null || userPriority.equals("") )
                 Toast.makeText(getApplicationContext(),"Select Priority ",Toast.LENGTH_SHORT).show();
+
 
             if (userDate == null || userDate.equals(""))
                 Toast.makeText(getApplicationContext(),"Select Due Date ",Toast.LENGTH_SHORT).show();

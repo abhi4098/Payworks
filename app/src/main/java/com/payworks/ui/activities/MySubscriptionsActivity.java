@@ -23,7 +23,11 @@ import com.payworks.utils.NetworkUtils;
 import com.payworks.utils.PrefUtils;
 import com.payworks.utils.SnakBarUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -118,9 +122,21 @@ public class MySubscriptionsActivity extends BaseActivity {
         for (int i = 0; i < response.body().getSubscription().size(); i++) {
             Subscription subscription = new Subscription();
 
+
+            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy");
+            String inputDateStr=response.body().getSubscription().get(i).getCreatedDate();
+            Date date = null;
+            try {
+                date = inputFormat.parse(inputDateStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            String outputDateStr = outputFormat.format(date);
+
             subscription.setSubscriptionname(response.body().getSubscription().get(i).getSubscriptionname());
             subscription.setSubscriptionprice(response.body().getSubscription().get(i).getSubscriptionprice());
-            subscription.setUpdatedDate(response.body().getSubscription().get(i).getCreatedDate());
+            subscription.setUpdatedDate(outputDateStr);
             subscription.setSubscriptiontrialperiod(response.body().getSubscription().get(i).getSubscriptiontrialperiod());
             subscription.setSold(response.body().getSubscription().get(i).getSold());
             subscription.setSubscriptiontax(response.body().getSubscription().get(i).getSubscriptiontax());

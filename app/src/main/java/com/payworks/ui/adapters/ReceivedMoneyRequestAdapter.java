@@ -7,6 +7,7 @@ package com.payworks.ui.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,13 +30,15 @@ import com.payworks.ui.activities.RecievedMoneyRequestActivity;
 
 import java.util.ArrayList;
 
+import static android.graphics.Color.rgb;
+
 
 public class ReceivedMoneyRequestAdapter extends ArrayAdapter<Receivedrequest> {
 
     int groupid;
     ArrayList<Receivedrequest> myrecReqList;
     Context context;
-    String userPriority;
+    String userPriority,userRequestStatus;
     String walletBalance;
 
 
@@ -108,59 +111,81 @@ public class ReceivedMoneyRequestAdapter extends ArrayAdapter<Receivedrequest> {
            }
 
 
-            if (receivedrequest.getDuedate() != null) {
-                String date = receivedrequest.getDuedate();
-                String[] splited = date.split("\\s+");
-                String userDueDate = splited[0];
-                holder.dueDate.setText(userDueDate);
-            }
+                holder.dueDate.setText(receivedrequest.getDuedate());
 
-            holder.btnPayNow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-                    double payableAmount = Double.parseDouble(receivedrequest.getAmount());
-                    double userWalletBalance = Double.parseDouble(walletBalance);
-                    Log.e("abhi", "onClick: button "  +payableAmount + " wallet" + userWalletBalance);
+            if (receivedrequest.getStatus() !=null) {
+                switch (receivedrequest.getStatus()) {
 
-                    if ( payableAmount > userWalletBalance)
-                    {
-                        View popupView = LayoutInflater.from(getContext()).inflate(R.layout.layout_popup, null);
-                        final PopupWindow popupWindow = new PopupWindow(popupView, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                        Button btnDismiss = (Button) popupView.findViewById(R.id.btn_close_popup);
-                        Button btnAddMoney = (Button) popupView.findViewById(R.id.add_money_button);
-                        btnDismiss.setOnClickListener(new View.OnClickListener() {
+                    case "0":
+                        Log.e("abhi", "getView: case 0 not Paid ............." );
+                        holder.btnPayNow.setBackground(ContextCompat.getDrawable(context, R.drawable.button_state_selector));
+                        holder.btnPayNow.setText("Pay");
+                        holder.btnPayNow.setTextColor(rgb(255,255,255));
+                        holder.btnPayNow.setEnabled(true);
+                        holder.btnPayNow.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(View v) {
-                                popupWindow.dismiss();
+                            public void onClick(View view) {
+
+                                double payableAmount = Double.parseDouble(receivedrequest.getAmount());
+                                double userWalletBalance = Double.parseDouble(walletBalance);
+                                Log.e("abhi", "onClick: button "  +payableAmount + " wallet" + userWalletBalance);
+
+                                if ( payableAmount > userWalletBalance)
+                                {
+                                    View popupView = LayoutInflater.from(getContext()).inflate(R.layout.layout_popup, null);
+                                    final PopupWindow popupWindow = new PopupWindow(popupView, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                                    Button btnDismiss = (Button) popupView.findViewById(R.id.btn_close_popup);
+                                    Button btnAddMoney = (Button) popupView.findViewById(R.id.add_money_button);
+                                    btnDismiss.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            popupWindow.dismiss();
+                                        }
+                                    });
+                                    btnAddMoney.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent activityChangeIntent = new Intent(getContext(), AddMoneyActivity.class);
+                                            activityChangeIntent.putExtra("AMOUNT", receivedrequest.getAmount());
+                                            activityChangeIntent.putExtra("PATH", "receivedRequest");
+                                            getContext().startActivity(activityChangeIntent);
+                                            popupWindow.dismiss();
+                                        }
+                                    });
+                                    popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+
+                                    //popupWindow.showAsDropDown(popupView, 0, 0);
+                                }
+                                else
+                                {
+
+                                    Log.e("abhi", "user pay id: =========" +receivedrequest.getId() );
+                                    Intent activityChangeIntent = new Intent(getContext(), OtpVerificationScreenActivity.class);
+                                    activityChangeIntent.putExtra("PAYID", receivedrequest.getId());
+
+                                    getContext().startActivity(activityChangeIntent);
+                                }
                             }
                         });
-                        btnAddMoney.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent activityChangeIntent = new Intent(getContext(), AddMoneyActivity.class);
-                                activityChangeIntent.putExtra("AMOUNT", receivedrequest.getAmount());
-                                activityChangeIntent.putExtra("PATH", "receivedRequest");
-                                getContext().startActivity(activityChangeIntent);
-                                popupWindow.dismiss();
-                            }
-                        });
-                        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                        break;
 
-                        //popupWindow.showAsDropDown(popupView, 0, 0);
-                    }
-                    else
-                    {
 
-                        Log.e("abhi", "user pay id: =========" +receivedrequest.getId() );
-                        Intent activityChangeIntent = new Intent(getContext(), OtpVerificationScreenActivity.class);
-                        activityChangeIntent.putExtra("PAYID", receivedrequest.getId());
+                    case "1":
+                        Log.e("abhi", "getView: case 1 paid ............." );
+                        holder.btnPayNow.setBackground(ContextCompat.getDrawable(context, R.drawable.rectangular_background_white_border));
+                        holder.btnPayNow.setEnabled(false);
+                        holder.btnPayNow.setText("Paid");
+                        holder.btnPayNow.setTextColor(rgb(50,205,50));
+                        break;
 
-                        getContext().startActivity(activityChangeIntent);
-                    }
+                    default:
+                        Log.e("abhi", "getView: default ............." );
+                       /* holder.btnPayNow.setCompoundDrawablePadding(2);
+                        holder.btnPayNow.setCompoundDrawablesWithIntrinsicBounds(R.drawable.success18, 0, 0, 0);*/
+                        break;
                 }
-            });
-
+            }
 
 
         }

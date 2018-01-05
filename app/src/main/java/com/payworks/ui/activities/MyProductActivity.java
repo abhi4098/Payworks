@@ -20,7 +20,11 @@ import com.payworks.utils.NetworkUtils;
 import com.payworks.utils.PrefUtils;
 import com.payworks.utils.SnakBarUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -115,11 +119,23 @@ public class MyProductActivity extends BaseActivity {
         for (int i = 0; i < response.body().getProducts().size(); i++) {
             Product product = new Product();
 
+            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy");
+            String inputDateStr=response.body().getProducts().get(i).getCreatedDate();
+            Date date = null;
+            try {
+                date = inputFormat.parse(inputDateStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            String outputDateStr = outputFormat.format(date);
+
+
             product.setProductname(response.body().getProducts().get(i).getProductname());
             product.setProductprice(response.body().getProducts().get(i).getProductprice());
             product.setProductshipping(response.body().getProducts().get(i).getProductshipping());
             product.setSold(response.body().getProducts().get(i).getSold());
-            product.setUpdatedDate(response.body().getProducts().get(i).getUpdatedDate());
+            product.setUpdatedDate(outputDateStr);
 
             Log.e("abhi", "setUserProducts: =========" );
 
