@@ -10,10 +10,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -319,6 +323,25 @@ public class OtpVerificationScreenActivity extends BaseActivity {
                     if (response.isSuccessful()) {
                         Log.e("abhi", "onResponse: send money type.........."+response.body().getMsg() );
                         if (response.body().getType() == 1)
+                        {
+                            Toast.makeText(getApplicationContext(),response.body().getMsg(),Toast.LENGTH_LONG).show();
+                            finish();
+                            Log.e("abhi", "onResponse: send money message.........."+response.body().getMsg() );
+
+                            View popupView = LayoutInflater.from(OtpVerificationScreenActivity.this).inflate(R.layout.layout_send_successfull_popup, null);
+                            final PopupWindow popupWindow = new PopupWindow(popupView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                            Button btnDismiss = (Button) popupView.findViewById(R.id.btn_close_popup);
+                            // Button btnAddMoney = (Button) popupView.findViewById(R.id.add_money_button);
+                            btnDismiss.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    popupWindow.dismiss();
+                                }
+                            });
+
+                            popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                        }
+                        else
                         {
                             Toast.makeText(getApplicationContext(),response.body().getMsg(),Toast.LENGTH_LONG).show();
                             finish();

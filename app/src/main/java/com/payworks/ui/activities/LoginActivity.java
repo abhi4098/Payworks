@@ -248,16 +248,10 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
                     if (response.isSuccessful()) {
                         Log.e("abhi", "onResponse: " +response.body().getId() );
                         PrefUtils.storeUsernId(response.body().getId(), LoginActivity.this);
-                        /*PrefUtils.storeDoctorLoginId(response.body().getId(), DocAppLoginActivity.this);
-                        PrefUtils.storeAuthToken(response.body().getAuthToken(), DocAppLoginActivity.this);
-
-                        PrefUtils.storeDoctorJid(response.body().getJid(), DocAppLoginActivity.this);
-                        PrefUtils.storeDoctorLoginId(response.body().getId(), DocAppLoginActivity.this);
-
-                        PrefUtils.storeDoctorPassword(response.body().getChatPassword(), DocAppLoginActivity.this);
-
-
-*/                     Intent intent = new Intent(getApplicationContext(), NavigationalActivity.class);
+                        PrefUtils.storePhone(response.body().getPhone().toString(), LoginActivity.this);
+                        PrefUtils.storeFirstName(response.body().getFirstName(), LoginActivity.this);
+                        PrefUtils.storeLastName(response.body().getLastName(), LoginActivity.this);
+                        PrefUtils.storeEmail(response.body().getEmail(), LoginActivity.this);                     Intent intent = new Intent(getApplicationContext(), NavigationalActivity.class);
                         intent.putExtra("type", "GetStarted");
                         startActivity(intent);
                         finish();

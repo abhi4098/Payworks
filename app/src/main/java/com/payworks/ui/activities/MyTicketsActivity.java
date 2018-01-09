@@ -3,8 +3,11 @@ package com.payworks.ui.activities;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -12,11 +15,13 @@ import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
 import com.payworks.generated.model.Donation;
+import com.payworks.generated.model.Invoice;
 import com.payworks.generated.model.MerchantData;
 import com.payworks.generated.model.MerchantDonationResponse;
 import com.payworks.generated.model.MerchantTicketsResponse;
 import com.payworks.generated.model.Ticket;
 import com.payworks.ui.adapters.MyDonationsAdapter;
+import com.payworks.ui.adapters.MyInvoicesAdapter;
 import com.payworks.ui.adapters.MyTicketAdapter;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.NetworkUtils;
@@ -48,9 +53,13 @@ public class MyTicketsActivity extends BaseActivity {
     @BindView(R.id.listview)
     ListView listview;
 
+    @BindView(R.id.search_item)
+    EditText etSearch;
+
     private RetrofitInterface.UserMyTicketsClient MyMerchantAdapter;
     MyTicketAdapter myTicketAdapter;
     ArrayList<Ticket> myTicketList = null;
+    ArrayList<Ticket> searchMyList = null;
 
     @Override
     public int getLayoutResourceId() {
@@ -84,6 +93,66 @@ public class MyTicketsActivity extends BaseActivity {
         tvAppTitle.setText(R.string.my_tickets);
         setUpRestAdapter();
         getMyTickets();
+        setSearchFunctionality();
+    }
+
+    private void setSearchFunctionality() {
+
+        etSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (myTicketList != null) {
+                    //manageCategoriesAdapter.getFilter().filter(s.toString());
+                    filterSearch(s.toString());
+                }
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,int after) {
+                if (myTicketList != null) {
+                    // MyDonationsAdapter.notifyDataSetChanged();
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void filterSearch(String constraint) {
+        constraint = constraint.toString().toLowerCase();
+        searchMyList =new ArrayList<>();
+        for (int i = 0; i < myTicketList.size(); i++) {
+            String data = myTicketList.get(i).getTicketname();
+            if (data.toLowerCase().startsWith(constraint.toString())) {
+                Ticket ticket = new Ticket();
+                ticket.setTicketname(myTicketList.get(i).getTicketname());
+                ticket.setTicketprice(myTicketList.get(i).getTicketprice());
+                ticket.setUpdatedDate(myTicketList.get(i).getUpdatedDate());
+                ticket.setTickettax(myTicketList.get(i).getTickettax());
+                ticket.setTicketavailable(myTicketList.get(i).getTicketavailable());
+                ticket.setSold(myTicketList.get(i).getSold());
+
+
+                searchMyList.add(ticket);
+
+            }
+        }
+
+
+        myTicketAdapter = new MyTicketAdapter(this, R.layout.layout_my_tickets, R.id.ticket_name, searchMyList);
+        listview.setAdapter(myTicketAdapter);
+        LoadingDialog.cancelLoading();
+        listview.setDivider(new ColorDrawable(getResources().getColor(R.color.lighter_gray)));
+        listview.setDividerHeight(1);
+        listview.setTextFilterEnabled(true);
+
     }
 
     private void getMyTickets() {

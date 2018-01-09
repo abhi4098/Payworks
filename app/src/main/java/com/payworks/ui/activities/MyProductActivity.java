@@ -3,17 +3,22 @@ package com.payworks.ui.activities;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
+import com.payworks.generated.model.Donation;
 import com.payworks.generated.model.MerchantData;
 import com.payworks.generated.model.MerchantProductResponse;
 import com.payworks.generated.model.Product;
+import com.payworks.ui.adapters.MyDonationsAdapter;
 import com.payworks.ui.adapters.MyProductAdapter;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.NetworkUtils;
@@ -44,10 +49,13 @@ public class MyProductActivity extends BaseActivity {
 
     @BindView(R.id.listview)
     ListView listview;
+    @BindView(R.id.search_item)
+    EditText etSearch;
 
     private RetrofitInterface.UserMyProductClient MyMerchantAdapter;
     ArrayList<Product> myProductList = null;
     MyProductAdapter myProductAdapter;
+    ArrayList<Product> searchMyList = null;
 
     @Override
     public int getLayoutResourceId() {
@@ -81,8 +89,65 @@ public class MyProductActivity extends BaseActivity {
         tvAppTitle.setText(R.string.my_products);
          setUpRestAdapter();
          getMyProducts();
+         setSearchFunctionality();
     }
 
+
+    private void setSearchFunctionality() {
+
+        etSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (myProductList != null) {
+                    //manageCategoriesAdapter.getFilter().filter(s.toString());
+                    filterSearch(s.toString());
+                }
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,int after) {
+                if (myProductList != null) {
+                    // MyDonationsAdapter.notifyDataSetChanged();
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void filterSearch(String constraint) {
+        constraint = constraint.toString().toLowerCase();
+        searchMyList =new ArrayList<>();
+        for (int i = 0; i < myProductList.size(); i++) {
+            String data = myProductList.get(i).getProductname();
+            if (data.toLowerCase().startsWith(constraint.toString())) {
+                Product product = new Product();
+                product.setProductname(myProductList.get(i).getProductname());
+                product.setProductprice(myProductList.get(i).getProductprice());
+                product.setProductshipping(myProductList.get(i).getProductshipping());
+                product.setSold(myProductList.get(i).getSold());
+                product.setUpdatedDate(myProductList.get(i).getUpdatedDate());
+                searchMyList.add(product);
+
+            }
+        }
+
+
+        myProductAdapter = new MyProductAdapter(this, R.layout.layout_my_product_list, R.id.product_name, searchMyList);
+        listview.setAdapter(myProductAdapter);
+        LoadingDialog.cancelLoading();
+        listview.setDivider(new ColorDrawable(getResources().getColor(R.color.lighter_gray)));
+        listview.setDividerHeight(1);
+        listview.setTextFilterEnabled(true);
+
+    }
     private void getMyProducts() {
         LoadingDialog.showLoadingDialog(this,"Loading...");
         Call<MerchantProductResponse> call = MyMerchantAdapter.merchantsData(new MerchantData("userproducts", PrefUtils.getUserId(this),"83Ide@$321!"));

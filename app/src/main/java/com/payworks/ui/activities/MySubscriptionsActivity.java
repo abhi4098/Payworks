@@ -3,8 +3,11 @@ package com.payworks.ui.activities;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -12,11 +15,13 @@ import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
 import com.payworks.generated.model.Donation;
+import com.payworks.generated.model.Invoice;
 import com.payworks.generated.model.MerchantData;
 import com.payworks.generated.model.MerchantDonationResponse;
 import com.payworks.generated.model.MerchantSubscriptionsResponse;
 import com.payworks.generated.model.Subscription;
 import com.payworks.ui.adapters.MyDonationsAdapter;
+import com.payworks.ui.adapters.MyInvoicesAdapter;
 import com.payworks.ui.adapters.MySubscriptionAdapter;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.NetworkUtils;
@@ -48,9 +53,13 @@ public class MySubscriptionsActivity extends BaseActivity {
     @BindView(R.id.listview)
     ListView listview;
 
+    @BindView(R.id.search_item)
+    EditText etSearch;
+
     private RetrofitInterface.UserMySubscriptionClient MyMerchantAdapter;
     MySubscriptionAdapter mySubscriptionAdapter;
     ArrayList<Subscription>  mySubscriptionList = null;
+    ArrayList<Subscription> searchMyList = null;
 
     @Override
     public int getLayoutResourceId() {
@@ -84,6 +93,66 @@ public class MySubscriptionsActivity extends BaseActivity {
         tvAppTitle.setText(R.string.my_subscriptions);
         setUpRestAdapter();
         getMySubscriptions();
+        setSearchFunctionality();
+    }
+
+    private void setSearchFunctionality() {
+
+        etSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (mySubscriptionList != null) {
+                    //manageCategoriesAdapter.getFilter().filter(s.toString());
+                    filterSearch(s.toString());
+                }
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,int after) {
+                if (mySubscriptionList != null) {
+                    // MyDonationsAdapter.notifyDataSetChanged();
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void filterSearch(String constraint) {
+        constraint = constraint.toString().toLowerCase();
+        searchMyList =new ArrayList<>();
+        for (int i = 0; i < mySubscriptionList.size(); i++) {
+            String data = mySubscriptionList.get(i).getSubscriptionname();
+            if (data.toLowerCase().startsWith(constraint.toString())) {
+                Subscription subscription = new Subscription();
+                subscription.setSubscriptionname(mySubscriptionList.get(i).getSubscriptionname());
+                subscription.setSubscriptionprice(mySubscriptionList.get(i).getSubscriptionprice());
+                subscription.setUpdatedDate(mySubscriptionList.get(i).getUpdatedDate());
+                subscription.setSubscriptiontrialperiod(mySubscriptionList.get(i).getSubscriptiontrialperiod());
+                subscription.setSold(mySubscriptionList.get(i).getSold());
+                subscription.setSubscriptiontax(mySubscriptionList.get(i).getSubscriptiontax());
+
+
+                searchMyList.add(subscription);
+
+            }
+        }
+
+
+        mySubscriptionAdapter = new MySubscriptionAdapter(this, R.layout.layout_my_subscriptions, R.id.subs_name, searchMyList);
+        listview.setAdapter(mySubscriptionAdapter);
+        LoadingDialog.cancelLoading();
+        listview.setDivider(new ColorDrawable(getResources().getColor(R.color.lighter_gray)));
+        listview.setDividerHeight(1);
+        listview.setTextFilterEnabled(true);
+
     }
 
     private void getMySubscriptions() {

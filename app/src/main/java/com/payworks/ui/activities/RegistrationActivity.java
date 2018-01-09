@@ -3,6 +3,7 @@ package com.payworks.ui.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,7 +41,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     android.support.v7.widget.Toolbar toolbar;
     LinearLayout btnRegisterAccount;
     boolean isPasswordValid =false;
-    String userFirstname,userLastName,userPhone,userEmail,userCountry,userPassword;
+    String userFirstname,userLastName,userPhone,userEmail,userCountry,userPassword,userFullName;
     private RetrofitInterface.UserRegistrationClient registrationAdapter;
 
     @Override
@@ -103,12 +104,14 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         userCountry = etUserCountry.getText().toString();
         userPhone = etUserPhoneNumber.getText().toString();
         userPhone = etUserPhoneNumber.getText().toString();
-       /* PrefUtils.storeUserName(userFullName, RegistrationActivity.this);
-        PrefUtils.storeStateId(userState, RegistrationActivity.this);
+
+       // userFullName = userFirstname.concat(" ").concat(userLastName);
+      //  Log.e("abhi", "onClick: full name" +userFullName );
+        PrefUtils.storePhone(userPhone, RegistrationActivity.this);
+        PrefUtils.storeFirstName(userFirstname, RegistrationActivity.this);
+        PrefUtils.storeLastName(userLastName, RegistrationActivity.this);
         PrefUtils.storeEmail(userEmail, RegistrationActivity.this);
-        PrefUtils.storeCloverId(userCloverId, RegistrationActivity.this);
-        PrefUtils.storeCloverToken(userCloverApiKey, RegistrationActivity.this);
-        String password = (etUserPassword.getText().toString());*/
+        //String password = (etUserPassword.getText().toString());
 
      /*   if(password.length()>5 && !password.equals(password.toLowerCase()) &&
                 !password.equals(password.toUpperCase()) &&

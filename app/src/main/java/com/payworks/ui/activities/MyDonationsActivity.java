@@ -2,9 +2,13 @@ package com.payworks.ui.activities;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -47,9 +51,13 @@ public class MyDonationsActivity extends BaseActivity {
 
     @BindView(R.id.listview)
     ListView listview;
+    @BindView(R.id.search_item)
+    EditText etSearch;
+
 
     private RetrofitInterface.UserMyDonationstClient MyMerchantAdapter;
     MyDonationsAdapter myDonationsAdapter;
+    ArrayList<Donation> searchMyList = null;
     ArrayList<Donation> myDonationList = null;
 
     @Override
@@ -83,8 +91,63 @@ public class MyDonationsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         tvAppTitle.setText(R.string.my_donations);
+        setSearchFunctionality();
         setUpRestAdapter();
         getMyDonations();
+    }
+
+    private void setSearchFunctionality() {
+
+        etSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (myDonationList != null) {
+                    //manageCategoriesAdapter.getFilter().filter(s.toString());
+                    filterSearch(s.toString());
+                }
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,int after) {
+                if (myDonationList != null) {
+                   // MyDonationsAdapter.notifyDataSetChanged();
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void filterSearch(String constraint) {
+        constraint = constraint.toString().toLowerCase();
+        searchMyList =new ArrayList<>();
+        for (int i = 0; i < myDonationList.size(); i++) {
+            String data = myDonationList.get(i).getDonationname();
+            if (data.toLowerCase().startsWith(constraint.toString())) {
+                Donation donation = new Donation();
+                donation.setDonationname(myDonationList.get(i).getDonationname());
+                donation.setDonationprice(myDonationList.get(i).getDonationprice());
+                donation.setUpdatedDate(myDonationList.get(i).getUpdatedDate());
+                searchMyList.add(donation);
+
+            }
+        }
+
+
+        myDonationsAdapter = new MyDonationsAdapter(this, R.layout.layout_my_donations, R.id.donation_name, searchMyList);
+        listview.setAdapter(myDonationsAdapter);
+        LoadingDialog.cancelLoading();
+        listview.setDivider(new ColorDrawable(getResources().getColor(R.color.lighter_gray)));
+        listview.setDividerHeight(1);
+        listview.setTextFilterEnabled(true);
+
     }
 
     private void getMyDonations() {

@@ -51,6 +51,7 @@ public class NavigationalActivity extends AppCompatActivity
     private static final String TAG = "NavigationalActivity";
     private RetrofitInterface.UserWalletClient UserWalletAdapter;
     String walletBalance;
+    TextView headerName,headerEmail,headerPhone;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -83,6 +84,11 @@ public class NavigationalActivity extends AppCompatActivity
         toggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        headerName = (TextView)navigationView.getHeaderView(0).findViewById(R.id.header_name);
+        headerEmail = (TextView)navigationView.getHeaderView(0).findViewById(R.id.header_email);
+        headerPhone = (TextView)navigationView.getHeaderView(0).findViewById(R.id.header_phone_num);
+        setHeaderData();
+
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_Home);
         //navigationView.setItemTextColor(ColorStateList.valueOf(Color.BLACK));
@@ -93,6 +99,12 @@ public class NavigationalActivity extends AppCompatActivity
         }
 
         setUserLoggedIn();
+    }
+
+    private void setHeaderData() {
+        headerName.setText(PrefUtils.getFirstName(NavigationalActivity.this).concat(" ").concat(PrefUtils.getLastName(NavigationalActivity.this)));
+        headerEmail.setText(PrefUtils.getEmail(NavigationalActivity.this));
+        headerPhone.setText(PrefUtils.getPhone(NavigationalActivity.this));
     }
 
     public void setFragment() {

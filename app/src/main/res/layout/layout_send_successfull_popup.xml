@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_element"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@drawable/all_screens_bg"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:paddingStart="40dp"
+    android:paddingEnd="40dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="120dp"
+        android:background="@drawable/success72"/>
+
+    <TextView
+        android:id="@+id/txtView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:layout_gravity="center"
+        android:textSize="25sp"
+        android:textColor="#32CD32"
+        android:textStyle="bold"
+        android:text="Thank you !" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="25sp"
+        android:textStyle="normal"
+        android:text="Payment was Successful" />
+
+
+
+    <Button
+        android:id="@+id/btn_close_popup"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/white"
+        android:background="@drawable/button_state_selector"
+        android:layout_gravity="center"
+        android:text="Cancel" />
+
+</LinearLayout>
