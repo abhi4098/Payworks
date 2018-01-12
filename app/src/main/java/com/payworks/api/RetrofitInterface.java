@@ -131,6 +131,12 @@ public class RetrofitInterface {
 
     }
 
+    /*public interface referFriendClient {
+        @POST("referfriend.html")
+        Call<SendMoneyVerifiedReponse> referFriendData(@Body ReferFriend referFriend);
+
+    }*/
+
     /*public interface MerchantLoginClient {
 
         @POST("api/")

@@ -1,16 +1,32 @@
 package com.payworks.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.payworks.R;
+import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
+import com.payworks.ui.activities.EditProfileActivity;
+import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.LogUtils;
+import com.payworks.utils.NetworkUtils;
+import com.payworks.utils.PrefUtils;
+import com.payworks.utils.SnakBarUtils;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.payworks.api.ApiEndPoints.BASE_URL;
 
 /**
  * Created by Abhinandan on 18/8/17.
@@ -18,26 +34,21 @@ import butterknife.ButterKnife;
 public class ReferAFriendFragment extends Fragment {
 
     private static final String TAG = LogUtils.makeLogTag(ReferAFriendFragment.class);
-    private RetrofitInterface.UserMyProfileClient MyProfileAdapter;
+    //private RetrofitInterface.referFriendClient ReferFriendAdapter;
 
-   /* @BindView(R.id.user_qr_code)
-    TextView tvQrCode;
-    @BindView(R.id.user_name)
-    TextView tvUserName;
     @BindView(R.id.user_phone_num)
-    TextView tvUserPhone;
-    @BindView(R.id.user_email)
-    TextView tvUserEmail;
-    @BindView(R.id.user_country)
-    TextView tvUserCountry;
+    EditText etPhoneNum;
 
-    @OnClick(R.id.edit_Profile)
-    public void editProfile() {
+    @BindView(R.id.user_email)
+    EditText etemail;
+
+
+    @OnClick(R.id.refer_button)
+    public void referFriend() {
         Intent activityChangeIntent = new Intent(getActivity(), EditProfileActivity.class);
         startActivity(activityChangeIntent);
     }
 
-*/
     public ReferAFriendFragment() {
     }
 
@@ -46,14 +57,14 @@ public class ReferAFriendFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_refer_a_friend, container, false);
         ButterKnife.bind(this,rootView);
-       // setUpRestAdapter();
-       // getMyProfileDetails();
+       //setUpRestAdapter();
+       //referFriend();
         return rootView;
     }
 
    /* private void getMyProfileDetails() {
         LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
-        Call<MyProfileResponse> call = MyProfileAdapter.userMyProfile(new MyProfile("profile", PrefUtils.getUserId(getActivity()),"83Ide@$321!"));
+        Call<MyProfileResponse> call = ReferFriendAdapter.referFriendData(new ReferFriend("profile", PrefUtils.getUserId(getActivity()),"83Ide@$321!"));
         if (NetworkUtils.isNetworkConnected(getActivity())) {
             call.enqueue(new Callback<MyProfileResponse>() {
 
@@ -61,12 +72,6 @@ public class ReferAFriendFragment extends Fragment {
                 public void onResponse(Call<MyProfileResponse> call, Response<MyProfileResponse> response) {
 
                     if (response.isSuccessful()) {
-
-                        tvQrCode.setText(response.body().getBio());
-                        tvUserName.setText(String.format("%s%s", response.body().getFirstName(), response.body().getLastName()));
-                        tvUserCountry.setText(response.body().getCountry());
-                        tvUserEmail.setText(response.body().getEmail());
-                        tvUserPhone.setText(response.body().getPhone());
                         LoadingDialog.cancelLoading();
 
 
@@ -89,9 +94,9 @@ public class ReferAFriendFragment extends Fragment {
 
 
     private void setUpRestAdapter() {
-        MyProfileAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserMyProfileClient.class, BASE_URL, getActivity());
+        ReferFriendAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.referFriendClient.class, BASE_URL, getActivity());
 
-    }*/
-
+    }
+*/
 
 }

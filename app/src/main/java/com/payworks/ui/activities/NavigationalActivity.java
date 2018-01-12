@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.login.LoginManager;
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.ApiEndPoints;
@@ -128,6 +129,7 @@ public class NavigationalActivity extends AppCompatActivity
         //NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         //notificationManager.cancel(5555);
         //notificationManager.cancel(4444);
+        LoginManager.getInstance().logOut();
         PrefUtils.storeUserLoggedIn(false, this);
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

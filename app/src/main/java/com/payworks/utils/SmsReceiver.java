@@ -8,7 +8,6 @@ import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
-import com.google.android.gms.clearcut.LogEventParcelable;
 import com.payworks.ui.activities.OtpVerificationScreenActivity;
 
 

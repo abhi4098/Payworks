@@ -331,6 +331,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
                         protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
 
                             mProfileTracker.stopTracking();
+                            Log.e("abhi", "onCurrentProfileChanged: ............." );
                             getDetailsFromFacebook();
                         }
                     };
@@ -344,6 +345,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
 
             @Override
             public void onCancel() {
+                Log.e("abhi", "onCancel...................: " );
                 // App code
             }
 
@@ -356,6 +358,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
     }
 
     private void getDetailsFromFacebook() {
+        Log.e("abhi", "getDetailsFromFacebook: .............." );
         LoadingDialog.showLoadingDialog(this, "Loading..");
         GraphRequest request = GraphRequest.newMeRequest(
                 AccessToken.getCurrentAccessToken(),
@@ -369,20 +372,26 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
                         try {
 
                             if (object.has("email")) {
-                                Log.e("abhi", "onCompleted: -------------"+email );
+                                Log.e("abhi", "onCompleted: -------------"+object.getString("email") );
                                 socialMediaUser.setEmail(object.getString("email"));
                             }
                             if (object.has("birthday")) {
+                                Log.e("abhi", "onCompleted: -------------"+object.getString("birthday") );
                                 socialMediaUser.setBirthday(object.getString("birthday"));
                             }
                             if (object.has("gender")) {
+                                Log.e("abhi", "onCompleted: -------------"+object.getString("gender") );
                                 socialMediaUser.setGender(object.getString("gender"));
                             }
                             if (object.has("name")) {
+                                Log.e("abhi", "onCompleted: -------------"+object.getString("name") );
+
                                 //MyProfileFragment.nameOfPatient=object.getString("name").toString();
                                 socialMediaUser.setName(object.getString("name"));
                             }
                             if (object.has("id")) {
+                                Log.e("abhi", "onCompleted: -------------"+object.getString("id") );
+                                Log.e("abhi", "onCompleted: -------------"+object.getString("id") );
                                 socialMediaUser.setId(object.getString("id"));
                                 socialMediaUser.setUid(object.getString("id"));
                             }
@@ -450,6 +459,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
         switch (requestCode) {
             case RC_SIGN_IN:
                 GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+                Log.e("abhi", "onActivityResult: .............." +result.isSuccess());
                 handleSignInResult(result);
                 break;
             default:
@@ -467,10 +477,14 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
             // Signed in successfully, show authenticated UI.
             Log.e("abhi", "handleSignInResult:----------------success " );
             GoogleSignInAccount acct = result.getSignInAccount();
-            //acct.zzahe();
+           // acct.zzahe();
+            if (acct != null) {
+                acct.getAccount();
+            }
             prepareGoogleUserDetails(acct);
 //            Toast.makeText(getActivity(), "Welcome " + acct.getDisplayName(), Toast.LENGTH_SHORT).show();
         } else {
+            Log.e("abhi", "handleSignInResult:----------------" +result.getSignInAccount() );
             Toast.makeText(this, getString(R.string.google_login_failed), Toast.LENGTH_SHORT).show();
             LoadingDialog.cancelLoading();
         }

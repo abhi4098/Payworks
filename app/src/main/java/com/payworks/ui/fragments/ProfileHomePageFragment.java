@@ -212,10 +212,11 @@ public class ProfileHomePageFragment extends Fragment {
                 public void onResponse(Call<ReceiveMoneyRequestsResponse> call, Response<ReceiveMoneyRequestsResponse> response) {
 
                     if (response.isSuccessful()) {
-
-                        Log.e(TAG, "onResponse: " +response.body().getReceivedrequests().size() );
-                        String receivedRequests = String.valueOf(response.body().getReceivedrequests().size());
-                        tvReceivedRequests.setText(receivedRequests);
+                          if (response.body().getMsg().equals("success"))
+                          {
+                            String receivedRequests = String.valueOf(response.body().getReceivedrequests().size());
+                            tvReceivedRequests.setText(receivedRequests);
+                        }
                         LoadingDialog.cancelLoading();
 
 
