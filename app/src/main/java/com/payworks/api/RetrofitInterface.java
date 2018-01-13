@@ -22,6 +22,8 @@ import com.payworks.generated.model.MyTransactionsResponse;
 import com.payworks.generated.model.MyWalletResponse;
 import com.payworks.generated.model.ReceiveMoneyRequests;
 import com.payworks.generated.model.ReceiveMoneyRequestsResponse;
+import com.payworks.generated.model.ReferFriend;
+import com.payworks.generated.model.ReferFriendResponse;
 import com.payworks.generated.model.Registration;
 import com.payworks.generated.model.RegistrationResponse;
 import com.payworks.generated.model.RequestMoney;
@@ -131,11 +133,11 @@ public class RetrofitInterface {
 
     }
 
-    /*public interface referFriendClient {
+    public interface referFriendClient {
         @POST("referfriend.html")
-        Call<SendMoneyVerifiedReponse> referFriendData(@Body ReferFriend referFriend);
+        Call<ReferFriendResponse> referFriendData(@Body ReferFriend referFriend);
 
-    }*/
+    }
 
     /*public interface MerchantLoginClient {
 

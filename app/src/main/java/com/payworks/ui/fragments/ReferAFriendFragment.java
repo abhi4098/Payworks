@@ -8,10 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
+import com.payworks.generated.model.ReferFriend;
+import com.payworks.generated.model.ReferFriendResponse;
 import com.payworks.ui.activities.EditProfileActivity;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.LogUtils;
@@ -26,6 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.payworks.api.ApiEndPoints.BASE_URL;
 
 /**
@@ -34,19 +38,23 @@ import static com.payworks.api.ApiEndPoints.BASE_URL;
 public class ReferAFriendFragment extends Fragment {
 
     private static final String TAG = LogUtils.makeLogTag(ReferAFriendFragment.class);
-    //private RetrofitInterface.referFriendClient ReferFriendAdapter;
+    private RetrofitInterface.referFriendClient ReferFriendAdapter;
 
-    @BindView(R.id.user_phone_num)
-    EditText etPhoneNum;
+    /*@BindView(R.id.user_phone_num)
+    EditText etPhoneNum;*/
 
     @BindView(R.id.user_email)
     EditText etemail;
+    String emailFriend,email2,email3,email4,email5;
 
 
     @OnClick(R.id.refer_button)
     public void referFriend() {
-        Intent activityChangeIntent = new Intent(getActivity(), EditProfileActivity.class);
-        startActivity(activityChangeIntent);
+        emailFriend =etemail.getText().toString();
+
+        if (isRegistrationValid()) {
+            sendRefferal();
+        }
     }
 
     public ReferAFriendFragment() {
@@ -57,21 +65,57 @@ public class ReferAFriendFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_refer_a_friend, container, false);
         ButterKnife.bind(this,rootView);
-       //setUpRestAdapter();
-       //referFriend();
+        setUpRestAdapter();
+
         return rootView;
     }
 
-   /* private void getMyProfileDetails() {
+    private boolean isRegistrationValid() {
+
+        if (emailFriend == null || emailFriend.equals("")  || emailFriend == null   || !isValidEmail(emailFriend))
+
+        {
+
+            if (emailFriend == null || emailFriend.equals("") )
+                etemail.setError(getString(R.string.error_compulsory_field));
+
+
+            if (!isValidEmail(emailFriend) )
+                etemail.setError("Invalid Email");
+
+            return false;
+        } else
+            return true;
+
+    }
+
+    public final static boolean isValidEmail(CharSequence target) {
+        if (target == null) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
+
+    private void sendRefferal() {
         LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
-        Call<MyProfileResponse> call = ReferFriendAdapter.referFriendData(new ReferFriend("profile", PrefUtils.getUserId(getActivity()),"83Ide@$321!"));
+        Call<ReferFriendResponse> call = ReferFriendAdapter.referFriendData(new ReferFriend(emailFriend,email2,email3,email4,email5, PrefUtils.getUserId(getActivity()),"83Ide@$321!","referfriend"));
         if (NetworkUtils.isNetworkConnected(getActivity())) {
-            call.enqueue(new Callback<MyProfileResponse>() {
+            call.enqueue(new Callback<ReferFriendResponse>() {
 
                 @Override
-                public void onResponse(Call<MyProfileResponse> call, Response<MyProfileResponse> response) {
+                public void onResponse(Call<ReferFriendResponse> call, Response<ReferFriendResponse> response) {
 
                     if (response.isSuccessful()) {
+                        if (response.body().getType() ==1)
+                        {
+                            Toast.makeText(getApplicationContext(),response.body().getMsg(),Toast.LENGTH_SHORT).show();
+                            getActivity().onBackPressed();
+
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),response.body().getMsg(),Toast.LENGTH_SHORT).show();
+                        }
                         LoadingDialog.cancelLoading();
 
 
@@ -80,7 +124,7 @@ public class ReferAFriendFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<MyProfileResponse> call, Throwable t) {
+                public void onFailure(Call<ReferFriendResponse> call, Throwable t) {
                     LoadingDialog.cancelLoading();
                 }
 
@@ -97,6 +141,5 @@ public class ReferAFriendFragment extends Fragment {
         ReferFriendAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.referFriendClient.class, BASE_URL, getActivity());
 
     }
-*/
 
 }

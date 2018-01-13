@@ -15,6 +15,7 @@ import com.payworks.api.RetrofitInterface;
 import com.payworks.generated.model.MyProfile;
 import com.payworks.generated.model.MyProfileResponse;
 import com.payworks.ui.activities.EditProfileActivity;
+import com.payworks.ui.activities.RegistrationActivity;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.LogUtils;
 import com.payworks.utils.NetworkUtils;
@@ -79,6 +80,15 @@ public class MyProfileFragment extends Fragment {
                 public void onResponse(Call<MyProfileResponse> call, Response<MyProfileResponse> response) {
 
                     if (response.isSuccessful()) {
+                        PrefUtils.storeEmail(response.body().getProfile().getEmail(),getActivity());
+                        PrefUtils.storeFirstName(response.body().getProfile().getFirstName(),getActivity());
+                        PrefUtils.storeLastName(response.body().getProfile().getLastName(),getActivity());
+                        PrefUtils.storePhone(response.body().getProfile().getPhone(),getActivity());
+                        /*PrefUtils.storeA(response.body().getProfile().getFirstName(),getActivity());
+                        PrefUtils.storeLastName(response.body().getProfile().getLastName(),getActivity());
+                        PrefUtils.storeEmail(response.body().getProfile().getEmail(),getActivity());
+                        PrefUtils.storeFirstName(response.body().getProfile().getFirstName(),getActivity());
+                        PrefUtils.storeLastName(response.body().getProfile().getLastName(),getActivity());*/
 
                         //tvQrCode.setText(response.body().getProfile().getBio());
                         tvUserName.setText(String.format("%s %s", response.body().getProfile().getFirstName(), response.body().getProfile().getLastName()));

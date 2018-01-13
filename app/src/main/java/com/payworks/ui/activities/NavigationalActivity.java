@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.payworks.R;
@@ -228,9 +229,10 @@ public class NavigationalActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_sent_money_request:
-                fragment = new SentMoneyRequestFragment();
+                /*fragment = new SentMoneyRequestFragment();
                 tvAppTitle.setText(item.getTitle());
-                ivBackIcon.setVisibility(View.VISIBLE);
+                ivBackIcon.setVisibility(View.VISIBLE);*/
+                Toast.makeText(getApplicationContext(),"Feature will be implemented soon",Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.nav_refer_a_friend:
@@ -240,15 +242,17 @@ public class NavigationalActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_my_bank_account:
-                fragment = new MyBankAccountFragment();
+                /*fragment = new MyBankAccountFragment();
                 tvAppTitle.setText(item.getTitle());
-                ivBackIcon.setVisibility(View.VISIBLE);
+                ivBackIcon.setVisibility(View.VISIBLE);*/
+                Toast.makeText(getApplicationContext(),"Feature will be implemented soon",Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.nav_notification:
-                fragment = new NotificationFragment();
+                /*fragment = new NotificationFragment();
                 tvAppTitle.setText(item.getTitle());
-                ivBackIcon.setVisibility(View.VISIBLE);
+                ivBackIcon.setVisibility(View.VISIBLE);*/
+                Toast.makeText(getApplicationContext(),"Feature will be implemented soon",Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.nav_logout:

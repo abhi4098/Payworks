@@ -1,4 +1,3 @@
-/*
 
 package com.payworks.generated.model;
 
@@ -26,10 +25,23 @@ public class ReferFriend {
     @Expose
     private String token;
 
-   public ReferFriend(String email1,String email2,String email3,String email4,String email5,String token)
+    @SerializedName("userID")
+    @Expose
+    private String userID;
+    @SerializedName("type")
+    @Expose
+    private String type;
+
+   public ReferFriend(String email1,String email2,String email3,String email4,String email5,String userID,String token, String type)
    {
-       email1.this= email1;
+   this.email1 = email1;
+       this.email2 = email2;
+       this.email3 = email3;
+       this.email4 = email4;
+       this.email5 = email5;
+       this.userID = userID;
+       this.token = token;
+       this.type = type;
    }
 
 }
-*/

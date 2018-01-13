@@ -251,6 +251,19 @@ public class PrefUtils {
         return sharedPreferences.getString(GENERATED_OTP, "");
     }
 
+    public static void storeCountry(String country, Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        sharedPreferences.edit()
+                .putString(GENERATED_OTP, country)
+                .apply();
+
+    }
+
+    public static String getCountry(Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        return sharedPreferences.getString(GENERATED_OTP, "");
+    }
+
 
 
 
