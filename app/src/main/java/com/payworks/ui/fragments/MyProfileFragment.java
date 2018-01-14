@@ -52,8 +52,8 @@ public class MyProfileFragment extends Fragment {
 
     @OnClick(R.id.edit_Profile)
     public void editProfile() {
-       /* Intent activityChangeIntent = new Intent(getActivity(), EditProfileActivity.class);
-        startActivity(activityChangeIntent);*/
+        Intent activityChangeIntent = new Intent(getActivity(), EditProfileActivity.class);
+        startActivity(activityChangeIntent);
     }
 
 
@@ -84,11 +84,14 @@ public class MyProfileFragment extends Fragment {
                         PrefUtils.storeFirstName(response.body().getProfile().getFirstName(),getActivity());
                         PrefUtils.storeLastName(response.body().getProfile().getLastName(),getActivity());
                         PrefUtils.storePhone(response.body().getProfile().getPhone(),getActivity());
-                        /*PrefUtils.storeA(response.body().getProfile().getFirstName(),getActivity());
-                        PrefUtils.storeLastName(response.body().getProfile().getLastName(),getActivity());
-                        PrefUtils.storeEmail(response.body().getProfile().getEmail(),getActivity());
-                        PrefUtils.storeFirstName(response.body().getProfile().getFirstName(),getActivity());
-                        PrefUtils.storeLastName(response.body().getProfile().getLastName(),getActivity());*/
+                        PrefUtils.storeCountry(response.body().getProfile().getCountry(),getActivity());
+                        PrefUtils.storeUserCity(response.body().getProfile().getCity(),getActivity());
+                        PrefUtils.storeUserPassport(response.body().getProfile().getNibpassport(),getActivity());
+                        PrefUtils.storeUserTinNumber(response.body().getProfile().getTinnumber(),getActivity());
+                        PrefUtils.storeUserTitle(response.body().getProfile().getTitle(),getActivity());
+                        PrefUtils.storeZip(response.body().getProfile().getZip(),getActivity());
+                        PrefUtils.storeUserAdd(response.body().getProfile().getAddress(),getActivity());
+                        PrefUtils.storeUserBio(response.body().getProfile().getBio(),getActivity());
 
                         //tvQrCode.setText(response.body().getProfile().getBio());
                         tvUserName.setText(String.format("%s %s", response.body().getProfile().getFirstName(), response.body().getProfile().getLastName()));

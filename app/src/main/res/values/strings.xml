@@ -32,7 +32,7 @@
     <string name="fb_login_protocol_scheme">fb1803588002984563</string>
     <string name="hint_user_first_name">Enter first name</string>
     <string name="hint_user_last_name">Enter last name</string>
-    <string name="hint_user_phone_num">Phone Number with country code </string>
+    <string name="hint_user_phone_num">Enter Phone No </string>
     <string name="hint_email">Enter email id</string>
     <string name="hint_address">Address</string>
     <string name="hint_password">Enter password</string>
@@ -52,6 +52,7 @@
     <string name="saved_cards">Saved Cards</string>
     <string name="credit_debit_card">Credit/Debit Card</string>
     <string name="add_money_title">ADD MONEY</string>
+    <string name="edit_profile_title">EDIT PROFILE</string>
     <string name="otp_verification_title">OTP Verification</string>
     <string name="received_money_request_title">RECEIVED REQUESTS</string>
     <string name="add_card_Details_title">ADD CARD DETAILS</string>
@@ -86,6 +87,12 @@
     <string name="todo">TODO</string>
     <string name="pay">Pay</string>
     <string name="insufficient_balance">Insufficient Balance</string>
+    <string name="add_bio">Enter Bio</string>
+    <string name="enter_tin_number">Enter Tin Number</string>
+    <string name="nib_passport">Enter NIB/Passport</string>
+    <string name="enter_user_city">Enter City</string>
+    <string name="enter_zip">Enter Zip</string>
+    <string name="enter_title">Enter Title</string>
 
     <string-array name="priority_array">
         <item>Normal</item>

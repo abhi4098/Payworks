@@ -24,6 +24,14 @@ public class PrefUtils {
     public static String LOGGED_IN_USER_ROLE_PARENT = "user_role_parent";
     public static String LOGGED_IN_USER_ID = "user_id";
     public static String GENERATED_OTP= "gen_otp";
+    public static String USER_COUNTRY= "user_country";
+    public static String USER_TITLE= "user_title";
+    public static String USER_CITY= "user_city";
+    public static String USER_ZIP= "user_zip";
+    public static String USER_PASSPORT= "user_passport";
+    public static String USER_TIN_NUMBER= "user_tin_number";
+    public static String USER_BIO= "user_bio";
+
 
     /**
      * Constant string for file name to store the SharedPreferences of the
@@ -254,20 +262,107 @@ public class PrefUtils {
     public static void storeCountry(String country, Context context) {
         SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
         sharedPreferences.edit()
-                .putString(GENERATED_OTP, country)
+                .putString(USER_COUNTRY, country)
                 .apply();
 
     }
 
     public static String getCountry(Context context) {
         SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
-        return sharedPreferences.getString(GENERATED_OTP, "");
+        return sharedPreferences.getString(USER_COUNTRY, "");
+    }
+
+    public static void storeZip(String zip, Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        sharedPreferences.edit()
+                .putString(USER_ZIP, zip)
+                .apply();
+
+    }
+
+    public static String getUserZip(Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        return sharedPreferences.getString(USER_ZIP, "");
+    }
+
+    public static void storeUserCity(String city, Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        sharedPreferences.edit()
+                .putString(USER_CITY, city)
+                .apply();
+
+    }
+
+    public static String getUserCity(Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        return sharedPreferences.getString(USER_CITY, "");
+    }
+
+    public static void storeUserPassport(String passport, Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        sharedPreferences.edit()
+                .putString(USER_PASSPORT, passport)
+                .apply();
+
+    }
+
+    public static String getUserPassport(Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        return sharedPreferences.getString(USER_PASSPORT, "");
+    }
+
+    public static void storeUserTinNumber(String tin, Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        sharedPreferences.edit()
+                .putString(USER_TIN_NUMBER, tin)
+                .apply();
+
+    }
+
+    public static String getUserTinNumber(Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        return sharedPreferences.getString(USER_TIN_NUMBER, "");
+    }
+
+    public static void storeUserTitle(String title, Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        sharedPreferences.edit()
+                .putString(USER_TITLE, title)
+                .apply();
+
+    }
+
+    public static String getUserTitle(Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        return sharedPreferences.getString(USER_TITLE, "");
     }
 
 
+    public static void storeUserAdd(String add, Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        sharedPreferences.edit()
+                .putString(LOGGED_IN_USER_ADD, add)
+                .apply();
 
+    }
 
+    public static String getUserAdd(Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        return sharedPreferences.getString(LOGGED_IN_USER_ADD, "");
+    }
 
+    public static void storeUserBio(String bio, Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        sharedPreferences.edit()
+                .putString(USER_BIO, bio)
+                .apply();
+
+    }
+
+    public static String getUserBio(Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        return sharedPreferences.getString(USER_BIO, "");
+    }
 
 
 }

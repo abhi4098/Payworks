@@ -15,16 +15,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#000000">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
 
-    </LinearLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="130dp"
+        android:background="@drawable/profile_bg"
 
         >
 
@@ -33,7 +43,7 @@
             android:layout_width="@dimen/edit_profile_circle_image_view_width"
             android:layout_height="@dimen/edit_profile_circle_image_view_height"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_marginTop="15dp"
             android:src="@drawable/new_customer_icon"
             app:civ_fill_color="@color/lighter_gray"></de.hdodenhof.circleimageview.CircleImageView>
 
@@ -41,83 +51,93 @@
             android:id="@+id/upload_pic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/person_image"
             android:layout_centerHorizontal="true"
+            android:textColor="@color/theme_primary_dark"
             android:padding="5dp"
             android:text="Edit Photo" />
 
     </RelativeLayout>
 
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+
     <EditText
         android:id="@+id/user_first_name"
         android:layout_marginStart="20dp"
-        android:layout_width="match_parent"
+        android:layout_width="140dp"
         android:layout_marginEnd="20dp"
         android:layout_height="wrap_content"
         android:textStyle="normal"
+        android:paddingTop="-5dp"
+        android:layout_alignParentStart="true"
         android:textColor="@color/text_color"
         android:lines="1"
-        android:textSize="13sp"
+        android:textSize="15sp"
         android:hint="@string/hint_user_first_name"
-        android:layout_marginTop="30dp"
         />
 
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp">
 
-        <View style="@style/Divider_light_gray" />
-    </LinearLayout>-->
 
 
     <EditText
         android:id="@+id/user_last_name"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_width="match_parent"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:textStyle="normal"
+        android:layout_alignParentEnd="true"
         android:textColor="@color/text_color"
         android:lines="1"
-        android:textSize="13sp"
+        android:textSize="15sp"
         android:hint="@string/hint_user_last_name"
         />
 
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp">
+        </RelativeLayout>
 
-        <View style="@style/Divider_light_gray" />
-    </LinearLayout>-->
 
-    <EditText
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+        <EditText
         android:id="@+id/user_phone_num"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_width="match_parent"
+        android:layout_width="140dp"
+            android:inputType="phone"
         android:layout_height="wrap_content"
         android:textStyle="normal"
         android:textColor="@color/text_color"
         android:lines="1"
-        android:textSize="13sp"
+        android:textSize="15sp"
         android:hint="@string/hint_user_phone_num"
 
         />
 
+            <EditText
+                android:id="@+id/user_title"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:textStyle="normal"
+                android:textColor="@color/text_color"
+                android:lines="1"
+                android:layout_alignParentEnd="true"
+                android:textSize="15sp"
+                android:hint="@string/enter_title"
 
-   <!-- <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp">
+                />
 
-        <View style="@style/Divider_light_gray" />
-    </LinearLayout>-->
+        </RelativeLayout>
+
+
 
     <EditText
         android:id="@+id/user_email"
@@ -128,7 +148,8 @@
         android:textStyle="normal"
         android:textColor="@color/text_color"
         android:lines="1"
-        android:textSize="13sp"
+        android:inputType="textEmailAddress"
+        android:textSize="15sp"
         android:hint="@string/hint_email"
         />
     <EditText
@@ -140,52 +161,128 @@
         android:textStyle="normal"
         android:textColor="@color/text_color"
         android:lines="1"
-        android:textSize="13sp"
+        android:textSize="15sp"
         android:hint="@string/hint_address"
         />
 
- <!--   <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp">
-
-        <View style="@style/Divider_light_gray" />
-    </LinearLayout>-->
 
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+           >
 
-    <EditText
-        android:id="@+id/user_country"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textStyle="normal"
-        android:textColor="@color/text_color"
-        android:lines="1"
-        android:textSize="13sp"
-        android:hint="@string/hint_country"
-        />
 
-   <!-- <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp">
+            <EditText
+                android:id="@+id/user_city"
+                android:layout_marginStart="20dp"
+                android:layout_width="140dp"
+                android:layout_marginEnd="20dp"
+                android:layout_height="wrap_content"
+                android:textStyle="normal"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/text_color"
+                android:lines="1"
+                android:textSize="15sp"
+                android:hint="@string/enter_user_city"
+                />
 
-        <View style="@style/Divider_light_gray" />
-    </LinearLayout>-->
 
-    <Button
-        android:id="@+id/submit"
-        style="?android:textAppearanceSmall"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:text="@string/action_submit"
-        android:textStyle="bold" />
+
+
+            <EditText
+                android:id="@+id/user_zip"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:textStyle="normal"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/text_color"
+                android:lines="1"
+                android:textSize="15sp"
+                android:hint="@string/enter_zip"
+                />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+           >
+
+
+            <EditText
+                android:id="@+id/user_passport"
+                android:layout_marginStart="20dp"
+                android:layout_width="140dp"
+                android:layout_marginEnd="20dp"
+                android:layout_height="wrap_content"
+                android:textStyle="normal"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/text_color"
+                android:lines="1"
+                android:textSize="15sp"
+                android:hint="@string/nib_passport"
+                />
+
+
+
+
+            <EditText
+                android:id="@+id/user_tin_number"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:textStyle="normal"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/text_color"
+                android:lines="1"
+                android:textSize="15sp"
+                android:hint="@string/enter_tin_number"
+                />
+
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/user_bio"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="normal"
+            android:textColor="@color/text_color"
+            android:lines="2"
+            android:textSize="15sp"
+            android:padding="10dp"
+            android:gravity="top"
+            android:background="@drawable/rectangular_background"
+            android:hint="@string/add_bio"
+
+
+            />
+
+
+    </LinearLayout>
+    </ScrollView>
+
+        <Button
+            android:id="@+id/submit"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:background="@drawable/button_state_selector"
+            android:text="@string/action_submit"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
 
 
 </LinearLayout>

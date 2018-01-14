@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PayWorks.iml" filepath="$PROJECT_DIR$/PayWorks.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Payworks.iml" filepath="$PROJECT_DIR$/Payworks.iml" />
       <module fileurl="file://$PROJECT_DIR$/TestApp.iml" filepath="$PROJECT_DIR$/TestApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

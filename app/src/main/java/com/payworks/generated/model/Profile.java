@@ -20,7 +20,7 @@ public class Profile {
     private String rolesId;
     @SerializedName("fbid")
     @Expose
-    private Object fbid;
+    private String fbid;
     @SerializedName("gid")
     @Expose
     private String gid;
@@ -77,34 +77,34 @@ public class Profile {
     private String status;
     @SerializedName("user_discount")
     @Expose
-    private Object userDiscount;
+    private String userDiscount;
     @SerializedName("money")
     @Expose
     private String money;
     @SerializedName("subscribed")
     @Expose
-    private Object subscribed;
+    private String subscribed;
     @SerializedName("nibpassport")
     @Expose
-    private Object nibpassport;
+    private String nibpassport;
     @SerializedName("identification_document")
     @Expose
-    private Object identificationDocument;
+    private String identificationDocument;
     @SerializedName("tinnumber")
     @Expose
-    private Object tinnumber;
+    private String tinnumber;
     @SerializedName("companyname")
     @Expose
     private String companyname;
     @SerializedName("state_id")
     @Expose
-    private Object stateId;
+    private String stateId;
     @SerializedName("city")
     @Expose
-    private Object city;
+    private String city;
     @SerializedName("zip")
     @Expose
-    private Object zip;
+    private String zip;
     @SerializedName("user_id")
     @Expose
     private String userId;
@@ -113,7 +113,7 @@ public class Profile {
     private String country;
     @SerializedName("state")
     @Expose
-    private Object state;
+    private String state;
 
     public String getRole() {
         return role;
@@ -147,11 +147,11 @@ public class Profile {
         this.rolesId = rolesId;
     }
 
-    public Object getFbid() {
+    public String getFbid() {
         return fbid;
     }
 
-    public void setFbid(Object fbid) {
+    public void setFbid(String fbid) {
         this.fbid = fbid;
     }
 
@@ -299,11 +299,11 @@ public class Profile {
         this.status = status;
     }
 
-    public Object getUserDiscount() {
+    public String getUserDiscount() {
         return userDiscount;
     }
 
-    public void setUserDiscount(Object userDiscount) {
+    public void setUserDiscount(String userDiscount) {
         this.userDiscount = userDiscount;
     }
 
@@ -315,35 +315,35 @@ public class Profile {
         this.money = money;
     }
 
-    public Object getSubscribed() {
+    public String getSubscribed() {
         return subscribed;
     }
 
-    public void setSubscribed(Object subscribed) {
+    public void setSubscribed(String subscribed) {
         this.subscribed = subscribed;
     }
 
-    public Object getNibpassport() {
+    public String getNibpassport() {
         return nibpassport;
     }
 
-    public void setNibpassport(Object nibpassport) {
+    public void setNibpassport(String nibpassport) {
         this.nibpassport = nibpassport;
     }
 
-    public Object getIdentificationDocument() {
+    public String getIdentificationDocument() {
         return identificationDocument;
     }
 
-    public void setIdentificationDocument(Object identificationDocument) {
+    public void setIdentificationDocument(String identificationDocument) {
         this.identificationDocument = identificationDocument;
     }
 
-    public Object getTinnumber() {
+    public String getTinnumber() {
         return tinnumber;
     }
 
-    public void setTinnumber(Object tinnumber) {
+    public void setTinnumber(String tinnumber) {
         this.tinnumber = tinnumber;
     }
 
@@ -355,27 +355,27 @@ public class Profile {
         this.companyname = companyname;
     }
 
-    public Object getStateId() {
+    public String getStateId() {
         return stateId;
     }
 
-    public void setStateId(Object stateId) {
+    public void setStateId(String stateId) {
         this.stateId = stateId;
     }
 
-    public Object getCity() {
+    public String getCity() {
         return city;
     }
 
-    public void setCity(Object city) {
+    public void setCity(String city) {
         this.city = city;
     }
 
-    public Object getZip() {
+    public String getZip() {
         return zip;
     }
 
-    public void setZip(Object zip) {
+    public void setZip(String zip) {
         this.zip = zip;
     }
 
@@ -395,11 +395,11 @@ public class Profile {
         this.country = country;
     }
 
-    public Object getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(Object state) {
+    public void setState(String state) {
         this.state = state;
     }
 
