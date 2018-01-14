@@ -42,6 +42,45 @@
           "status": 1
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1078252452743:android:2d6d349ed517eea0",
+        "android_client_info": {
+          "package_name": "com.payworks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1078252452743-k6062aovcnl2k45g9no0b354m1vv7g8o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.payworks",
+            "certificate_hash": "ec843bcf5aedcf35ef1f7953f6db78cc251f9207"
+          }
+        },
+        {
+          "client_id": "1078252452743-tk5nvhft5kkaciuhc7hokp9bguujcnl4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcin2bhx-1FF10wB_IBUbB-GTfqB6ALRQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
     }
   ],
   "configuration_version": "1"

@@ -48,14 +48,18 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.tasks.Task;
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
@@ -123,6 +127,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
     GoogleApiClient mGoogleApiClient;
     CallbackManager callbackManager;
     ProfileTracker mProfileTracker;
+    GoogleSignInClient mGoogleSignInClient;
     public static final int RC_SIGN_IN = 200;
 
 
@@ -169,18 +174,33 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
         btnForgotPassword.setOnClickListener(this);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        Log.e("abhi", "onStart: " +account );
+    }
+
     private void initGoogleAPIClient() {
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        btnGoogleLogin.setSize(SignInButton.SIZE_WIDE);
+        btnGoogleLogin.setScopes(gso.getScopeArray());
+       /* GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestScopes(new Scope(Scopes.PLUS_LOGIN))
                 .requestEmail()
                 .requestProfile()
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .enableAutoManage(this *//* FragmentActivity *//*, this *//* OnConnectionFailedListener *//*)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
         btnGoogleLogin.setSize(SignInButton.SIZE_WIDE);
-        btnGoogleLogin.setScopes(gso.getScopeArray());
+        btnGoogleLogin.setScopes(gso.getScopeArray());*/
     }
 
 
@@ -445,7 +465,10 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
 
             case R.id.login_with_google:
                 LoadingDialog.showLoadingDialog(this, "Loading..");
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                /*Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, RC_SIGN_IN);*/
+
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, RC_SIGN_IN);
                 break;
         }
@@ -458,9 +481,8 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case RC_SIGN_IN:
-                GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-                Log.e("abhi", "onActivityResult: .............." +result.isSuccess());
-                handleSignInResult(result);
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                handleSignInResult(task);
                 break;
             default:
                 callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -472,7 +494,21 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
         }
     }
 
-    private void handleSignInResult(GoogleSignInResult result) {
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            Log.e("abhi", "handleSignInResult:Signed in successfully............ "  );
+            // Signed in successfully, show authenticated UI.
+            //updateUI(account);
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.e("abhi", "signInResult:failed code=" + e.getStatusCode());
+            //updateUI(null);
+        }
+    }
+
+ /*   private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             Log.e("abhi", "handleSignInResult:----------------success " );
@@ -488,9 +524,9 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
             Toast.makeText(this, getString(R.string.google_login_failed), Toast.LENGTH_SHORT).show();
             LoadingDialog.cancelLoading();
         }
-    }
+    }*/
 
-    private void prepareGoogleUserDetails(GoogleSignInAccount acct) {
+   /* private void prepareGoogleUserDetails(GoogleSignInAccount acct) {
         SocialMediaUser socialMediaUser = new SocialMediaUser();
         socialMediaUser.setName(acct.getDisplayName());
         //MyProfileFragment.nameOfPatient=acct.getDisplayName().toString();
@@ -508,7 +544,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
         socialMediaUser.setSignup_utility("google");
        // userLoggigInUsingSocialMedia(socialMediaUser);
 
-    }
+    }*/
 
    /* public void userLoggigInUsingSocialMedia(final SocialMediaUser socialMediaUser) {
         RestAdapter restAdapter = ApiAdapter.getAdapter(getActivity());
