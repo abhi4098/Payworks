@@ -261,6 +261,7 @@
             android:gravity="top"
             android:background="@drawable/rectangular_background"
             android:hint="@string/add_bio"
+            android:layout_marginBottom="30dp"
 
 
             />
@@ -270,7 +271,7 @@
     </ScrollView>
 
         <Button
-            android:id="@+id/submit"
+            android:id="@+id/edit_profile_button"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="40dp"

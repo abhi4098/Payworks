@@ -4,6 +4,8 @@ package com.payworks.api;
 
 import com.payworks.generated.model.AddMoney;
 import com.payworks.generated.model.AddMoneyResponse;
+import com.payworks.generated.model.EditProfile;
+import com.payworks.generated.model.EditProfileResponse;
 import com.payworks.generated.model.ForgotPassword;
 import com.payworks.generated.model.ForgotPasswordResponse;
 import com.payworks.generated.model.GetOTP;
@@ -136,6 +138,12 @@ public class RetrofitInterface {
     public interface referFriendClient {
         @POST("referfriend.html")
         Call<ReferFriendResponse> referFriendData(@Body ReferFriend referFriend);
+
+    }
+
+    public interface editProfileClient {
+        @POST("updatemyprofile")
+        Call<EditProfileResponse> editProfileData(@Body EditProfile editProfile);
 
     }
 
