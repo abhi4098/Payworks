@@ -266,15 +266,21 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
                 public void onResponse(Call<Login.LoginResponse> call, Response<Login.LoginResponse> response) {
 
                     if (response.isSuccessful()) {
-                        Log.e("abhi", "onResponse: " +response.body().getId() );
-                        PrefUtils.storeUsernId(response.body().getId(), LoginActivity.this);
-                        PrefUtils.storePhone(response.body().getPhone().toString(), LoginActivity.this);
-                        PrefUtils.storeFirstName(response.body().getFirstName(), LoginActivity.this);
-                        PrefUtils.storeLastName(response.body().getLastName(), LoginActivity.this);
-                        PrefUtils.storeEmail(response.body().getEmail(), LoginActivity.this);                     Intent intent = new Intent(getApplicationContext(), NavigationalActivity.class);
-                        intent.putExtra("type", "GetStarted");
-                        startActivity(intent);
-                        finish();
+                        if(response.body().getId() !=null) {
+                            Log.e("abhi", "onResponse: " + response.body().getId());
+                            PrefUtils.storeUsernId(response.body().getId(), LoginActivity.this);
+                            PrefUtils.storePhone(response.body().getPhone().toString(), LoginActivity.this);
+                            PrefUtils.storeFirstName(response.body().getFirstName(), LoginActivity.this);
+                            PrefUtils.storeLastName(response.body().getLastName(), LoginActivity.this);
+                            PrefUtils.storeEmail(response.body().getEmail(), LoginActivity.this);
+                            Intent intent = new Intent(getApplicationContext(), NavigationalActivity.class);
+                            intent.putExtra("type", "GetStarted");
+                            startActivity(intent);
+                            finish();
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(),"Incorrect Credentials",Toast.LENGTH_SHORT).show();
+                        }
                         LoadingDialog.cancelLoading();
 
                     }

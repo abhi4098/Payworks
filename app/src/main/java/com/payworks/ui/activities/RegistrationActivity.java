@@ -85,7 +85,11 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         //setSupportActionBar(toolbar);
         tvAppTitle.setText("REGISTRATION");
         setUpRestAdapter();
+        getCountryDropDownList();
 
+    }
+
+    private void getCountryDropDownList() {
     }
 
 
@@ -103,7 +107,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         userPassword = etUserPassword.getText().toString();
         userCountry = etUserCountry.getText().toString();
         userPhone = etUserPhoneNumber.getText().toString();
-        userPhone = etUserPhoneNumber.getText().toString();
+       // userPhone = etUserPhoneNumber.getText().toString();
 
        // userFullName = userFirstname.concat(" ").concat(userLastName);
       //  Log.e("abhi", "onClick: full name" +userFullName );
@@ -112,18 +116,6 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         PrefUtils.storeLastName(userLastName, RegistrationActivity.this);
         PrefUtils.storeEmail(userEmail, RegistrationActivity.this);
         //String password = (etUserPassword.getText().toString());
-
-     /*   if(password.length()>5 && !password.equals(password.toLowerCase()) &&
-                !password.equals(password.toUpperCase()) &&
-                password.matches(".*\\d+.*")  ){
-            isPasswordValid = true;
-
-        }else{
-
-            isPasswordValid = false;
-            etUserPassword.setError(getString(R.string.error_password_field));
-        }*/
-
         if (isRegistrationValid()) {
             getRegistrationDetails();
         }
