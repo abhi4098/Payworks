@@ -89,7 +89,7 @@
         android:textSize="13sp"
         android:background="@drawable/rectangular_background_curved_edges"
         android:layout_marginTop="30dp"
-        android:hint="@string/hint_user_phone_num"/>
+        android:hint="@string/hint_user_phone_num_registration"/>
 
 
 
@@ -176,26 +176,72 @@
         android:hint="@string/hint_password"/>
 
 
-
-    <EditText
-        android:id="@+id/user_country"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:paddingStart="5dp"
-        android:paddingEnd="10dp"
-        android:lines="1"
-        android:drawableStart="@drawable/country24"
-        android:drawablePadding="5dp"
-        android:textColor="@color/text_color"
-        android:textStyle="normal"
+        android:gravity="center"
+        android:id="@+id/rl_country_spinner"
         android:layout_marginStart="55dp"
         android:layout_marginEnd="55dp"
         android:layout_marginTop="10dp"
-        android:layout_gravity="center_horizontal"
-        android:textSize="13sp"
         android:background="@drawable/rectangular_background_curved_edges"
-        android:hint="@string/hint_country"
-        android:inputType="textEmailAddress" />
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:id="@+id/icon_country"
+            android:layout_marginStart="5dp"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/country24" />
+
+        <Spinner
+            android:id="@+id/country_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_toEndOf="@+id/icon_country"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+
+            android:spinnerMode="dropdown" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_keyboard_arrow_down_black_24dp" />
+
+    </RelativeLayout>
+
+
+    <!-- <EditText
+         android:id="@+id/user_country"
+         android:layout_width="match_parent"
+         android:layout_height="32dp"
+         android:paddingStart="5dp"
+         android:paddingEnd="10dp"
+         android:lines="1"
+         android:drawableStart="@drawable/country24"
+         android:drawablePadding="5dp"
+         android:textColor="@color/text_color"
+         android:textStyle="normal"
+         android:layout_marginStart="55dp"
+         android:layout_marginEnd="55dp"
+         android:layout_marginTop="10dp"
+         android:layout_gravity="center_horizontal"
+         android:textSize="13sp"
+         android:background="@drawable/rectangular_background_curved_edges"
+         android:hint="@string/hint_country"
+         android:inputType="textEmailAddress" />-->
 
    <!-- <Button
         android:id="@+id/register_account"

@@ -33,6 +33,7 @@
     <string name="hint_user_first_name">Enter first name</string>
     <string name="hint_user_last_name">Enter last name</string>
     <string name="hint_user_phone_num">Enter Phone No </string>
+    <string name="hint_user_phone_num_registration">Enter Phone with code </string>
     <string name="hint_email">Enter email id</string>
     <string name="hint_address">Address</string>
     <string name="hint_password">Enter password</string>

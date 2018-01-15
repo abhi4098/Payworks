@@ -4,6 +4,8 @@ package com.payworks.api;
 
 import com.payworks.generated.model.AddMoney;
 import com.payworks.generated.model.AddMoneyResponse;
+import com.payworks.generated.model.CountryList;
+import com.payworks.generated.model.CountryListResponse;
 import com.payworks.generated.model.EditProfile;
 import com.payworks.generated.model.EditProfileResponse;
 import com.payworks.generated.model.ForgotPassword;
@@ -32,6 +34,8 @@ import com.payworks.generated.model.RequestMoney;
 import com.payworks.generated.model.RequestMoneyResponse;
 import com.payworks.generated.model.SendMoneyVerified;
 import com.payworks.generated.model.SendMoneyVerifiedReponse;
+import com.payworks.generated.model.StateList;
+import com.payworks.generated.model.StateListResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -144,6 +148,20 @@ public class RetrofitInterface {
     public interface editProfileClient {
         @POST("updatemyprofile")
         Call<EditProfileResponse> editProfileData(@Body EditProfile editProfile);
+
+    }
+
+
+    public interface getCountryListClient {
+        @POST("getcountryjson")
+        Call<CountryListResponse> countryListData(@Body CountryList countryList);
+
+    }
+
+
+    public interface getStateListClient {
+        @POST("getstatesjson")
+        Call<StateListResponse> stateListData(@Body StateList stateList);
 
     }
 

@@ -13,20 +13,10 @@ public class CountryList {
     @Expose
     private String token;
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
+    public CountryList(String type,String token)
+    {
         this.type = type;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
         this.token = token;
-    }
 
+    }
 }
