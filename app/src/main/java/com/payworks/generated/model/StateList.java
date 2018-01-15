@@ -16,28 +16,12 @@ public class StateList {
     @Expose
     private String token;
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
+    public StateList(String type,String token,String countryID)
+    {
         this.type = type;
-    }
-
-    public String getCountryID() {
-        return countryID;
-    }
-
-    public void setCountryID(String countryID) {
-        this.countryID = countryID;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
         this.token = token;
+        this.countryID = countryID;
+
     }
 
 }

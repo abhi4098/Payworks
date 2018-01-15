@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,12 +27,20 @@ import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
 import com.payworks.generated.model.AddMoney;
 import com.payworks.generated.model.AddMoneyResponse;
+import com.payworks.generated.model.Country;
+import com.payworks.generated.model.CountryList;
+import com.payworks.generated.model.CountryListResponse;
 import com.payworks.generated.model.RequestMoney;
 import com.payworks.generated.model.RequestMoneyResponse;
+import com.payworks.generated.model.State;
+import com.payworks.generated.model.StateList;
+import com.payworks.generated.model.StateListResponse;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.NetworkUtils;
 import com.payworks.utils.PrefUtils;
 import com.payworks.utils.SnakBarUtils;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,6 +63,8 @@ public class AddCardDetailActivity extends BaseActivity {
     String selectedCardType;
     private final int CREATE_NEW_CARD = 0;
     private RetrofitInterface.UserAddMoneyClient addMoneyAdapter;
+    private RetrofitInterface.getCountryListClient countryListAdapter;
+    private RetrofitInterface.getStateListClient stateListAdapter;
 
    String userCountry,userState,userCity,userPostalCode,userAddress, userAmount,userCoupon,userCardType;
 
@@ -75,11 +86,11 @@ public class AddCardDetailActivity extends BaseActivity {
     @BindView(R.id.add_card_details)
     Button btnAddCard;
 
-    @BindView(R.id.user_country)
-    EditText etUserCountry;
+    @BindView(R.id.state_spinner)
+    Spinner spStateDropdown;
 
-    @BindView(R.id.user_state)
-    EditText etUserState;
+    /*@BindView(R.id.user_state)
+    EditText etUserState;*/
 
     @BindView(R.id.user_city)
     EditText etUserCity;
@@ -90,10 +101,19 @@ public class AddCardDetailActivity extends BaseActivity {
     @BindView(R.id.user_add)
     EditText etUserAddress;
 
+    @BindView(R.id.country_spinner)
+    Spinner spCountryDropdown;
+
     @BindView(R.id.card_type)
     AutoCompleteTextView actCardType;
 
+    ArrayList<Country> countryList = null;
+    ArrayList<String> showCountryList = null;
+    String spCountrySelectedItem = "Select Country";
 
+    ArrayList<State> stateList = null;
+    ArrayList<String> showStateList = null;
+    String spStateSelectedItem = "Select State";
 
  /*   @BindView(R.id.credit_card_view)
     CreditCardView creditCardView;*/
@@ -125,14 +145,15 @@ public class AddCardDetailActivity extends BaseActivity {
 
         userAddress = etUserAddress.getText().toString();
         userCity = etUserCity.getText().toString();
-        userCountry = etUserCountry.getText().toString();
+        userCountry = spCountrySelectedItem;
         userPostalCode = etUserPostalCode.getText().toString();
-        userState = etUserState.getText().toString();
+        userState = spStateSelectedItem;
         cardType =actCardType.getText().toString();
-
-        String[] splited = expiry.split("/");
-        expiryMonth = splited[0];
-        expiryYear = splited[1];
+        if (expiry!=null) {
+            String[] splited = expiry.split("/");
+            expiryMonth = splited[0];
+            expiryYear = splited[1];
+        }
 
         if (isRegistrationValid()) {
             Log.e("abhi", "requestMoney: valid............" );
@@ -186,15 +207,165 @@ public class AddCardDetailActivity extends BaseActivity {
             }
         });
         setUpRestAdapter();
+        getCountryDropDownList();
+
         populate();
 
     }
 
     private void setUpRestAdapter() {
         addMoneyAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserAddMoneyClient.class, BASE_URL, this);
-
+        countryListAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.getCountryListClient.class, BASE_URL, this);
+        stateListAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.getStateListClient.class, BASE_URL, this);
     }
 
+    private void getCountryDropDownList() {
+        LoadingDialog.showLoadingDialog(this,"Loading...");
+        Call<CountryListResponse> call = countryListAdapter.countryListData(new CountryList("countryList","83Ide@$321!"));
+        if (NetworkUtils.isNetworkConnected(AddCardDetailActivity.this)) {
+            call.enqueue(new Callback<CountryListResponse>() {
+
+                @Override
+                public void onResponse(Call<CountryListResponse> call, Response<CountryListResponse> response) {
+
+                    if (response.isSuccessful()) {
+                        if (response.body().getType() ==1)
+                        {
+                            setCountryListDropDown(response);
+                        }
+                        LoadingDialog.cancelLoading();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CountryListResponse> call, Throwable t) {
+                    LoadingDialog.cancelLoading();
+                }
+
+
+            });
+
+        } else {
+            SnakBarUtils.networkConnected(AddCardDetailActivity.this);
+        }
+    }
+
+
+    private void setCountryListDropDown(Response<CountryListResponse> response) {
+        showCountryList = new ArrayList<>();
+        showCountryList.add(spCountrySelectedItem);
+        countryList = new ArrayList<>();
+        for (int i = 0; i < response.body().getCountries().size(); i++) {
+            Country country = new Country();
+
+            country.setId(response.body().getCountries().get(i).getId());
+            country.setName(response.body().getCountries().get(i).getName());
+            countryList.add(country);
+            showCountryList.add(response.body().getCountries().get(i).getName());
+            Log.e("abhi", "setCountryListDropDown: "   +countryList.get(i).getName() );
+        }
+
+        final ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout_add_card, showCountryList);
+        spCountryDropdown.setAdapter(categoryAdapter);
+
+        spCountryDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                spCountrySelectedItem = spCountryDropdown.getSelectedItem().toString();
+                if (!spCountrySelectedItem.equals("Select Country")) {
+                    for (int j=0;j<countryList.size();j++)
+                    {
+                        if ((countryList.get(j).getName()).equals(spCountrySelectedItem))
+                        {
+                            userCountry = countryList.get(j).getId();
+                        }
+                    }
+                    getStateDropDownList(userCountry);
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+
+    private void getStateDropDownList(String userCountry) {
+        LoadingDialog.showLoadingDialog(this,"Loading...");
+        Call<StateListResponse> call = stateListAdapter.stateListData(new StateList("countryList","83Ide@$321!",userCountry));
+        if (NetworkUtils.isNetworkConnected(AddCardDetailActivity.this)) {
+            call.enqueue(new Callback<StateListResponse>() {
+
+                @Override
+                public void onResponse(Call<StateListResponse> call, Response<StateListResponse> response) {
+
+                    if (response.isSuccessful()) {
+                        if (response.body().getType() ==1)
+                        {
+                            setStateListDropDown(response);
+                        }
+                        LoadingDialog.cancelLoading();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<StateListResponse> call, Throwable t) {
+                    LoadingDialog.cancelLoading();
+                }
+
+
+            });
+
+        } else {
+            SnakBarUtils.networkConnected(AddCardDetailActivity.this);
+        }
+    }
+
+
+    private void setStateListDropDown(Response<StateListResponse> response) {
+        showStateList = new ArrayList<>();
+        showStateList.add(spStateSelectedItem);
+        stateList = new ArrayList<>();
+        for (int i = 0; i < response.body().getStates().size(); i++) {
+            State state = new State();
+
+            state.setId(response.body().getStates().get(i).getId());
+            state.setName(response.body().getStates().get(i).getName());
+            stateList.add(state);
+            showStateList.add(response.body().getStates().get(i).getName());
+            Log.e("abhi", "setCountryListDropDown: "   +stateList.get(i).getName() );
+        }
+
+        final ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout_add_card, showStateList);
+        spStateDropdown.setAdapter(categoryAdapter);
+
+        spStateDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                spStateSelectedItem = spStateDropdown.getSelectedItem().toString();
+                if (!spStateSelectedItem.equals("Select State")) {
+                    for (int j=0;j<stateList.size();j++)
+                    {
+                        if ((stateList.get(j).getName()).equals(spStateSelectedItem))
+                        {
+                            userState = stateList.get(j).getId();
+                        }
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
 
     private void populate() {
         CreditCardView sampleCreditCardView = new CreditCardView(this);
@@ -247,15 +418,15 @@ public class AddCardDetailActivity extends BaseActivity {
 
     private boolean isRegistrationValid() {
 
-        if (userAddress == null || userAddress.equals("") || userCity == null || userCity.equals("") ||userState == null || userState.equals("") || userPostalCode == null || userPostalCode.equals("") || userCountry == null || userCountry.equals("")||cardType == null || cardType.equals(""))
+        if (userAddress == null || userAddress.equals("") || userCity == null || userCity.equals("") ||userState == null || userState.equals("")|| userState.equals("Select State") || userPostalCode == null || userPostalCode.equals("") || userCountry == null || userCountry.equals("")|| userCountry.equals("Select Country")||cardType == null || cardType.equals(""))
 
         {
 
             if (userAddress == null || userAddress.equals("") )
                 etUserAddress.setError(getString(R.string.error_compulsory_field));
 
-            if (userState == null || userState.equals(""))
-                etUserState.setError(getString(R.string.error_compulsory_field));
+            if (userState == null || userState.equals("")|| userState.equals("Select State"))
+                Toast.makeText(getApplicationContext(),"Select State ",Toast.LENGTH_SHORT).show();
 
             if (userCity == null || userCity.equals(""))
                 etUserCity.setError(getString(R.string.error_compulsory_field));
@@ -263,8 +434,9 @@ public class AddCardDetailActivity extends BaseActivity {
             if (userPostalCode == null || userPostalCode.equals(""))
                 etUserPostalCode.setError(getString(R.string.error_compulsory_field));
 
-            if (userCountry == null || userCountry.equals(""))
-                etUserCountry.setError(getString(R.string.error_compulsory_field));
+            if (userCountry == null || userCountry.equals("")|| userCountry.equals("Select Country"))
+                Toast.makeText(getApplicationContext(),"Select Country ",Toast.LENGTH_SHORT).show();
+
 
             if (cardType == null || cardType.equals(""))
                 Toast.makeText(getApplicationContext(),"Select Card Type ",Toast.LENGTH_SHORT).show();
