@@ -4,6 +4,8 @@ package com.payworks.api;
 
 import com.payworks.generated.model.AddMoney;
 import com.payworks.generated.model.AddMoneyResponse;
+import com.payworks.generated.model.BankAccount;
+import com.payworks.generated.model.BankAccountResponse;
 import com.payworks.generated.model.CountryList;
 import com.payworks.generated.model.CountryListResponse;
 import com.payworks.generated.model.EditProfile;
@@ -170,6 +172,12 @@ public class RetrofitInterface {
     public interface getSentMoneyClient {
         @POST("sentrequest")
         Call<SentMoneyResponse> sentMoneyData(@Body SentMoney sentMoney);
+
+    }
+
+    public interface getMyBankAccountClient {
+        @POST("getUserBankAccounts")
+        Call<BankAccountResponse> myBankAccountData(@Body BankAccount bankAccount);
 
     }
 

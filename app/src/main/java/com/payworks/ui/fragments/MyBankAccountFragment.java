@@ -1,24 +1,41 @@
 package com.payworks.ui.fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
+import com.payworks.generated.model.BankAccount;
+import com.payworks.generated.model.BankAccountResponse;
 import com.payworks.generated.model.MyProfile;
 import com.payworks.generated.model.MyProfileResponse;
+import com.payworks.generated.model.Sentrequest;
+import com.payworks.generated.model.Userbankaccount;
 import com.payworks.ui.activities.EditProfileActivity;
+import com.payworks.ui.adapters.BankAccountDetailsAdapter;
+import com.payworks.ui.adapters.SentMoneyRequestAdapter;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.LogUtils;
 import com.payworks.utils.NetworkUtils;
 import com.payworks.utils.PrefUtils;
 import com.payworks.utils.SnakBarUtils;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,24 +52,16 @@ import static com.payworks.api.ApiEndPoints.BASE_URL;
 public class MyBankAccountFragment extends Fragment {
 
     private static final String TAG = LogUtils.makeLogTag(MyBankAccountFragment.class);
-    private RetrofitInterface.UserMyProfileClient MyProfileAdapter;
+    private RetrofitInterface.getMyBankAccountClient MyBankAccountAdapter;
+    ArrayList<Userbankaccount> myBankAccountList = null;
+    ArrayList<Userbankaccount> searchMyList = null;
+    BankAccountDetailsAdapter bankAccountDetailsAdapter;
 
-    @BindView(R.id.user_qr_code)
-    TextView tvQrCode;
-    @BindView(R.id.user_name)
-    TextView tvUserName;
-    @BindView(R.id.user_phone_num)
-    TextView tvUserPhone;
-    @BindView(R.id.user_email)
-    TextView tvUserEmail;
-    @BindView(R.id.user_country)
-    TextView tvUserCountry;
 
-    @OnClick(R.id.edit_Profile)
-    public void editProfile() {
-        Intent activityChangeIntent = new Intent(getActivity(), EditProfileActivity.class);
-        startActivity(activityChangeIntent);
-    }
+    @BindView(R.id.empty)
+    TextView tvEmpty;
+    @BindView(R.id.listview)
+    ListView listview;
 
 
     public MyBankAccountFragment() {
@@ -61,29 +70,25 @@ public class MyBankAccountFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_my_profile, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_my_bank_account, container, false);
         ButterKnife.bind(this,rootView);
         setUpRestAdapter();
-        getMyProfileDetails();
+        getBankAccountDetails();
         return rootView;
     }
 
-    private void getMyProfileDetails() {
+    private void getBankAccountDetails() {
         LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
-        Call<MyProfileResponse> call = MyProfileAdapter.userMyProfile(new MyProfile("profile", PrefUtils.getUserId(getActivity()),"83Ide@$321!"));
+        Call<BankAccountResponse> call = MyBankAccountAdapter.myBankAccountData(new BankAccount("getUserBankAccounts", PrefUtils.getUserId(getActivity()),"83Ide@$321!"));
         if (NetworkUtils.isNetworkConnected(getActivity())) {
-            call.enqueue(new Callback<MyProfileResponse>() {
+            call.enqueue(new Callback<BankAccountResponse>() {
 
                 @Override
-                public void onResponse(Call<MyProfileResponse> call, Response<MyProfileResponse> response) {
+                public void onResponse(Call<BankAccountResponse> call, Response<BankAccountResponse> response) {
 
                     if (response.isSuccessful()) {
 
-                       /* tvQrCode.setText(response.body().getBio());
-                        tvUserName.setText(String.format("%s%s", response.body().getFirstName(), response.body().getLastName()));
-                        tvUserCountry.setText(response.body().getCountry());
-                        tvUserEmail.setText(response.body().getEmail());
-                        tvUserPhone.setText(response.body().getPhone());*/
+                      setBankDetails(response);
                         LoadingDialog.cancelLoading();
 
 
@@ -92,7 +97,7 @@ public class MyBankAccountFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<MyProfileResponse> call, Throwable t) {
+                public void onFailure(Call<BankAccountResponse> call, Throwable t) {
                     LoadingDialog.cancelLoading();
                 }
 
@@ -104,9 +109,38 @@ public class MyBankAccountFragment extends Fragment {
         }
     }
 
+    private void setBankDetails(Response<BankAccountResponse> response) {
+        myBankAccountList = new ArrayList<>();
+        Log.e(TAG, "setSentmoney: size--------------"+response.body().getUserbankaccounts().size() );
+        if (response.body().getUserbankaccounts().size() == 0)
+        {
+            tvEmpty.setText("No Data Available");
+        }
+        for (int i = 0; i < response.body().getUserbankaccounts().size(); i++) {
+            Userbankaccount userbankaccount = new Userbankaccount();
+
+            userbankaccount.setAccountholder(response.body().getUserbankaccounts().get(i).getAccountholder());
+            userbankaccount.setAccountnumber(response.body().getUserbankaccounts().get(i).getAccountnumber());
+            userbankaccount.setAccounttype(response.body().getUserbankaccounts().get(i).getAccounttype());
+            userbankaccount.setBankname(response.body().getUserbankaccounts().get(i).getBankname());
+            userbankaccount.setBranchname(response.body().getUserbankaccounts().get(i).getBranchname());
+            userbankaccount.setBankphone(response.body().getUserbankaccounts().get(i).getBankphone());
+            Log.e(TAG, "setBankDetails: bank name........"+response.body().getUserbankaccounts().get(i).getBankname() );
+            myBankAccountList.add(userbankaccount);
+        }
+
+        bankAccountDetailsAdapter = new BankAccountDetailsAdapter(this.getActivity(), R.layout.layout_bank_details, R.id.account_holder_name, myBankAccountList);
+        listview.setAdapter(bankAccountDetailsAdapter);
+        LoadingDialog.cancelLoading();
+        listview.setDivider(new ColorDrawable(Color.TRANSPARENT));  //hide the divider
+        listview.setClipToPadding(false);
+        listview.setDividerHeight(50);
+        listview.setTextFilterEnabled(true);
+    }
+
 
     private void setUpRestAdapter() {
-        MyProfileAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserMyProfileClient.class, BASE_URL, getActivity());
+        MyBankAccountAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.getMyBankAccountClient.class, BASE_URL, getActivity());
 
     }
 
