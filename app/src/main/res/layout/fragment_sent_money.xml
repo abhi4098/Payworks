@@ -10,12 +10,6 @@
     tools:context="com.payworks.ui.activities.EditProfileActivity">
 
 
-    <include
-        android:id="@+id/toolbar_actionbar"
-        layout="@layout/activity_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -38,10 +32,10 @@
             android:textSize="15sp" />
 
         <EditText
-
             android:id="@+id/search_item"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="32dp"
+            android:layout_marginEnd="20dp"
             android:layout_toEndOf="@+id/Search_text"
             android:layout_centerInParent="true"
             android:hint="@string/names_search"
@@ -50,18 +44,6 @@
             android:background="@drawable/rectangular_background_grey"
             android:textSize="13sp" />
 
-        <Button
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:layout_gravity="end"
-            android:background="@drawable/button_state_selector"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:layout_marginEnd="10dp"
-            android:textSize="12sp"
-            android:textColor="@color/white"
-            android:layout_marginStart="20dp"
-            android:text="Add New"/>
     </RelativeLayout>
 
     <LinearLayout

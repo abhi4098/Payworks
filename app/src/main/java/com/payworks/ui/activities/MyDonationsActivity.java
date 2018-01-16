@@ -189,7 +189,7 @@ public class MyDonationsActivity extends BaseActivity {
 
             DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
             DateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy");
-            String inputDateStr=response.body().getDonations().get(i).getUpdatedDate();
+            String inputDateStr=response.body().getDonations().get(i).getCreatedDate();
             Date date = null;
             try {
                 date = inputFormat.parse(inputDateStr);

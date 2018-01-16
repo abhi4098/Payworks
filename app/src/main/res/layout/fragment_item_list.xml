@@ -22,6 +22,7 @@
     app:layoutManager="LinearLayoutManager"
     android:background="@drawable/all_screens_bg"
     tools:context="com.payworks.ui.fragments.MyTransactionsFragment"
-    tools:listitem="@layout/fragment_item" />
+    tools:listitem="@layout/fragment_item"
+    android:layout_marginBottom="20dp"/>
 <!--
 </LinearLayout>-->

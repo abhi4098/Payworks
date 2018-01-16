@@ -29,6 +29,8 @@ import com.payworks.utils.NetworkUtils;
 import com.payworks.utils.PrefUtils;
 import com.payworks.utils.SnakBarUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -46,7 +48,7 @@ import static com.payworks.api.ApiEndPoints.BASE_URL;
 public class RequestMoneyActivity extends BaseActivity {
 
 
-    String userPhone,userEmail,userPriority,userDate,userAmount,userComment;
+    String userPhone,userEmail,userPriority,userDate,userAmount,userComment,outputDateStr,priorityId;
     private RetrofitInterface.UserRequestMoneyClient requestMoneyAdapter;
     Calendar myCalendar = Calendar.getInstance();
     String selectedPriority;
@@ -113,6 +115,8 @@ public class RequestMoneyActivity extends BaseActivity {
         Log.e("abhi", "user phone ......... " +userPhone );
         Log.e("abhi", "user priority ......... " +userPriority );
         Log.e("abhi", "user date ......... " +userDate );
+
+
       if ((userPhone != null && !userPhone.equals("")) || (userEmail != null && !userEmail.equals("")))
         {
 
@@ -256,8 +260,34 @@ public class RequestMoneyActivity extends BaseActivity {
 
 
     private void sendRequestMoney() {
+
+        DateFormat inputFormat = new SimpleDateFormat("mm/dd/yy");
+        DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String inputDateStr=userDate;
+        Date date = null;
+        try {
+            date = inputFormat.parse(inputDateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        outputDateStr = outputFormat.format(date);
+
+        if (userPriority.equals("High"))
+        {
+            priorityId = "2";
+        }
+        else if (userPriority.equals("Normal"))
+        {
+            priorityId = "1";
+        }
+        else
+        {
+            priorityId = "0";
+        }
+
+        Log.e("abhi", "sendRequestMoney: updated date.................... "+outputDateStr );
         LoadingDialog.showLoadingDialog(this,"Loading...");
-        Call<RequestMoneyResponse> call = requestMoneyAdapter.requestMoneyData(new RequestMoney("requestmoney", PrefUtils.getUserId(this),"83Ide@$321!",userComment,userDate,userPriority,userAmount,userPhone,userEmail));
+        Call<RequestMoneyResponse> call = requestMoneyAdapter.requestMoneyData(new RequestMoney("requestmoney", PrefUtils.getUserId(this),"83Ide@$321!",userComment,outputDateStr,priorityId,userAmount,userPhone,userEmail));
         if (NetworkUtils.isNetworkConnected(RequestMoneyActivity.this)) {
             call.enqueue(new Callback<RequestMoneyResponse>() {
 

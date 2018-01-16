@@ -34,6 +34,8 @@ import com.payworks.generated.model.RequestMoney;
 import com.payworks.generated.model.RequestMoneyResponse;
 import com.payworks.generated.model.SendMoneyVerified;
 import com.payworks.generated.model.SendMoneyVerifiedReponse;
+import com.payworks.generated.model.SentMoney;
+import com.payworks.generated.model.SentMoneyResponse;
 import com.payworks.generated.model.StateList;
 import com.payworks.generated.model.StateListResponse;
 
@@ -162,6 +164,12 @@ public class RetrofitInterface {
     public interface getStateListClient {
         @POST("getstatesjson")
         Call<StateListResponse> stateListData(@Body StateList stateList);
+
+    }
+
+    public interface getSentMoneyClient {
+        @POST("sentrequest")
+        Call<SentMoneyResponse> sentMoneyData(@Body SentMoney sentMoney);
 
     }
 
