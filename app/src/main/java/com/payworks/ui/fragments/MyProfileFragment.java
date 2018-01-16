@@ -60,6 +60,13 @@ public class MyProfileFragment extends Fragment {
     public MyProfileFragment() {
     }
 
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        setUpRestAdapter();
+        getMyProfileDetails();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -92,6 +99,7 @@ public class MyProfileFragment extends Fragment {
                         PrefUtils.storeZip(response.body().getProfile().getZip(),getActivity());
                         PrefUtils.storeUserAdd(response.body().getProfile().getAddress(),getActivity());
                         PrefUtils.storeUserBio(response.body().getProfile().getBio(),getActivity());
+                        PrefUtils.storeUserState(response.body().getProfile().getState(),getActivity());
 
                         //tvQrCode.setText(response.body().getProfile().getBio());
                         tvUserName.setText(String.format("%s %s", response.body().getProfile().getFirstName(), response.body().getProfile().getLastName()));

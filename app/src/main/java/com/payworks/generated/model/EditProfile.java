@@ -49,7 +49,14 @@ public class EditProfile {
     @Expose
     private String token;
 
-    public EditProfile(String type,String userID,String token,String title,String firstName,String lastName,String address,String phone,String emailclient,String bio,String tinnumber,String nibpassport,String zip,String city) {
+    @SerializedName("country")
+    @Expose
+    private String country;
+    @SerializedName("state")
+    @Expose
+    private String state;
+
+    public EditProfile(String type,String userID,String token,String title,String firstName,String lastName,String address,String phone,String emailclient,String bio,String tinnumber,String nibpassport,String zip,String city,String country,String state) {
         this.type = type;
         this.userID = userID;
         this.token = token;
@@ -64,6 +71,9 @@ public class EditProfile {
         this.zip = zip;
         this.city = city;
         this.nibpassport = nibpassport;
+        this.country = country;
+        this.state = state;
+
 
     }
 

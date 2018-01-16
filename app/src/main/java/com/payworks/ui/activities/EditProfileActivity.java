@@ -6,21 +6,32 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
+import com.payworks.generated.model.Country;
+import com.payworks.generated.model.CountryList;
+import com.payworks.generated.model.CountryListResponse;
 import com.payworks.generated.model.EditProfile;
 import com.payworks.generated.model.EditProfileResponse;
 import com.payworks.generated.model.RequestMoney;
 import com.payworks.generated.model.RequestMoneyResponse;
+import com.payworks.generated.model.State;
+import com.payworks.generated.model.StateList;
+import com.payworks.generated.model.StateListResponse;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.NetworkUtils;
 import com.payworks.utils.PrefUtils;
 import com.payworks.utils.SnakBarUtils;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +45,7 @@ import static com.payworks.api.ApiEndPoints.BASE_URL;
 public class EditProfileActivity extends BaseActivity {
 
     private RetrofitInterface.editProfileClient EditProfileAdapter;
-    String userTitle,userFirstName,userLastName,userAddress,userPhone,userEmail,userBio,userTinnumber,usernibpassport,userZip,userCity;
+    String userTitle,userFirstName,userLastName,userAddress,userPhone,userEmail,userBio,userTinnumber,usernibpassport,userZip,userCity,userCountry,userState;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -50,6 +61,12 @@ public class EditProfileActivity extends BaseActivity {
 
     @BindView(R.id.user_email)
     EditText etUserEmailId;
+
+    @BindView(R.id.state_spinner)
+    Spinner spStateDropdown;
+
+    @BindView(R.id.country_spinner)
+    Spinner spCountryDropdown;
 
 
     @BindView(R.id.user_phone_num)
@@ -77,6 +94,18 @@ public class EditProfileActivity extends BaseActivity {
     @BindView(R.id.user_bio)
     EditText etUserBio;
 
+
+    ArrayList<Country> countryList = null;
+    ArrayList<String> showCountryList = null;
+    String spCountrySelectedItem ;
+
+    ArrayList<State> stateList = null;
+    ArrayList<String> showStateList = null;
+    String spStateSelectedItem ;
+
+    private RetrofitInterface.getCountryListClient countryListAdapter;
+    private RetrofitInterface.getStateListClient stateListAdapter;
+
     @OnClick(R.id.edit_profile_button)
     public void editUserProfile()
     {
@@ -91,6 +120,23 @@ public class EditProfileActivity extends BaseActivity {
         usernibpassport = etUserPassport.getText().toString();
         userZip = etUserZip.getText().toString();
         userCity = etUserCity.getText().toString();
+
+        for (int j=0;j<countryList.size();j++)
+        {
+            if ((countryList.get(j).getName()).equals(spCountrySelectedItem))
+            {
+                userCountry = countryList.get(j).getId();
+            }
+        }
+
+        for (int j=0;j<stateList.size();j++)
+        {
+            if ((stateList.get(j).getName()).equals(spStateSelectedItem))
+            {
+                userState = stateList.get(j).getId();
+            }
+        }
+
 
         editProfileDetails();
     }
@@ -137,21 +183,187 @@ public class EditProfileActivity extends BaseActivity {
         etUserPassport.setText(PrefUtils.getUserPassport(EditProfileActivity.this));
         etUserTinNumber.setText(PrefUtils.getUserTinNumber(EditProfileActivity.this));
         etUserBio.setText(PrefUtils.getUserBio(EditProfileActivity.this));
+       // spCountryDropdown;
+        if (PrefUtils.getCountry(EditProfileActivity.this) == null)
+        {
+            spCountrySelectedItem = "Select Country";
+        }
+        else {
+            spCountrySelectedItem = PrefUtils.getCountry(EditProfileActivity.this);
+        }
+
+        if (PrefUtils.getUserState(EditProfileActivity.this) == null)
+        {
+            spStateSelectedItem = "Select State";
+        }
+        else {
+            spStateSelectedItem = PrefUtils.getUserState(EditProfileActivity.this);
+        }
 
         setUpRestAdapter();
-
+        getCountryDropDownList();
        // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    }
+
+    private void getCountryDropDownList() {
+        LoadingDialog.showLoadingDialog(this,"Loading...");
+        Call<CountryListResponse> call = countryListAdapter.countryListData(new CountryList("countryList","83Ide@$321!"));
+        if (NetworkUtils.isNetworkConnected(EditProfileActivity.this)) {
+            call.enqueue(new Callback<CountryListResponse>() {
+
+                @Override
+                public void onResponse(Call<CountryListResponse> call, Response<CountryListResponse> response) {
+
+                    if (response.isSuccessful()) {
+                        if (response.body().getType() ==1)
+                        {
+                            setCountryListDropDown(response);
+                        }
+                        LoadingDialog.cancelLoading();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CountryListResponse> call, Throwable t) {
+                    LoadingDialog.cancelLoading();
+                }
+
+
+            });
+
+        } else {
+            SnakBarUtils.networkConnected(EditProfileActivity.this);
+        }
+    }
+
+
+    private void setCountryListDropDown(Response<CountryListResponse> response) {
+        showCountryList = new ArrayList<>();
+
+        showCountryList.add(spCountrySelectedItem);
+        countryList = new ArrayList<>();
+        for (int i = 0; i < response.body().getCountries().size(); i++) {
+            Country country = new Country();
+
+            country.setId(response.body().getCountries().get(i).getId());
+            country.setName(response.body().getCountries().get(i).getName());
+            countryList.add(country);
+            showCountryList.add(response.body().getCountries().get(i).getName());
+            Log.e("abhi", "setCountryListDropDown: "   +countryList.get(i).getName() );
+        }
+
+        final ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout_add_card, showCountryList);
+        spCountryDropdown.setAdapter(categoryAdapter);
+
+        spCountryDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                spCountrySelectedItem = spCountryDropdown.getSelectedItem().toString();
+                if (!spCountrySelectedItem.equals("Select Country")) {
+                    for (int j=0;j<countryList.size();j++)
+                    {
+                        if ((countryList.get(j).getName()).equals(spCountrySelectedItem))
+                        {
+                            userCountry = countryList.get(j).getId();
+                        }
+                    }
+                    getStateDropDownList(userCountry);
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+
+    private void getStateDropDownList(String userCountry) {
+        LoadingDialog.showLoadingDialog(this,"Loading...");
+        Call<StateListResponse> call = stateListAdapter.stateListData(new StateList("countryList","83Ide@$321!",userCountry));
+        if (NetworkUtils.isNetworkConnected(EditProfileActivity.this)) {
+            call.enqueue(new Callback<StateListResponse>() {
+
+                @Override
+                public void onResponse(Call<StateListResponse> call, Response<StateListResponse> response) {
+
+                    if (response.isSuccessful()) {
+                        if (response.body().getType() ==1)
+                        {
+                            setStateListDropDown(response);
+                        }
+                        LoadingDialog.cancelLoading();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<StateListResponse> call, Throwable t) {
+                    LoadingDialog.cancelLoading();
+                }
+
+
+            });
+
+        } else {
+            SnakBarUtils.networkConnected(EditProfileActivity.this);
+        }
+    }
+
+
+    private void setStateListDropDown(Response<StateListResponse> response) {
+        showStateList = new ArrayList<>();
+        showStateList.add(spStateSelectedItem);
+        stateList = new ArrayList<>();
+        for (int i = 0; i < response.body().getStates().size(); i++) {
+            State state = new State();
+
+            state.setId(response.body().getStates().get(i).getId());
+            state.setName(response.body().getStates().get(i).getName());
+            stateList.add(state);
+            showStateList.add(response.body().getStates().get(i).getName());
+            Log.e("abhi", "setCountryListDropDown: "   +stateList.get(i).getName() );
+        }
+
+        final ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout_add_card, showStateList);
+        spStateDropdown.setAdapter(categoryAdapter);
+
+        spStateDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                spStateSelectedItem = spStateDropdown.getSelectedItem().toString();
+                if (!spStateSelectedItem.equals("Select State")) {
+                    for (int j=0;j<stateList.size();j++)
+                    {
+                        if ((stateList.get(j).getName()).equals(spStateSelectedItem))
+                        {
+                            userState = stateList.get(j).getId();
+                        }
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void setUpRestAdapter() {
         EditProfileAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.editProfileClient.class, BASE_URL, this);
-
+        countryListAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.getCountryListClient.class, BASE_URL, this);
+        stateListAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.getStateListClient.class, BASE_URL, this);
     }
 
 
     private void editProfileDetails() {
         LoadingDialog.showLoadingDialog(this,"Loading...");
-        Call<EditProfileResponse> call = EditProfileAdapter.editProfileData(new EditProfile("updatemyprofile", PrefUtils.getUserId(this),"83Ide@$321!",userTitle,userFirstName,userLastName,userAddress,userPhone,userEmail,userBio,userTinnumber,usernibpassport,userZip,userCity));
+        Call<EditProfileResponse> call = EditProfileAdapter.editProfileData(new EditProfile("updatemyprofile", PrefUtils.getUserId(this),"83Ide@$321!",userTitle,userFirstName,userLastName,userAddress,userPhone,userEmail,userBio,userTinnumber,usernibpassport,userZip,userCity,userCountry,userState));
         if (NetworkUtils.isNetworkConnected(EditProfileActivity.this)) {
             call.enqueue(new Callback<EditProfileResponse>() {
 

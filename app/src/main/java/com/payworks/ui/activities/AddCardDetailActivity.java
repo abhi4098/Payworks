@@ -109,11 +109,11 @@ public class AddCardDetailActivity extends BaseActivity {
 
     ArrayList<Country> countryList = null;
     ArrayList<String> showCountryList = null;
-    String spCountrySelectedItem = "Select Country";
+    String spCountrySelectedItem ;
 
     ArrayList<State> stateList = null;
     ArrayList<String> showStateList = null;
-    String spStateSelectedItem = "Select State";
+    String spStateSelectedItem;
 
  /*   @BindView(R.id.credit_card_view)
     CreditCardView creditCardView;*/
@@ -195,6 +195,32 @@ public class AddCardDetailActivity extends BaseActivity {
         userAmount = getIntent().getStringExtra("AMOUNT");
         userCoupon = getIntent().getStringExtra("COUPON");
         tvPayAmount.setText(userAmount);
+
+
+        etUserAddress.setText(PrefUtils.getUserAdd(AddCardDetailActivity.this));
+        etUserCity.setText(PrefUtils.getUserCity(AddCardDetailActivity.this));
+        etUserPostalCode.setText(PrefUtils.getUserZip(AddCardDetailActivity.this));
+
+        // spCountryDropdown;
+        if (PrefUtils.getCountry(AddCardDetailActivity.this) == null)
+        {
+            spCountrySelectedItem = "Select Country";
+        }
+        else {
+            spCountrySelectedItem = PrefUtils.getCountry(AddCardDetailActivity.this);
+        }
+
+        if (PrefUtils.getUserState(AddCardDetailActivity.this) == null)
+        {
+            spStateSelectedItem = "Select State";
+        }
+        else {
+            spStateSelectedItem = PrefUtils.getUserState(AddCardDetailActivity.this);
+        }
+
+
+
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.card_type, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
