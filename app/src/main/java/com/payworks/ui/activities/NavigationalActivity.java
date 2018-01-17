@@ -40,6 +40,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.Target;
 import com.facebook.login.LoginManager;
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
@@ -91,6 +95,7 @@ public class NavigationalActivity extends AppCompatActivity
     @BindView(R.id.wallet_balance)
     TextView tvWalletBalance;
     private String frag;
+    String imageUri;
 
     NavigationView navigationView;
     private ProgressBar imageProgressBar;
@@ -121,8 +126,8 @@ public class NavigationalActivity extends AppCompatActivity
         headerUploadPhoto = (TextView)navigationView.getHeaderView(0).findViewById(R.id.upload_pic);
         imageProgressBar = (ProgressBar)navigationView.getHeaderView(0).findViewById(R.id.progress);
         personImage = (de.hdodenhof.circleimageview.CircleImageView)navigationView.getHeaderView(0).findViewById(R.id.person_image);
-        setHeaderData();
 
+        setHeaderData();
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_Home);
         //navigationView.setItemTextColor(ColorStateList.valueOf(Color.BLACK));
@@ -135,10 +140,68 @@ public class NavigationalActivity extends AppCompatActivity
         setUserLoggedIn();
     }
 
+    private void setProfilePicURL(String profilepicUrlComplete) {
+        Glide.with(this).load(profilepicUrlComplete).asBitmap().centerCrop().dontAnimate().dontTransform().listener(new RequestListener<String, Bitmap>() {
+            @Override
+            public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                imageProgressBar.setVisibility(View.GONE);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                imageProgressBar.setVisibility(View.GONE);
+                return false;
+            }
+        })
+                .into(new BitmapImageViewTarget(personImage) {
+                    @Override
+                    protected void setResource(Bitmap bitmap) {
+                        Bitmap output;
+
+                        if (bitmap.getWidth() > bitmap.getHeight()) {
+                            output = Bitmap.createBitmap(bitmap.getHeight(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+                        } else {
+                            output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getWidth(), Bitmap.Config.ARGB_8888);
+                        }
+
+                        Canvas canvas = new Canvas(output);
+
+                        final int color = 0xff424242;
+                        final Paint paint = new Paint();
+                        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+                        float r = 0;
+
+                        if (bitmap.getWidth() > bitmap.getHeight()) {
+                            r = bitmap.getHeight() / 2;
+                        } else {
+                            r = bitmap.getWidth() / 2;
+                        }
+
+                        paint.setAntiAlias(true);
+                        canvas.drawARGB(0, 0, 0, 0);
+                        paint.setColor(color);
+                        canvas.drawCircle(r, r, r, paint);
+                        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+                        canvas.drawBitmap(bitmap, rect, rect, paint);
+                        Log.e(TAG, "setResource: -----------output"+output );
+                        personImage.setImageBitmap(output);
+                        imageProgressBar.setVisibility(View.GONE);
+
+                    }
+                });
+    }
+
     private void setHeaderData() {
         headerName.setText(PrefUtils.getFirstName(NavigationalActivity.this).concat(" ").concat(PrefUtils.getLastName(NavigationalActivity.this)));
         headerEmail.setText(PrefUtils.getEmail(NavigationalActivity.this));
         headerPhone.setText(PrefUtils.getPhone(NavigationalActivity.this));
+        if (PrefUtils.getUserImage(NavigationalActivity.this) !=null) {
+            imageUri = PrefUtils.getUserImage(NavigationalActivity.this);
+            Log.e("abhi", "setHeaderData: ------------------"+imageUri );
+            setProfilePicURL(imageUri);
+        }
         headerUploadPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

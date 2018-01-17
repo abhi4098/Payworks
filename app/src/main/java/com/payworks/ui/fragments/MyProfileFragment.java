@@ -1,14 +1,26 @@
 package com.payworks.ui.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.Target;
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
@@ -30,6 +42,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.payworks.api.ApiEndPoints.BASE_URL;
+import static com.payworks.api.ApiEndPoints.BASE_URL_FOR_IMAGE;
 
 /**
  * Created by Abhinandan on 18/8/17.
@@ -52,7 +65,10 @@ public class MyProfileFragment extends Fragment {
     TextView tvUserCountry;
 
     @BindView(R.id.person_image)
-    de.hdodenhof.circleimageview.CircleImageView imUserImage;
+    de.hdodenhof.circleimageview.CircleImageView personImage;
+
+    @BindView(R.id.progress)
+    ProgressBar imageProgressBar;
 
 
 
@@ -115,11 +131,13 @@ public class MyProfileFragment extends Fragment {
                        // imUserImage.setImageURI(response.body().getProfile().getProfilePic());
                         //profilePicUrl = response.body().getProfile().getProfilePic();
 
-                        /*if (response.body().getProfile().getProfilePic() != null) {
+                        if (response.body().getProfile().getProfilePic() != null) {
                             profilePicUrl = response.body().getProfile().getProfilePic();
                             String profilePictureUrlComplete = BASE_URL_FOR_IMAGE + profilePicUrl;
+                            PrefUtils.storeUserState(profilePictureUrlComplete,getActivity());
+                            Log.e(TAG, "onResponse: image link............"+ profilePictureUrlComplete);
                             setProfilePicURL(profilePictureUrlComplete);
-                        }*/
+                        }
                         LoadingDialog.cancelLoading();
 
 
@@ -139,6 +157,60 @@ public class MyProfileFragment extends Fragment {
             SnakBarUtils.networkConnected(getActivity());
         }
     }
+
+
+    private void setProfilePicURL(String profilepicUrlComplete) {
+        Glide.with(this).load(profilepicUrlComplete).asBitmap().centerCrop().dontAnimate().dontTransform().listener(new RequestListener<String, Bitmap>() {
+            @Override
+            public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                imageProgressBar.setVisibility(View.GONE);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                imageProgressBar.setVisibility(View.GONE);
+                return false;
+            }
+        })
+                .into(new BitmapImageViewTarget(personImage) {
+                    @Override
+                    protected void setResource(Bitmap bitmap) {
+                        Bitmap output;
+
+                        if (bitmap.getWidth() > bitmap.getHeight()) {
+                            output = Bitmap.createBitmap(bitmap.getHeight(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+                        } else {
+                            output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getWidth(), Bitmap.Config.ARGB_8888);
+                        }
+
+                        Canvas canvas = new Canvas(output);
+
+                        final int color = 0xff424242;
+                        final Paint paint = new Paint();
+                        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+                        float r = 0;
+
+                        if (bitmap.getWidth() > bitmap.getHeight()) {
+                            r = bitmap.getHeight() / 2;
+                        } else {
+                            r = bitmap.getWidth() / 2;
+                        }
+
+                        paint.setAntiAlias(true);
+                        canvas.drawARGB(0, 0, 0, 0);
+                        paint.setColor(color);
+                        canvas.drawCircle(r, r, r, paint);
+                        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+                        canvas.drawBitmap(bitmap, rect, rect, paint);
+                        personImage.setImageBitmap(output);
+                        imageProgressBar.setVisibility(View.GONE);
+
+                    }
+                });
+    }
+
 
 
     private void setUpRestAdapter() {

@@ -47,21 +47,26 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="160dp"
       android:background="@drawable/profile_bg"
 
         >
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/person_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@drawable/pic_uploader"
             android:layout_marginTop="50dp"
             app:civ_fill_color="@color/lighter_gray"
             android:layout_centerHorizontal="true"
             ></de.hdodenhof.circleimageview.CircleImageView>
-
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="@dimen/doc_edit_progress_bar_width"
+            android:layout_height="@dimen/doc_edit_progress_bar_height"
+            android:layout_centerInParent="true"
+            android:visibility="visible" />
         <Button
             android:id="@+id/edit_Profile"
             android:layout_width="wrap_content"

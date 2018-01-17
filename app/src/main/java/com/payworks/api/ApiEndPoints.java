@@ -9,6 +9,7 @@ public class ApiEndPoints {
     public static String MAIN_BASE_URL = "www.payworks.bs/service/";
 
     public static String BASE_URL = "https://"+MAIN_BASE_URL;
+    public static String BASE_URL_FOR_IMAGE = "https://"+"www.payworks.bs/public/user/images/";
     /*public static String SERVER = MAIN_BASE_URL;
     public static String CHAT_URL = "https://"+MAIN_BASE_URL+"/";
     public static String CHAT_SERVER = MAIN_BASE_URL;

@@ -32,6 +32,7 @@ public class PrefUtils {
     public static String USER_TIN_NUMBER= "user_tin_number";
     public static String USER_BIO= "user_bio";
     public static String USER_STATE= "user_state";
+    public static String USER_IMAGE= "user_image";
 
 
     /**
@@ -376,6 +377,19 @@ public class PrefUtils {
     public static String getUserState(Context context) {
         SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
         return sharedPreferences.getString(USER_STATE, "");
+    }
+
+    public static void storeUserImage(String image, Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        sharedPreferences.edit()
+                .putString(USER_IMAGE, image)
+                .apply();
+
+    }
+
+    public static String getUserImage(Context context) {
+        SharedPreferences sharedPreferences = PrefUtils.getSharedPreferences(context);
+        return sharedPreferences.getString(USER_IMAGE, "");
     }
 
 
