@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:textColor="@color/black"
-            android:text="Bank Phone num: "/>
+            android:text="Bank Phone No: "/>
 
         <TextView
             android:id="@+id/bank_num"

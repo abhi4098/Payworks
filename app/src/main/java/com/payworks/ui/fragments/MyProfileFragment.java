@@ -38,6 +38,7 @@ public class MyProfileFragment extends Fragment {
 
     private static final String TAG = LogUtils.makeLogTag(MyProfileFragment.class);
     private RetrofitInterface.UserMyProfileClient MyProfileAdapter;
+    private String profilePicUrl;
 
     @BindView(R.id.user_qr_code)
     TextView tvQrCode;
@@ -49,6 +50,11 @@ public class MyProfileFragment extends Fragment {
     TextView tvUserEmail;
     @BindView(R.id.user_country)
     TextView tvUserCountry;
+
+    @BindView(R.id.person_image)
+    de.hdodenhof.circleimageview.CircleImageView imUserImage;
+
+
 
     @OnClick(R.id.edit_Profile)
     public void editProfile() {
@@ -106,6 +112,14 @@ public class MyProfileFragment extends Fragment {
                         tvUserCountry.setText(response.body().getProfile().getCountry());
                         tvUserEmail.setText(response.body().getProfile().getEmail());
                         tvUserPhone.setText(response.body().getProfile().getPhone());
+                       // imUserImage.setImageURI(response.body().getProfile().getProfilePic());
+                        //profilePicUrl = response.body().getProfile().getProfilePic();
+
+                        /*if (response.body().getProfile().getProfilePic() != null) {
+                            profilePicUrl = response.body().getProfile().getProfilePic();
+                            String profilePictureUrlComplete = BASE_URL_FOR_IMAGE + profilePicUrl;
+                            setProfilePicURL(profilePictureUrlComplete);
+                        }*/
                         LoadingDialog.cancelLoading();
 
 

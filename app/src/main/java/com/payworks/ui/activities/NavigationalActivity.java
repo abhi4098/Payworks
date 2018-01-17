@@ -1,11 +1,30 @@
 package com.payworks.ui.activities;
 
+import android.Manifest;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,7 +34,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +61,9 @@ import com.payworks.utils.NetworkUtils;
 import com.payworks.utils.PrefUtils;
 import com.payworks.utils.SnakBarUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -53,7 +77,8 @@ public class NavigationalActivity extends AppCompatActivity
     private static final String TAG = "NavigationalActivity";
     private RetrofitInterface.UserWalletClient UserWalletAdapter;
     String walletBalance;
-    TextView headerName,headerEmail,headerPhone;
+    TextView headerName,headerEmail,headerPhone,headerUploadPhoto;
+    de.hdodenhof.circleimageview.CircleImageView personImage;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -68,6 +93,10 @@ public class NavigationalActivity extends AppCompatActivity
     private String frag;
 
     NavigationView navigationView;
+    private ProgressBar imageProgressBar;
+    private int PICK_FROM_GALLERY = 1;
+    private static final int REQUEST_WRITE_STORAGE = 112;
+    private final String[] requiredPermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +118,9 @@ public class NavigationalActivity extends AppCompatActivity
         headerName = (TextView)navigationView.getHeaderView(0).findViewById(R.id.header_name);
         headerEmail = (TextView)navigationView.getHeaderView(0).findViewById(R.id.header_email);
         headerPhone = (TextView)navigationView.getHeaderView(0).findViewById(R.id.header_phone_num);
+        headerUploadPhoto = (TextView)navigationView.getHeaderView(0).findViewById(R.id.upload_pic);
+        imageProgressBar = (ProgressBar)navigationView.getHeaderView(0).findViewById(R.id.progress);
+        personImage = (de.hdodenhof.circleimageview.CircleImageView)navigationView.getHeaderView(0).findViewById(R.id.person_image);
         setHeaderData();
 
         navigationView.setNavigationItemSelectedListener(this);
@@ -107,7 +139,186 @@ public class NavigationalActivity extends AppCompatActivity
         headerName.setText(PrefUtils.getFirstName(NavigationalActivity.this).concat(" ").concat(PrefUtils.getLastName(NavigationalActivity.this)));
         headerEmail.setText(PrefUtils.getEmail(NavigationalActivity.this));
         headerPhone.setText(PrefUtils.getPhone(NavigationalActivity.this));
+        headerUploadPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Checkpermission();
+
+            }
+        });
     }
+
+
+    private void Checkpermission() {
+
+        if (getPermissions()) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE) || ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) || ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.CAMERA)) {
+                makeRequest();
+            } else {
+                makeRequest();
+            }
+        } else {
+            setDialogForImage();
+        }
+    }
+
+
+    private void setDialogForImage() {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_select_from_source);
+        ImageView btnCamera = (ImageView) dialog.findViewById(R.id.btnCamera);
+        ImageView btnDocs = (ImageView) dialog.findViewById(R.id.btnDoc);
+        TextView txtDoc = (TextView) dialog.findViewById(R.id.txtDoc);
+        btnDocs.setVisibility(View.GONE);
+        txtDoc.setVisibility(View.GONE);
+        ImageView btnGallery = (ImageView) dialog.findViewById(R.id.btnGallery);
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.TOP;
+        wmlp.x = 0;   //x position
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, r.getDisplayMetrics());
+        wmlp.y = (int) px; //y position
+        Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
+        int width = display.getWidth();
+        int height = display.getHeight();
+        dialog.getWindow().setLayout((6 * width) / 10, Toolbar.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+
+
+        btnCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, 0);
+
+                dialog.cancel();
+            }
+        });
+
+        btnGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent, PICK_FROM_GALLERY);
+                dialog.cancel();
+
+            }
+        });
+
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    private String getRealPathFromURI(Uri tempUri) {
+        Cursor cursor = getContentResolver().query(tempUri, null, null, null, null);
+        cursor.moveToFirst();
+        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+        return cursor.getString(idx);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+
+
+            Bitmap bp = (Bitmap) data.getExtras().get("data");
+            Log.e("abhi", "onActivityResult: bp---------"+bp );
+            personImage.setImageBitmap(getCircularBitmap(bp));
+            Uri tempUri = getImageUri(getApplicationContext(), bp);
+            File filePath = new File(getRealPathFromURI(tempUri));
+           // sendImagesToServerFromCamera(filePath.getPath());
+
+
+        } else if (requestCode == PICK_FROM_GALLERY && resultCode == RESULT_OK) {
+
+           personImage.setBackgroundResource(R.drawable.new_customer_icon);
+
+
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String imgDecodableString = cursor.getString(columnIndex);
+            cursor.close();
+            Log.e(TAG, "onActivityResult: image decodable "+imgDecodableString );
+            imageProgressBar.setVisibility(View.VISIBLE);
+           // sendImagesToServerFromCamera(imgDecodableString);
+
+
+        }
+    }
+
+    public static Bitmap getCircularBitmap(Bitmap bitmap) {
+        Bitmap output;
+
+        if (bitmap.getWidth() > bitmap.getHeight()) {
+            output = Bitmap.createBitmap(bitmap.getHeight(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        } else {
+            output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getWidth(), Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+        float r = 0;
+
+        if (bitmap.getWidth() > bitmap.getHeight()) {
+            r = bitmap.getHeight() / 2;
+        } else {
+            r = bitmap.getWidth() / 2;
+        }
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawCircle(r, r, r, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        return output;
+    }
+
+    private boolean getPermissions() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED)
+            return true;
+        else if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED)
+            return true;
+        return false;
+    }
+
+    protected void makeRequest() {
+        ActivityCompat.requestPermissions(this,
+                requiredPermissions,
+                REQUEST_WRITE_STORAGE);
+    }
+
+
+
 
     public void setFragment() {
 

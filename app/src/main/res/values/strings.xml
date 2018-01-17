@@ -94,6 +94,9 @@
     <string name="enter_user_city">Enter City</string>
     <string name="enter_zip">Enter Zip</string>
     <string name="enter_title">Enter Title</string>
+    <string name="camera">Camera</string>
+    <string name="docs">Docs</string>
+    <string name="gallery">Gallery</string>
 
     <string-array name="priority_array">
         <item>Normal</item>
