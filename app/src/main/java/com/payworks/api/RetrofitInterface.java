@@ -26,6 +26,8 @@ import com.payworks.generated.model.MyProfileResponse;
 import com.payworks.generated.model.MyTransactions;
 import com.payworks.generated.model.MyTransactionsResponse;
 import com.payworks.generated.model.MyWalletResponse;
+import com.payworks.generated.model.Notification;
+import com.payworks.generated.model.NotificationResponse;
 import com.payworks.generated.model.ReceiveMoneyRequests;
 import com.payworks.generated.model.ReceiveMoneyRequestsResponse;
 import com.payworks.generated.model.ReferFriend;
@@ -178,6 +180,12 @@ public class RetrofitInterface {
     public interface getMyBankAccountClient {
         @POST("getUserBankAccounts")
         Call<BankAccountResponse> myBankAccountData(@Body BankAccount bankAccount);
+
+    }
+
+    public interface getNotificationClient {
+        @POST("getUserActivity")
+        Call<NotificationResponse> notificationData(@Body Notification notification);
 
     }
 

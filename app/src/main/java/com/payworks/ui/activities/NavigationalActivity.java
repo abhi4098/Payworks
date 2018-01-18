@@ -523,10 +523,10 @@ public class NavigationalActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_notification:
-                /*fragment = new NotificationFragment();
+                fragment = new NotificationFragment();
                 tvAppTitle.setText(item.getTitle());
-                ivBackIcon.setVisibility(View.VISIBLE);*/
-                Toast.makeText(getApplicationContext(),"Feature will be implemented soon",Toast.LENGTH_SHORT).show();
+                ivBackIcon.setVisibility(View.VISIBLE);
+               // Toast.makeText(getApplicationContext(),"Feature will be implemented soon",Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.nav_logout:

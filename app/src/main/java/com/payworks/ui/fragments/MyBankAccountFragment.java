@@ -121,7 +121,15 @@ public class MyBankAccountFragment extends Fragment {
 
             userbankaccount.setAccountholder(response.body().getUserbankaccounts().get(i).getAccountholder());
             userbankaccount.setAccountnumber(response.body().getUserbankaccounts().get(i).getAccountnumber());
-            userbankaccount.setAccounttype(response.body().getUserbankaccounts().get(i).getAccounttype());
+            if (response.body().getUserbankaccounts().get(i).getAccounttype().equals("1"))
+            {
+                userbankaccount.setAccounttype("Local Account");
+            }
+            else
+            {
+                userbankaccount.setAccounttype("International Account");
+            }
+
             userbankaccount.setBankname(response.body().getUserbankaccounts().get(i).getBankname());
             userbankaccount.setBranchname(response.body().getUserbankaccounts().get(i).getBranchname());
             userbankaccount.setBankphone(response.body().getUserbankaccounts().get(i).getBankphone());
