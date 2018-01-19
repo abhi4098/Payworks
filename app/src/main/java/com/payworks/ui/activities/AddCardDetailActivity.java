@@ -83,6 +83,9 @@ public class AddCardDetailActivity extends BaseActivity {
     @BindView(R.id.tv_app_title)
     TextView tvAppTitle;
 
+    @BindView(R.id.notification_icon)
+    ImageView notificationIcon;
+
     @BindView(R.id.add_card_details)
     Button btnAddCard;
 
@@ -192,6 +195,7 @@ public class AddCardDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         tvAppTitle.setText(R.string.add_card_Details_title);
+        notificationIcon.setVisibility(View.GONE);
         userAmount = getIntent().getStringExtra("AMOUNT");
         userCoupon = getIntent().getStringExtra("COUPON");
         tvPayAmount.setText(userAmount);

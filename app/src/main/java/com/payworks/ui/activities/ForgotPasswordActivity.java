@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,9 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
 
     @BindView(R.id.tv_app_title)
     TextView tvAppTitle;
+
+    @BindView(R.id.notification_icon)
+    ImageView notificationIcon;
 
     @BindView(R.id.register_account)
     LinearLayout btnSubmit;
@@ -75,6 +79,7 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         tvAppTitle.setText("FORGOT PASSWORD");
+        notificationIcon.setVisibility(View.GONE);
         btnSubmit.setOnClickListener(this);
         setUpRestAdapter();
 

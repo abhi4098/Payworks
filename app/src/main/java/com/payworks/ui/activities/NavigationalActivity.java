@@ -70,6 +70,7 @@ import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -96,6 +97,17 @@ public class NavigationalActivity extends AppCompatActivity
     TextView tvWalletBalance;
     private String frag;
     String imageUri;
+
+    @OnClick(R.id.notification_icon)
+    public void openNotification()
+    {
+        MenuItem itemid = navigationView.getMenu().findItem(R.id.nav_notification);
+        if (getFragmentManager().findFragmentById(R.id.fragment_container) == null) {
+            onNavigationItemSelected(itemid);
+            tvAppTitle.setText("NOTIFICATION");
+        }
+    }
+
 
     NavigationView navigationView;
     private ProgressBar imageProgressBar;

@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -56,6 +57,9 @@ public class MyTicketsActivity extends BaseActivity {
     @BindView(R.id.search_item)
     EditText etSearch;
 
+    @BindView(R.id.notification_icon)
+    ImageView notificationIcon;
+
     private RetrofitInterface.UserMyTicketsClient MyMerchantAdapter;
     MyTicketAdapter myTicketAdapter;
     ArrayList<Ticket> myTicketList = null;
@@ -91,6 +95,7 @@ public class MyTicketsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         tvAppTitle.setText(R.string.my_tickets);
+        notificationIcon.setVisibility(View.GONE);
         setUpRestAdapter();
         getMyTickets();
         setSearchFunctionality();

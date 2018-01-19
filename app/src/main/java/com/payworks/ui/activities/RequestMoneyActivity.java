@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,9 @@ public class RequestMoneyActivity extends BaseActivity {
     String selectedPriority;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.notification_icon)
+    ImageView notificationIcon;
 
     @BindView(R.id.tv_app_title)
     TextView tvAppTitle;
@@ -183,6 +187,7 @@ public class RequestMoneyActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         tvAppTitle.setText(R.string.request_money);
+        notificationIcon.setVisibility(View.GONE);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.priority_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

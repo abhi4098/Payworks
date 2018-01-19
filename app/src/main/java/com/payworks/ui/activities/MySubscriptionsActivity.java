@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -53,6 +54,9 @@ public class MySubscriptionsActivity extends BaseActivity {
     @BindView(R.id.listview)
     ListView listview;
 
+    @BindView(R.id.notification_icon)
+    ImageView notificationIcon;
+
     @BindView(R.id.search_item)
     EditText etSearch;
 
@@ -91,6 +95,7 @@ public class MySubscriptionsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         tvAppTitle.setText(R.string.my_subscriptions);
+        notificationIcon.setVisibility(View.GONE);
         setUpRestAdapter();
         getMySubscriptions();
         setSearchFunctionality();

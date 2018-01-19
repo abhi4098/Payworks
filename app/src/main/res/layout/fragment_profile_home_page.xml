@@ -159,6 +159,7 @@
             android:layout_height="wrap_content"
             android:layout_weight=".5"
             android:gravity="center"
+            android:background="@drawable/button_state_selector_transparent"
             android:id="@+id/ll_add_money"
             android:orientation="horizontal"
             android:padding="10dp">
@@ -192,6 +193,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:orientation="horizontal"
+            android:background="@drawable/button_state_selector_transparent"
             android:layout_height="wrap_content">
 
             <TextView
@@ -258,8 +260,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:gravity="center"
+                android:background="@drawable/button_state_selector_transparent"
                 android:orientation="horizontal"
-                android:padding="8dp">
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="18dp"
+                >
 
 
                 <TextView
@@ -290,6 +297,7 @@
                 android:padding="8dp"
                 android:id="@+id/ll_pay_money"
                 android:orientation="horizontal"
+                android:background="@drawable/button_state_selector_transparent"
                 android:layout_height="wrap_content">
 
                 <TextView

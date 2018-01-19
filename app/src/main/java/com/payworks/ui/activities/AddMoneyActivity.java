@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +53,9 @@ public class AddMoneyActivity extends BaseActivity {
 
     @BindView(R.id.wallet_balance)
     TextView tvWalletBalance;
+
+    @BindView(R.id.notification_icon)
+    ImageView notificationIcon;
 
 
     @OnClick(R.id.credit_debit_card)
@@ -101,6 +105,7 @@ public class AddMoneyActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         tvAppTitle.setText(R.string.add_money_title);
+        notificationIcon.setVisibility(View.GONE);
 
         isComingFrom = getIntent().getStringExtra("PATH");
         if (isComingFrom.equals("receivedRequest"))

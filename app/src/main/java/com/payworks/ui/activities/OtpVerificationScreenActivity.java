@@ -61,6 +61,9 @@ public class OtpVerificationScreenActivity extends BaseActivity {
     @BindView(R.id.tv_app_title)
     TextView tvAppTitle;
 
+    @BindView(R.id.notification_icon)
+    ImageView notificationIcon;
+
 
     @BindView(R.id.inputOtp)
     EditText inputOTP;
@@ -161,6 +164,7 @@ public class OtpVerificationScreenActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         tvAppTitle.setText(R.string.otp_verification_title);
+        notificationIcon.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
         if (checkPermission()) {
             requestPermission();

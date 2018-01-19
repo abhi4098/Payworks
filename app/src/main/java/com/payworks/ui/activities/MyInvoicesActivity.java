@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -54,6 +55,9 @@ public class MyInvoicesActivity extends BaseActivity {
     @BindView(R.id.search_item)
     EditText etSearch;
 
+    @BindView(R.id.notification_icon)
+    ImageView notificationIcon;
+
     private RetrofitInterface.UserMyInvoicesClient MyMerchantAdapter;
     MyInvoicesAdapter myInvoicesAdapter;
     ArrayList<Invoice> myInvoicesList = null;
@@ -90,6 +94,7 @@ public class MyInvoicesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         tvAppTitle.setText(R.string.my_invoices);
+        notificationIcon.setVisibility(View.GONE);
         setUpRestAdapter();
         getMyInvoices();
         setSearchFunctionality();

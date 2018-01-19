@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -37,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,6 +47,10 @@ import static com.payworks.api.ApiEndPoints.BASE_URL;
 
 
 public class RegistrationActivity extends BaseActivity implements View.OnClickListener{
+
+
+    @BindView(R.id.notification_icon)
+    ImageView notificationIcon;
 
     EditText etUserFirstName;
     EditText etUserEmailId;
@@ -104,6 +110,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         btnRegisterAccount.setOnClickListener(this);
         //setSupportActionBar(toolbar);
         tvAppTitle.setText("REGISTRATION");
+        notificationIcon.setVisibility(View.GONE);
         setUpRestAdapter();
         getCountryDropDownList();
 

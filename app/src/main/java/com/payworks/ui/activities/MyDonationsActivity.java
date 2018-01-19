@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -48,6 +49,9 @@ public class MyDonationsActivity extends BaseActivity {
 
     @BindView(R.id.tv_app_title)
     TextView tvAppTitle;
+
+    @BindView(R.id.notification_icon)
+    ImageView notificationIcon;
 
     @BindView(R.id.listview)
     ListView listview;
@@ -91,6 +95,7 @@ public class MyDonationsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         tvAppTitle.setText(R.string.my_donations);
+        notificationIcon.setVisibility(View.GONE);
         setSearchFunctionality();
         setUpRestAdapter();
         getMyDonations();

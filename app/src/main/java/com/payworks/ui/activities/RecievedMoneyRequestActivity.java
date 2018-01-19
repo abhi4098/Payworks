@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -60,6 +61,8 @@ public class RecievedMoneyRequestActivity extends BaseActivity {
     @BindView(R.id.wallet_balance)
     TextView tvWalletBalance;
 
+    @BindView(R.id.notification_icon)
+    ImageView notificationIcon;
     ArrayList<Receivedrequest> myReceivedRequestList = null;
 
    /* @BindView(R.id.enter_amount)
@@ -103,6 +106,7 @@ public class RecievedMoneyRequestActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         tvAppTitle.setText(R.string.received_money_request_title);
+        notificationIcon.setVisibility(View.GONE);
         setUpRestAdapter();
         getWalletBalance();
         getReceivedMoneyRequests();

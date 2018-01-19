@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
@@ -38,6 +39,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.payworks.api.ApiEndPoints.BASE_URL;
 
 
@@ -53,6 +55,12 @@ public class ProfileHomePageFragment extends Fragment {
 
     @BindView(R.id.received_request)
     TextView tvReceivedRequests;
+
+    @OnClick(R.id.ll_pay_money)
+    public void payMoney() {
+
+        Toast.makeText(getApplicationContext(),"Feature will be implemented soon",Toast.LENGTH_SHORT).show();
+    }
 
     @OnClick(R.id.ll_request_money)
     public void requestMoney() {

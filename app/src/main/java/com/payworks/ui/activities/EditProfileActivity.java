@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +53,9 @@ public class EditProfileActivity extends BaseActivity {
 
     @BindView(R.id.tv_app_title)
     TextView tvAppTitle;
+
+    @BindView(R.id.notification_icon)
+    ImageView notificationIcon;
 
     @BindView(R.id.user_first_name)
     EditText etUserFirstName;
@@ -171,6 +175,7 @@ public class EditProfileActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         tvAppTitle.setText(R.string.edit_profile_title);
+        notificationIcon.setVisibility(View.GONE);
 
         etUserEmailId.setText(PrefUtils.getEmail(EditProfileActivity.this));
         etUserFirstName.setText(PrefUtils.getFirstName(EditProfileActivity.this));

@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -46,6 +47,9 @@ public class MyProductActivity extends BaseActivity {
 
     @BindView(R.id.tv_app_title)
     TextView tvAppTitle;
+
+    @BindView(R.id.notification_icon)
+    ImageView notificationIcon;
 
     @BindView(R.id.listview)
     ListView listview;
@@ -87,6 +91,7 @@ public class MyProductActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         tvAppTitle.setText(R.string.my_products);
+        notificationIcon.setVisibility(View.GONE);
          setUpRestAdapter();
          getMyProducts();
          setSearchFunctionality();

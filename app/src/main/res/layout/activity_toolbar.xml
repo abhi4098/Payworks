@@ -32,11 +32,20 @@
                 android:textStyle="bold"
                 android:textAllCaps="true"
                 android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/notification_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/company_logo"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bell24"/>
 
             <ImageView
+                android:id="@+id/company_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_marginStart="10dp"
                 android:background="@drawable/paywork48"/>
 
         </RelativeLayout>
