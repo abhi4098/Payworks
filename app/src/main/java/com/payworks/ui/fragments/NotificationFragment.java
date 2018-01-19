@@ -130,7 +130,7 @@ public class NotificationFragment extends Fragment {
         LoadingDialog.cancelLoading();
         listview.setDivider(new ColorDrawable(Color.TRANSPARENT));  //hide the divider
         listview.setClipToPadding(false);
-        listview.setDividerHeight(50);
+        listview.setDividerHeight(20);
         listview.setTextFilterEnabled(true);
     }
 

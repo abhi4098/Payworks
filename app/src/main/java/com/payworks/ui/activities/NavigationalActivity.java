@@ -205,6 +205,7 @@ public class NavigationalActivity extends AppCompatActivity
         headerUploadPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e(TAG, "onClick:edit profile ..........." );
                 Checkpermission();
 
             }

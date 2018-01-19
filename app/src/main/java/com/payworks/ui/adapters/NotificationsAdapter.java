@@ -13,7 +13,17 @@ import com.payworks.R;
 import com.payworks.generated.model.Activity;
 import com.payworks.generated.model.Userbankaccount;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Abhinandan on 26/12/17.
@@ -40,11 +50,9 @@ public class NotificationsAdapter extends ArrayAdapter<Activity> {
     // Hold views of the ListView to improve its scrolling performance
     static class ViewHolder {
         public TextView message;
-       /* public TextView accountNum;
-        public TextView bankName;
-        public TextView bankNum;
-        public TextView accountType;
-*/
+        public TextView notificationName;
+        public TextView notificationTime;
+        /*public TextView accountType;*/
 
 
 
@@ -64,11 +72,9 @@ public class NotificationsAdapter extends ArrayAdapter<Activity> {
             rowView= inflater.inflate(groupid, parent, false);
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.message= (TextView) rowView.findViewById(R.id.notification_message);
-            /*viewHolder.accountNum= (TextView) rowView.findViewById(R.id.account_num);
-            viewHolder.accountType= (TextView) rowView.findViewById(R.id.account_type);
-            viewHolder.bankName= (TextView) rowView.findViewById(R.id.bank_name);
-            viewHolder.bankNum= (TextView) rowView.findViewById(R.id.bank_num);
-*/
+            viewHolder.notificationName= (TextView) rowView.findViewById(R.id.notification_name);
+            viewHolder.notificationTime= (TextView) rowView.findViewById(R.id.notification_time);
+           // viewHolder.bankNum= (TextView) rowView.findViewById(R.id.bank_num);
 
 
 
@@ -81,10 +87,12 @@ public class NotificationsAdapter extends ArrayAdapter<Activity> {
 
         if (activity !=null) {
             holder.message.setText(activity.getMessage());
-           /* holder.accountType.setText(userbankaccount.getAccounttype());
-            holder.accountNum.setText(userbankaccount.getAccountnumber());
+            holder.notificationName.setText(activity.getFirstName().concat(" ").concat(activity.getLastName()));
+            holder.notificationTime.setText(changeFormat(activity.getCreateDate()));
+/*
             holder.bankName.setText(userbankaccount.getBankname());
-            holder.bankNum.setText(userbankaccount.getBankphone());*/
+            holder.bankNum.setText(userbankaccount.getBankphone());
+*/
 
 
 
@@ -96,5 +104,75 @@ public class NotificationsAdapter extends ArrayAdapter<Activity> {
 
         return rowView;
     }
+
+    private String changeFormat(String updatedAt) {
+
+        if (updatedAt != null) {
+
+            String DATE_PATTERN_SERVICE = "yyyy-MM-dd HH:mm:ss";
+
+            DateTimeFormatter utcFormatter = DateTimeFormat
+                    .forPattern(DATE_PATTERN_SERVICE)
+                    .withLocale(Locale.US)
+                    .withZoneUTC();
+            DateTimeZone indianZone = DateTimeZone.forID("Asia/Kolkata");
+            DateTimeFormatter indianZoneFormatter = utcFormatter.withZone(indianZone);
+
+            String utcText = updatedAt;
+            DateTime parsed = utcFormatter.parseDateTime(utcText);
+            String indianText = indianZoneFormatter.print(parsed);
+
+            DateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+
+            if (dayIsYesterday(indianText)) {
+                return "Yesterday";
+            } else if (dateIsToday(indianText)) {
+                Date newDate = null;
+                try {
+                    newDate = originalFormat.parse(indianText);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                SimpleDateFormat format1 = new SimpleDateFormat("hh:mm a");
+                String date = format1.format(newDate);
+                String str = date.replace("AM", "am").replace("PM", "pm");
+                return str;
+            } else {
+                Date newDate = null;
+                try {
+                    newDate = originalFormat.parse(indianText);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                SimpleDateFormat format1 = new SimpleDateFormat("dd MMM yy");
+                String date = format1.format(newDate);
+                return date;
+            }
+
+        } else
+            return null;
+    }
+
+    private boolean dateIsToday(String indianText) {
+
+        DateTime yesterday = new DateTime();
+        String dateYesterday = yesterday.toString();
+        String dateOnlyYesterday = dateYesterday.substring(0, dateYesterday.indexOf("T"));
+        String dateOnlyInputText = indianText.substring(0, dateYesterday.indexOf("T"));
+        return dateOnlyYesterday.equals(dateOnlyInputText);
+    }
+
+    public static boolean dayIsYesterday(String indianText) {
+        DateTime yesterday = new DateTime().minusDays(1);
+        String dateYesterday = yesterday.toString();
+        String dateOnlyYesterday = dateYesterday.substring(0, dateYesterday.indexOf("T"));
+        String dateOnlyInputText = indianText.substring(0, dateYesterday.indexOf("T"));
+        return dateOnlyYesterday.equals(dateOnlyInputText);
+
+    }
+
 
 }

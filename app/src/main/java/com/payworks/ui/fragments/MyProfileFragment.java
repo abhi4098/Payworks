@@ -134,7 +134,7 @@ public class MyProfileFragment extends Fragment {
                         if (response.body().getProfile().getProfilePic() != null) {
                             profilePicUrl = response.body().getProfile().getProfilePic();
                             String profilePictureUrlComplete = BASE_URL_FOR_IMAGE + profilePicUrl;
-                            PrefUtils.storeUserState(profilePictureUrlComplete,getActivity());
+                            PrefUtils.storeUserImage(profilePictureUrlComplete,getActivity());
                             Log.e(TAG, "onResponse: image link............"+ profilePictureUrlComplete);
                             setProfilePicURL(profilePictureUrlComplete);
                         }
