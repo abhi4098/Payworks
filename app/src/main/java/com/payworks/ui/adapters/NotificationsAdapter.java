@@ -1,6 +1,12 @@
 package com.payworks.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,9 +15,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.Target;
 import com.payworks.R;
 import com.payworks.generated.model.Activity;
 import com.payworks.generated.model.Userbankaccount;
+import com.payworks.utils.PrefUtils;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -25,6 +36,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import static com.payworks.api.ApiEndPoints.BASE_URL_FOR_IMAGE;
+
 /**
  * Created by Abhinandan on 26/12/17.
  */
@@ -35,7 +48,7 @@ public class NotificationsAdapter extends ArrayAdapter<Activity> {
     ArrayList<Activity> notificationList;
     FragmentActivity context;
     String priorityName,statusName;
-
+    private String profilePicUrl;
     public NotificationsAdapter(FragmentActivity navigationalActivity, int layout_notifications, int message, ArrayList<Activity> notificationList)
     {
         super(navigationalActivity,layout_notifications,message,notificationList);
@@ -52,7 +65,7 @@ public class NotificationsAdapter extends ArrayAdapter<Activity> {
         public TextView message;
         public TextView notificationName;
         public TextView notificationTime;
-        /*public TextView accountType;*/
+        public de.hdodenhof.circleimageview.CircleImageView notificationImage;
 
 
 
@@ -74,7 +87,7 @@ public class NotificationsAdapter extends ArrayAdapter<Activity> {
             viewHolder.message= (TextView) rowView.findViewById(R.id.notification_message);
             viewHolder.notificationName= (TextView) rowView.findViewById(R.id.notification_name);
             viewHolder.notificationTime= (TextView) rowView.findViewById(R.id.notification_time);
-           // viewHolder.bankNum= (TextView) rowView.findViewById(R.id.bank_num);
+            viewHolder.notificationImage= (de.hdodenhof.circleimageview.CircleImageView) rowView.findViewById(R.id.person_image);
 
 
 
@@ -89,10 +102,13 @@ public class NotificationsAdapter extends ArrayAdapter<Activity> {
             holder.message.setText(activity.getMessage());
             holder.notificationName.setText(activity.getFirstName().concat(" ").concat(activity.getLastName()));
             holder.notificationTime.setText(changeFormat(activity.getCreateDate()));
-/*
-            holder.bankName.setText(userbankaccount.getBankname());
-            holder.bankNum.setText(userbankaccount.getBankphone());
-*/
+            if (activity.getProfilePic() != null) {
+                profilePicUrl =activity.getProfilePic();
+                String profilePictureUrlComplete = BASE_URL_FOR_IMAGE + profilePicUrl;
+                //PrefUtils.storeUserImage(profilePictureUrlComplete,getContext());
+                Log.e("abhi", "onResponse: image link............"+ profilePictureUrlComplete);
+                setProfilePicURL(profilePictureUrlComplete,holder);
+            }
 
 
 
@@ -104,6 +120,59 @@ public class NotificationsAdapter extends ArrayAdapter<Activity> {
 
         return rowView;
     }
+
+    private void setProfilePicURL(String profilepicUrlComplete, final ViewHolder holder) {
+        Glide.with(getContext()).load(profilepicUrlComplete).asBitmap().centerCrop().dontAnimate().dontTransform().listener(new RequestListener<String, Bitmap>() {
+            @Override
+            public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                //imageProgressBar.setVisibility(View.GONE);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                //imageProgressBar.setVisibility(View.GONE);
+                return false;
+            }
+        })
+                .into(new BitmapImageViewTarget(holder.notificationImage) {
+                    @Override
+                    protected void setResource(Bitmap bitmap) {
+                        Bitmap output;
+
+                        if (bitmap.getWidth() > bitmap.getHeight()) {
+                            output = Bitmap.createBitmap(bitmap.getHeight(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+                        } else {
+                            output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getWidth(), Bitmap.Config.ARGB_8888);
+                        }
+
+                        Canvas canvas = new Canvas(output);
+
+                        final int color = 0xff424242;
+                        final Paint paint = new Paint();
+                        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+                        float r = 0;
+
+                        if (bitmap.getWidth() > bitmap.getHeight()) {
+                            r = bitmap.getHeight() / 2;
+                        } else {
+                            r = bitmap.getWidth() / 2;
+                        }
+
+                        paint.setAntiAlias(true);
+                        canvas.drawARGB(0, 0, 0, 0);
+                        paint.setColor(color);
+                        canvas.drawCircle(r, r, r, paint);
+                        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+                        canvas.drawBitmap(bitmap, rect, rect, paint);
+                        holder.notificationImage.setImageBitmap(output);
+                        //imageProgressBar.setVisibility(View.GONE);
+
+                    }
+                });
+    }
+
 
     private String changeFormat(String updatedAt) {
 

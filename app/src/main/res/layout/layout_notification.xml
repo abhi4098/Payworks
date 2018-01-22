@@ -24,14 +24,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp"
+        android:padding="10dp"
         android:background="@drawable/shadow_list"
         >
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/person_image"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@drawable/pic_uploader"
             app:civ_fill_color="@color/lighter_gray"
             android:layout_alignParentStart="true"

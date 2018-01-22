@@ -25,6 +25,10 @@ public class Activity {
     @Expose
     private String lastName;
 
+    @SerializedName("profile_pic")
+    @Expose
+    private String profilePic;
+
     public String getId() {
         return id;
     }
@@ -71,6 +75,14 @@ public class Activity {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
     }
 
 }

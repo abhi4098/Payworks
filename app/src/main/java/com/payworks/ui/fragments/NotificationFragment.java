@@ -120,8 +120,7 @@ public class NotificationFragment extends Fragment {
             activity.setCreateDate(response.body().getActivity().get(i).getCreateDate());
             activity.setType(response.body().getActivity().get(i).getType());
             activity.setId(response.body().getActivity().get(i).getId());
-
-
+            activity.setProfilePic(response.body().getActivity().get(i).getProfilePic());
             notificationList.add(activity);
             Log.e(TAG, "setNotification: ................"+notificationList.get(i).getMessage() );
         }
