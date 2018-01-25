@@ -42,6 +42,8 @@ import com.payworks.generated.model.SentMoney;
 import com.payworks.generated.model.SentMoneyResponse;
 import com.payworks.generated.model.StateList;
 import com.payworks.generated.model.StateListResponse;
+import com.payworks.generated.model.UploadPhoto;
+import com.payworks.generated.model.UploadPhotoResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -186,6 +188,12 @@ public class RetrofitInterface {
     public interface getNotificationClient {
         @POST("getUserActivity")
         Call<NotificationResponse> notificationData(@Body Notification notification);
+
+    }
+
+    public interface updateProfilePicClient {
+        @POST("uploadProfileImage.html")
+        Call<UploadPhotoResponse> uploadImageData(@Body UploadPhoto uploadPhoto);
 
     }
 

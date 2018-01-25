@@ -51,6 +51,10 @@ import com.payworks.api.ApiEndPoints;
 import com.payworks.api.RetrofitInterface;
 import com.payworks.generated.model.MyProfile;
 import com.payworks.generated.model.MyWalletResponse;
+import com.payworks.generated.model.SentMoney;
+import com.payworks.generated.model.SentMoneyResponse;
+import com.payworks.generated.model.UploadPhoto;
+import com.payworks.generated.model.UploadPhotoResponse;
 import com.payworks.generated.model.Usertransaction;
 import com.payworks.ui.fragments.MerchantFragment;
 import com.payworks.ui.fragments.MyBankAccountFragment;
@@ -75,12 +79,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.payworks.api.ApiEndPoints.BASE_URL_FOR_IMAGE;
+
 public class NavigationalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener,MyTransactionsFragment.OnListFragmentInteractionListener {
 
     Fragment profileHomePageFragment;
+    private String profilePicUrl;
+    String fileName ;
     private static final String TAG = "NavigationalActivity";
     private RetrofitInterface.UserWalletClient UserWalletAdapter;
+    private RetrofitInterface.updateProfilePicClient UpdatePhotoAdapter;
     String walletBalance;
     TextView headerName,headerEmail,headerPhone,headerUploadPhoto;
     de.hdodenhof.circleimageview.CircleImageView personImage;
@@ -320,7 +329,8 @@ public class NavigationalActivity extends AppCompatActivity
             personImage.setImageBitmap(getCircularBitmap(bp));
             Uri tempUri = getImageUri(getApplicationContext(), bp);
             File filePath = new File(getRealPathFromURI(tempUri));
-           // sendImagesToServerFromCamera(filePath.getPath());
+            Log.e(TAG, "onActivityResult:.......... " +filePath.getPath() );
+            sendImagesToServerFromCamera(filePath.getPath());
 
 
         } else if (requestCode == PICK_FROM_GALLERY && resultCode == RESULT_OK) {
@@ -337,9 +347,62 @@ public class NavigationalActivity extends AppCompatActivity
             cursor.close();
             Log.e(TAG, "onActivityResult: image decodable "+imgDecodableString );
             imageProgressBar.setVisibility(View.VISIBLE);
-           // sendImagesToServerFromCamera(imgDecodableString);
+            Log.e(TAG, "onActivityResult:.......... " +imgDecodableString );
+           sendImagesToServerFromCamera(imgDecodableString);
 
 
+        }
+    }
+
+    private void sendImagesToServerFromCamera(String imgDecodableString) {
+
+        String data;
+        data = imgDecodableString;
+        String[] items = data.split("/");
+        for (String item : items)
+        {
+           // System.out.println("item = " + item);
+            Log.e(TAG, "sendImagesToServerFromCamera: "+item );
+            fileName =item; 
+        }
+        LoadingDialog.showLoadingDialog(this,"Loading...");
+        Call<UploadPhotoResponse> call = UpdatePhotoAdapter.uploadImageData(new UploadPhoto("uploadProfileImage", PrefUtils.getUserId(NavigationalActivity.this),"83Ide@$321!",imgDecodableString,fileName));
+        if (NetworkUtils.isNetworkConnected(this)) {
+            call.enqueue(new Callback<UploadPhotoResponse>() {
+
+                @Override
+                public void onResponse(Call<UploadPhotoResponse> call, Response<UploadPhotoResponse> response) {
+
+                    if (response.isSuccessful()) {
+                        if (response.body().getType() == 1) {
+
+                            Log.e(TAG, "onResponse: ...................." + response.body().getMsg());
+                            if (response.body().getTokenid() != null) {
+                                profilePicUrl = fileName;
+                                String profilePictureUrlComplete = BASE_URL_FOR_IMAGE + profilePicUrl;
+                                PrefUtils.storeUserImage(profilePictureUrlComplete, NavigationalActivity.this);
+                                Log.e(TAG, "onResponse: image link............" + profilePictureUrlComplete);
+                                setProfilePicURL(profilePictureUrlComplete);
+                            }
+
+                        }
+                        LoadingDialog.cancelLoading();
+
+
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UploadPhotoResponse> call, Throwable t) {
+                    LoadingDialog.cancelLoading();
+                }
+
+
+            });
+
+        } else {
+            SnakBarUtils.networkConnected(this);
         }
     }
 
@@ -638,7 +701,7 @@ public class NavigationalActivity extends AppCompatActivity
 
     private void setUpRestAdapter() {
         UserWalletAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserWalletClient.class, ApiEndPoints.BASE_URL, this);
-        // QueryNotificationAdapterForHome = ApiAdapter.createRestAdapter(RetrofitInterface.QueryNotificationClient.class, ApiEndPoints.BASE_URL, getActivity());
+         UpdatePhotoAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.updateProfilePicClient.class, ApiEndPoints.BASE_URL, this);
     }
 
     @Override
