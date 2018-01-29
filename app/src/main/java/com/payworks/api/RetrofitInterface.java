@@ -10,10 +10,14 @@ import com.payworks.generated.model.CountryList;
 import com.payworks.generated.model.CountryListResponse;
 import com.payworks.generated.model.EditProfile;
 import com.payworks.generated.model.EditProfileResponse;
+import com.payworks.generated.model.FacebookLogin;
+import com.payworks.generated.model.FacebookLoginResponse;
 import com.payworks.generated.model.ForgotPassword;
 import com.payworks.generated.model.ForgotPasswordResponse;
 import com.payworks.generated.model.GetOTP;
 import com.payworks.generated.model.GetOTPResponse;
+import com.payworks.generated.model.GoogleLogin;
+import com.payworks.generated.model.GoogleLoginResponse;
 import com.payworks.generated.model.Login;
 import com.payworks.generated.model.MerchantData;
 import com.payworks.generated.model.MerchantDonationResponse;
@@ -194,6 +198,18 @@ public class RetrofitInterface {
     public interface updateProfilePicClient {
         @POST("uploadProfileImage.html")
         Call<UploadPhotoResponse> uploadImageData(@Body UploadPhoto uploadPhoto);
+
+    }
+
+    public interface facebookLoginClient {
+        @POST("fblogin.html")
+        Call<FacebookLoginResponse> facebookLoginData(@Body FacebookLogin facebookLogin);
+
+    }
+
+    public interface googleLoginClient {
+        @POST("glogin.html")
+        Call<GoogleLoginResponse> googleLoginData(@Body GoogleLogin googleLogin);
 
     }
 

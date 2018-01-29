@@ -45,6 +45,9 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.Target;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.ApiEndPoints;
@@ -87,6 +90,7 @@ public class NavigationalActivity extends AppCompatActivity
     Fragment profileHomePageFragment;
     private String profilePicUrl;
     String fileName ;
+    GoogleApiClient mGoogleApiClient;
     private static final String TAG = "NavigationalActivity";
     private RetrofitInterface.UserWalletClient UserWalletAdapter;
     private RetrofitInterface.updateProfilePicClient UpdatePhotoAdapter;
@@ -234,6 +238,17 @@ public class NavigationalActivity extends AppCompatActivity
     }
 
 
+    @Override
+    protected void onStart() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
     private void Checkpermission() {
 
         if (getPermissions()) {
@@ -480,6 +495,8 @@ public class NavigationalActivity extends AppCompatActivity
         //NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         //notificationManager.cancel(5555);
         //notificationManager.cancel(4444);
+        if (mGoogleApiClient.isConnected())
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
         LoginManager.getInstance().logOut();
         PrefUtils.storeUserLoggedIn(false, this);
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);

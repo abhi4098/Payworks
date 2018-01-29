@@ -49,7 +49,7 @@ import static com.payworks.api.ApiEndPoints.BASE_URL;
 public class RegistrationActivity extends BaseActivity implements View.OnClickListener{
 
 
-    @BindView(R.id.notification_icon)
+
     ImageView notificationIcon;
 
     EditText etUserFirstName;
@@ -60,7 +60,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     EditText etUserPassword;
     TextView tvAppTitle;
     Spinner spCountryDropdown;
-    String spCountrySelectedItem = "select Country";
+    String spCountrySelectedItem = "Select Country";
     android.support.v7.widget.Toolbar toolbar;
     LinearLayout btnRegisterAccount;
     boolean isPasswordValid =false;
@@ -104,13 +104,14 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         etUserEmailId = (EditText) findViewById(R.id.user_email);
         etUserPassword = (EditText) findViewById(R.id.user_password);
         spCountryDropdown = (Spinner) findViewById(R.id.country_spinner);
+        notificationIcon = (ImageView) findViewById(R.id.notification_icon);
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         tvAppTitle = (TextView) findViewById(R.id.tv_app_title);
         btnRegisterAccount = (LinearLayout) findViewById(R.id.register_account);
         btnRegisterAccount.setOnClickListener(this);
         //setSupportActionBar(toolbar);
         tvAppTitle.setText("REGISTRATION");
-        notificationIcon.setVisibility(View.GONE);
+        //notificationIcon.setVisibility(View.GONE);
         setUpRestAdapter();
         getCountryDropDownList();
 

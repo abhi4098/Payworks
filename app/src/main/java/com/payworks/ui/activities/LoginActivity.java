@@ -63,7 +63,13 @@ import com.google.android.gms.tasks.Task;
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
+import com.payworks.generated.model.FacebookLogin;
+import com.payworks.generated.model.FacebookLoginResponse;
+import com.payworks.generated.model.GoogleLogin;
+import com.payworks.generated.model.GoogleLoginResponse;
 import com.payworks.generated.model.Login;
+import com.payworks.generated.model.MyProfile;
+import com.payworks.generated.model.MyProfileResponse;
 import com.payworks.generated.model.googleLogin.GCMDetails;
 import com.payworks.generated.model.googleLogin.SocialMediaProfilePic;
 import com.payworks.generated.model.googleLogin.SocialMediaProfilePicData;
@@ -89,12 +95,16 @@ import retrofit2.Response;
 
 import static android.Manifest.permission.READ_CONTACTS;
 import static com.payworks.api.ApiEndPoints.BASE_URL;
+import static com.payworks.api.ApiEndPoints.BASE_URL_FOR_IMAGE;
 
 /**
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements  GoogleApiClient.OnConnectionFailedListener,View.OnClickListener {
     private RetrofitInterface.UserLoginClient UserLoginAdapter;
+    private RetrofitInterface.facebookLoginClient FacebookLoginAdapter;
+    private RetrofitInterface.googleLoginClient GoogleLoginAdapter;
+    String emailFromFacebook,facebookId,firstNameFromFb,lastNamefromFb,genderFromFb;
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -313,6 +323,8 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
 
     private void setUpRestAdapter() {
         UserLoginAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserLoginClient.class, BASE_URL, this);
+        FacebookLoginAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.facebookLoginClient.class, BASE_URL, this);
+        GoogleLoginAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.googleLoginClient.class, BASE_URL, this);
 
     }
 
@@ -398,18 +410,33 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
                         try {
 
                             if (object.has("email")) {
+
+                                emailFromFacebook =object.getString("email");
+
                                 Log.e("abhi", "onCompleted: -------------"+object.getString("email") );
                                 socialMediaUser.setEmail(object.getString("email"));
+                                PrefUtils.storeEmail(emailFromFacebook,getApplicationContext());
                             }
                             if (object.has("birthday")) {
+
                                 Log.e("abhi", "onCompleted: -------------"+object.getString("birthday") );
                                 socialMediaUser.setBirthday(object.getString("birthday"));
                             }
                             if (object.has("gender")) {
+                                genderFromFb =object.getString("gender");
                                 Log.e("abhi", "onCompleted: -------------"+object.getString("gender") );
                                 socialMediaUser.setGender(object.getString("gender"));
                             }
                             if (object.has("name")) {
+                                if (object.getString("name") !=null) {
+                                    String str = object.getString("name");
+                                    String[] splited = str.split("\\s+");
+                                    firstNameFromFb = splited[0];
+                                    lastNamefromFb = splited[1];
+                                    Log.e("abhi", "onCompleted: " + firstNameFromFb + " " + lastNamefromFb );
+                                    PrefUtils.storeFirstName(firstNameFromFb,getApplicationContext());
+                                    PrefUtils.storeLastName(lastNamefromFb,getApplicationContext());
+                                }
                                 Log.e("abhi", "onCompleted: -------------"+object.getString("name") );
 
                                 //MyProfileFragment.nameOfPatient=object.getString("name").toString();
@@ -418,6 +445,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
                             if (object.has("id")) {
                                 Log.e("abhi", "onCompleted: -------------"+object.getString("id") );
                                 Log.e("abhi", "onCompleted: -------------"+object.getString("id") );
+                                facebookId = object.getString("id");
                                 socialMediaUser.setId(object.getString("id"));
                                 socialMediaUser.setUid(object.getString("id"));
                             }
@@ -425,14 +453,14 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
                         } catch (JSONException exception) {
                             exception.printStackTrace();
                         }
-                        SocialMediaProfilePicData socialMediaProfilePicData = new SocialMediaProfilePicData();
+                        /*SocialMediaProfilePicData socialMediaProfilePicData = new SocialMediaProfilePicData();
                         socialMediaProfilePicData.setIs_silhouette(false);
                         socialMediaProfilePicData.setUrl(profile.getProfilePictureUri(500, 500).toString());
                         SocialMediaProfilePic socialMediaProfilePic = new SocialMediaProfilePic();
                         socialMediaProfilePic.setData(socialMediaProfilePicData);
                         socialMediaUser.setFacebookPicture(socialMediaProfilePic);
                         socialMediaUser.setProvider("facebook");
-                        socialMediaUser.setSignup_utility("facebook");
+                        socialMediaUser.setSignup_utility("facebook");*/
                        // userLoggigInUsingSocialMedia(socialMediaUser);
                     }
                 });
@@ -440,12 +468,63 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
         parameters.putString("fields", "id,name,email,gender, birthday");
         request.setParameters(parameters);
         request.executeAsync();
-        Intent intent = new Intent(getApplicationContext(), NavigationalActivity.class);
-        intent.putExtra("type", "GetStarted");
-        startActivity(intent);
-        finish();
+
+        loginViaFacebook();
+
         LoadingDialog.cancelLoading();
     }
+
+    private void loginViaFacebook() {
+       // LoginManager.getInstance().logOut();
+
+        LoadingDialog.showLoadingDialog(this,"Loading...");
+        Call<FacebookLoginResponse> call = FacebookLoginAdapter.facebookLoginData(new FacebookLogin(emailFromFacebook,firstNameFromFb,lastNamefromFb,genderFromFb,facebookId,"fblogin","83Ide@$321!"));
+        if (NetworkUtils.isNetworkConnected(this)) {
+            call.enqueue(new Callback<FacebookLoginResponse>() {
+
+                @Override
+                public void onResponse(Call<FacebookLoginResponse> call, Response<FacebookLoginResponse> response) {
+
+                    if (response.isSuccessful()) {
+
+                        if (response.body().getType() ==1)
+                        {
+                            PrefUtils.storePhone(" ", LoginActivity.this);
+                            PrefUtils.storeUsernId(response.body().getTokenid(), LoginActivity.this);
+                            Log.e("abhi", "onResponse: facebook user id............" +response.body().getTokenid() );
+                            Intent intent = new Intent(getApplicationContext(), NavigationalActivity.class);
+                            intent.putExtra("type", "GetStarted");
+                            startActivity(intent);
+                            finish();
+                        }
+                        else
+                        {
+                            Log.e("abhi", "onResponse: facebook................else ");
+                            LoginManager.getInstance().logOut();
+                            loginViaFacebook();
+                        }
+
+                        LoadingDialog.cancelLoading();
+
+
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<FacebookLoginResponse> call, Throwable t) {
+                    LoadingDialog.cancelLoading();
+                }
+
+
+            });
+
+        } else {
+            SnakBarUtils.networkConnected(this);
+        }
+
+    }
+
 
 
 
@@ -503,10 +582,27 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            Log.e("abhi", "handleSignInResult:Signed in successfully............ "  );
-            // Signed in successfully, show authenticated UI.
-            //updateUI(account);
+            LoadingDialog.cancelLoading();
+            PrefUtils.storeEmail(account.getEmail(),this);
+            if (account.getDisplayName() !=null) {
+                String str = account.getDisplayName();
+                String[] splited = str.split("\\s+");
+                String firstName = splited[0];
+                String lastName = splited[1];
+                PrefUtils.storeFirstName(firstName,this);
+                PrefUtils.storeLastName(lastName,this);
+            }
+
+
+            Log.e("abhi", "handleSignInResult:Signed in successfully............ " + account.getAccount() + " " +
+                    account.getEmail() + " " + account.getDisplayName() + " " + account.getId()+ " " +account.zzaba());
+            loginViaGoogle(account);
+            /*Intent intent = new Intent(getApplicationContext(), NavigationalActivity.class);
+            intent.putExtra("type", "GetStarted");
+            startActivity(intent);*/
+
         } catch (ApiException e) {
+            LoadingDialog.cancelLoading();
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.e("abhi", "signInResult:failed code=" + e.getStatusCode());
@@ -514,100 +610,49 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
         }
     }
 
- /*   private void handleSignInResult(GoogleSignInResult result) {
-        if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
-            Log.e("abhi", "handleSignInResult:----------------success " );
-            GoogleSignInAccount acct = result.getSignInAccount();
-           // acct.zzahe();
-            if (acct != null) {
-                acct.getAccount();
-            }
-            prepareGoogleUserDetails(acct);
-//            Toast.makeText(getActivity(), "Welcome " + acct.getDisplayName(), Toast.LENGTH_SHORT).show();
-        } else {
-            Log.e("abhi", "handleSignInResult:----------------" +result.getSignInAccount() );
-            Toast.makeText(this, getString(R.string.google_login_failed), Toast.LENGTH_SHORT).show();
-            LoadingDialog.cancelLoading();
-        }
-    }*/
+    private void loginViaGoogle(GoogleSignInAccount account) {
+        LoadingDialog.showLoadingDialog(this,"Loading...");
+        Call<GoogleLoginResponse> call = GoogleLoginAdapter.googleLoginData(new GoogleLogin(account.getEmail(),account.getDisplayName(),account.getId(),account.getPhotoUrl(),"glogin","83Ide@$321!"));
+        if (NetworkUtils.isNetworkConnected(this)) {
+            call.enqueue(new Callback<GoogleLoginResponse>() {
 
-   /* private void prepareGoogleUserDetails(GoogleSignInAccount acct) {
-        SocialMediaUser socialMediaUser = new SocialMediaUser();
-        socialMediaUser.setName(acct.getDisplayName());
-        //MyProfileFragment.nameOfPatient=acct.getDisplayName().toString();
-        socialMediaUser.setEmail(acct.getEmail());
-        SocialMediaProfilePicData socialMediaProfilePicData = new SocialMediaProfilePicData();
-        socialMediaProfilePicData.setUrl((acct.getPhotoUrl()) != null ? acct.getPhotoUrl().toString() : "");
-        SocialMediaProfilePic socialMediaProfilePic = new SocialMediaProfilePic();
-        socialMediaProfilePic.setData(socialMediaProfilePicData);
-        socialMediaUser.setFacebookPicture(socialMediaProfilePic);
-       // socialMediaUser.setDetails(Util.getDeviceDetails(this));
-        socialMediaUser.setBirthday(acct.getIdToken());
-        socialMediaUser.setProvider("google_oauth2");
-        socialMediaUser.setUid(acct.getId());
-        socialMediaUser.setId(acct.getId());
-        socialMediaUser.setSignup_utility("google");
-       // userLoggigInUsingSocialMedia(socialMediaUser);
+                @Override
+                public void onResponse(Call<GoogleLoginResponse> call, Response<GoogleLoginResponse> response) {
 
-    }*/
+                    if (response.isSuccessful()) {
 
-   /* public void userLoggigInUsingSocialMedia(final SocialMediaUser socialMediaUser) {
-        RestAdapter restAdapter = ApiAdapter.getAdapter(getActivity());
+                        if (response.body().getType() ==1)
+                        {
+                            PrefUtils.storeUsernId(response.body().getTokenid(), LoginActivity.this);
+                            PrefUtils.storePhone(" ", LoginActivity.this);
+                            Log.e("abhi", "onResponse: google user id............" +response.body().getTokenid() );
+                            Intent intent = new Intent(getApplicationContext(), NavigationalActivity.class);
+                            intent.putExtra("type", "GetStarted");
+                            startActivity(intent);
+                            finish();
+                        }
 
-        GCMDetails gcmDetails = Util.getDeviceDetails(getActivity());
-        socialMediaUser.setDetails(gcmDetails);
+                        LoadingDialog.cancelLoading();
 
-        UserAPI userAPI = restAdapter.create(UserAPI.class);
-        userAPI.loginFacebookUser(socialMediaUser, new Callback<FacebookLoggedInUser>() {
-            @Override
-            public void success(FacebookLoggedInUser facebookLoggedInUser, Response response) {
 
-                LoadingDialog.cancelLoading();
-                LoggedInUser loggedInUser = new LoggedInUser();
 
-                loggedInUser.setProfile_pic(socialMediaUser.getFacebookPicture().getData().getUrl());
-                loggedInUser.setName(facebookLoggedInUser.getName());
-                loggedInUser.setEmail(facebookLoggedInUser.getEmail());
-                loggedInUser.setPhone(facebookLoggedInUser.getPhone());
-                loggedInUser.setAuthToken(facebookLoggedInUser.getAuthentication_token());
-                Log.e("NITISH", "success: loginuserId-----------on login" + facebookLoggedInUser.getId());
-                loggedInUser.setId(String.valueOf(facebookLoggedInUser.getId()));
-                loggedInUser.setRole(facebookLoggedInUser.getRole());
-                loggedInUser.setPhoneValidated(facebookLoggedInUser.isPhone_confirmed());
-                loggedInUser.setEmailValidated(facebookLoggedInUser.isEmail_validated());
-                loggedInUser.setBirthday(socialMediaUser.getBirthday());
-                loggedInUser.setGender(socialMediaUser.getGender());
-                loggedInUser.setJid(facebookLoggedInUser.getJid());
-                loggedInUser.setChatPassword(facebookLoggedInUser.getChat_password());
-
-                Util.saveUser(loggedInUser, getActivity(), Util.USER_LOGGED_IN_USING_FACEBOOK);
-                Toast.makeText(getActivity(), R.string.login, Toast.LENGTH_SHORT).show();
-                if (isFromOnBoarding) {
-                    Intent intent = new Intent(getActivity(), CitySelectionActivity.class);
-                    intent.putExtra("type", "GetStarted");
-                    startActivity(intent);
-                    getActivity().finish();
-                } else if (isFromChat) {
-                    Intent intent = new Intent(getActivity(), ChatInitiateActivity.class);
-                    startActivity(intent);
-                    getActivity().finish();
-
-                } else {
-                    getActivity().setResult(100);
-                    getActivity().finish();
+                    }
                 }
-            }
 
-            @Override
-            public void failure(RetrofitError error) {
-                if (LoginManager.getInstance() != null)
-                    LoginManager.getInstance().logOut();
-                LoadingDialog.cancelLoading();
-            }
-        });
+                @Override
+                public void onFailure(Call<GoogleLoginResponse> call, Throwable t) {
+                    LoadingDialog.cancelLoading();
+                }
 
 
-    }*/
+            });
+
+        } else {
+            SnakBarUtils.networkConnected(this);
+        }
+
+    }
+
+
 }
 
