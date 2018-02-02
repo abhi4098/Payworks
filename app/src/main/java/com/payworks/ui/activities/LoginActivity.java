@@ -105,6 +105,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
     private RetrofitInterface.facebookLoginClient FacebookLoginAdapter;
     private RetrofitInterface.googleLoginClient GoogleLoginAdapter;
     String emailFromFacebook,facebookId,firstNameFromFb,lastNamefromFb,genderFromFb;
+    Uri test;
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -375,7 +376,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
                     };
                     mProfileTracker.startTracking();
                 } else {
-
+                    Log.e("abhi", "onSuccess:''''''''''''''''''''else " );
                     getDetailsFromFacebook();
 
                 }
@@ -389,7 +390,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
 
             @Override
             public void onError(FacebookException exception) {
-                // App code
+                Log.e("abhi", "onError:--------------------  ");
                 LogUtils.LOGD("", exception.getMessage());
             }
         });
@@ -448,7 +449,10 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
                                 facebookId = object.getString("id");
                                 socialMediaUser.setId(object.getString("id"));
                                 socialMediaUser.setUid(object.getString("id"));
+
                             }
+
+                            loginViaFacebook();
 
                         } catch (JSONException exception) {
                             exception.printStackTrace();
@@ -469,7 +473,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
         request.setParameters(parameters);
         request.executeAsync();
 
-        loginViaFacebook();
+
 
         LoadingDialog.cancelLoading();
     }
@@ -625,7 +629,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
                         {
                             PrefUtils.storeUsernId(response.body().getTokenid(), LoginActivity.this);
                             PrefUtils.storePhone(" ", LoginActivity.this);
-                            Log.e("abhi", "onResponse: google user id............" +response.body().getTokenid() );
+                            Log.e("abhi", "onResponse: google user idccccccccccc............" +response.body().getTokenid() );
                             Intent intent = new Intent(getApplicationContext(), NavigationalActivity.class);
                             intent.putExtra("type", "GetStarted");
                             startActivity(intent);

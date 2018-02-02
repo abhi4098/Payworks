@@ -18,6 +18,8 @@ import com.payworks.generated.model.GetOTP;
 import com.payworks.generated.model.GetOTPResponse;
 import com.payworks.generated.model.GoogleLogin;
 import com.payworks.generated.model.GoogleLoginResponse;
+import com.payworks.generated.model.ImageNameUpdate;
+import com.payworks.generated.model.ImageNameUpdateResponse;
 import com.payworks.generated.model.Login;
 import com.payworks.generated.model.MerchantData;
 import com.payworks.generated.model.MerchantDonationResponse;
@@ -49,9 +51,14 @@ import com.payworks.generated.model.StateListResponse;
 import com.payworks.generated.model.UploadPhoto;
 import com.payworks.generated.model.UploadPhotoResponse;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public class RetrofitInterface {
 
@@ -196,8 +203,9 @@ public class RetrofitInterface {
     }
 
     public interface updateProfilePicClient {
-        @POST("uploadProfileImage.html")
-        Call<UploadPhotoResponse> uploadImageData(@Body UploadPhoto uploadPhoto);
+        @Multipart
+        @POST("profileimage")
+        Call<UploadPhotoResponse> uploadImageData(@Part MultipartBody.Part profilepic ,@Part("profilepic") RequestBody name);
 
     }
 
@@ -210,6 +218,12 @@ public class RetrofitInterface {
     public interface googleLoginClient {
         @POST("glogin.html")
         Call<GoogleLoginResponse> googleLoginData(@Body GoogleLogin googleLogin);
+
+    }
+
+    public interface imageNameServerClient {
+        @POST("updateImageName")
+        Call<ImageNameUpdateResponse> imageNameServerClientData(@Body ImageNameUpdate imageNameUpdate);
 
     }
 

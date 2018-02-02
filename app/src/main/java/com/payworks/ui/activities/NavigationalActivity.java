@@ -52,7 +52,10 @@ import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.ApiEndPoints;
 import com.payworks.api.RetrofitInterface;
+import com.payworks.generated.model.ImageNameUpdate;
+import com.payworks.generated.model.ImageNameUpdateResponse;
 import com.payworks.generated.model.MyProfile;
+import com.payworks.generated.model.MyProfileResponse;
 import com.payworks.generated.model.MyWalletResponse;
 import com.payworks.generated.model.SentMoney;
 import com.payworks.generated.model.SentMoneyResponse;
@@ -78,10 +81,14 @@ import java.io.File;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.payworks.api.ApiEndPoints.BASE_URL;
 import static com.payworks.api.ApiEndPoints.BASE_URL_FOR_IMAGE;
 
 public class NavigationalActivity extends AppCompatActivity
@@ -94,7 +101,9 @@ public class NavigationalActivity extends AppCompatActivity
     private static final String TAG = "NavigationalActivity";
     private RetrofitInterface.UserWalletClient UserWalletAdapter;
     private RetrofitInterface.updateProfilePicClient UpdatePhotoAdapter;
+    private RetrofitInterface.imageNameServerClient ImageNameServerAdapter;
     String walletBalance;
+    private RetrofitInterface.UserMyProfileClient MyProfileAdapter;
     TextView headerName,headerEmail,headerPhone,headerUploadPhoto;
     de.hdodenhof.circleimageview.CircleImageView personImage;
 
@@ -214,6 +223,7 @@ public class NavigationalActivity extends AppCompatActivity
                         personImage.setImageBitmap(output);
                         imageProgressBar.setVisibility(View.GONE);
 
+
                     }
                 });
     }
@@ -223,9 +233,8 @@ public class NavigationalActivity extends AppCompatActivity
         headerEmail.setText(PrefUtils.getEmail(NavigationalActivity.this));
         headerPhone.setText(PrefUtils.getPhone(NavigationalActivity.this));
         if (PrefUtils.getUserImage(NavigationalActivity.this) !=null) {
-            imageUri = PrefUtils.getUserImage(NavigationalActivity.this);
-            Log.e("abhi", "setHeaderData: ------------------"+imageUri );
-            setProfilePicURL(imageUri);
+            //imageUri = PrefUtils.getUserImage(NavigationalActivity.this);
+            getMyProfileDetails();
         }
         headerUploadPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,6 +244,42 @@ public class NavigationalActivity extends AppCompatActivity
 
             }
         });
+    }
+    private void getMyProfileDetails() {
+        LoadingDialog.showLoadingDialog(this,"Loading...");
+        Call<MyProfileResponse> call = MyProfileAdapter.userMyProfile(new MyProfile("profile", PrefUtils.getUserId(this),"83Ide@$321!"));
+        if (NetworkUtils.isNetworkConnected(this)) {
+            call.enqueue(new Callback<MyProfileResponse>() {
+
+                @Override
+                public void onResponse(Call<MyProfileResponse> call, Response<MyProfileResponse> response) {
+
+                    if (response.isSuccessful()) {
+                        if (response.body().getProfile().getProfilePic() != null) {
+                            profilePicUrl = response.body().getProfile().getProfilePic();
+                            String profilePictureUrlComplete = BASE_URL_FOR_IMAGE + profilePicUrl;
+                            PrefUtils.storeUserImage(profilePictureUrlComplete,getApplicationContext());
+                            Log.e(TAG, "onResponse: image link............"+ profilePictureUrlComplete);
+                            setProfilePicURL(profilePictureUrlComplete);
+                        }
+                        LoadingDialog.cancelLoading();
+
+
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MyProfileResponse> call, Throwable t) {
+                    LoadingDialog.cancelLoading();
+                }
+
+
+            });
+
+        } else {
+            SnakBarUtils.networkConnected(this);
+        }
     }
 
 
@@ -371,17 +416,12 @@ public class NavigationalActivity extends AppCompatActivity
 
     private void sendImagesToServerFromCamera(String imgDecodableString) {
 
-        String data;
-        data = imgDecodableString;
-        String[] items = data.split("/");
-        for (String item : items)
-        {
-           // System.out.println("item = " + item);
-            Log.e(TAG, "sendImagesToServerFromCamera: "+item );
-            fileName =item; 
-        }
+        File imgPath = new File(imgDecodableString);
+        RequestBody mFile = RequestBody.create(MediaType.parse("image/jpg"), imgPath);
+        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("profilepic", imgPath.getName(), mFile);
+        RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), imgPath.getName());
         LoadingDialog.showLoadingDialog(this,"Loading...");
-        Call<UploadPhotoResponse> call = UpdatePhotoAdapter.uploadImageData(new UploadPhoto("uploadProfileImage", PrefUtils.getUserId(NavigationalActivity.this),"83Ide@$321!",imgDecodableString,fileName));
+        Call<UploadPhotoResponse> call = UpdatePhotoAdapter.uploadImageData(fileToUpload,filename);
         if (NetworkUtils.isNetworkConnected(this)) {
             call.enqueue(new Callback<UploadPhotoResponse>() {
 
@@ -391,14 +431,15 @@ public class NavigationalActivity extends AppCompatActivity
                     if (response.isSuccessful()) {
                         if (response.body().getType() == 1) {
 
-                            Log.e(TAG, "onResponse: ...................." + response.body().getMsg());
-                            if (response.body().getTokenid() != null) {
-                                profilePicUrl = fileName;
+                            Log.e(TAG, "onResponse: .............................................." + response.body().getMsg());
+                                Log.e(TAG, "onResponse: image link............" + response.body().getTokenid());
+                                /*profilePicUrl = response.body().getTokenid();
                                 String profilePictureUrlComplete = BASE_URL_FOR_IMAGE + profilePicUrl;
                                 PrefUtils.storeUserImage(profilePictureUrlComplete, NavigationalActivity.this);
-                                Log.e(TAG, "onResponse: image link............" + profilePictureUrlComplete);
-                                setProfilePicURL(profilePictureUrlComplete);
-                            }
+                                Log.e(TAG, "onResponse: image link............" + profilePictureUrlComplete);*/
+                                sendImageNameToServer(response.body().getTokenid());
+
+
 
                         }
                         LoadingDialog.cancelLoading();
@@ -410,6 +451,56 @@ public class NavigationalActivity extends AppCompatActivity
 
                 @Override
                 public void onFailure(Call<UploadPhotoResponse> call, Throwable t) {
+                    Log.e(TAG, "onFailure: ............" + t.getCause() );
+                    LoadingDialog.cancelLoading();
+                }
+
+
+            });
+
+        } else {
+            SnakBarUtils.networkConnected(this);
+        }
+    }
+
+    private void sendImageNameToServer(final String imageName) {
+
+        LoadingDialog.showLoadingDialog(this,"Loading...");
+        Call<ImageNameUpdateResponse> call = ImageNameServerAdapter.imageNameServerClientData(new ImageNameUpdate("updateImageName", PrefUtils.getUserId(this),imageName,"83Ide@$321!"));
+        if (NetworkUtils.isNetworkConnected(this)) {
+            call.enqueue(new Callback<ImageNameUpdateResponse>() {
+
+                @Override
+                public void onResponse(Call<ImageNameUpdateResponse> call, Response<ImageNameUpdateResponse> response) {
+
+                    if (response.isSuccessful()) {
+                        if (response.body().getType() == 1) {
+
+                                profilePicUrl = imageName;
+                                String profilePictureUrlComplete = BASE_URL_FOR_IMAGE + profilePicUrl;
+                                PrefUtils.storeUserImage(profilePictureUrlComplete, NavigationalActivity.this);
+                                Log.e(TAG, "onResponse: image link............" + profilePictureUrlComplete);
+                                setProfilePicURL(profilePictureUrlComplete);
+                            Toast.makeText(getApplicationContext(),response.body().getMsg(),Toast.LENGTH_SHORT).show();
+
+
+                        }
+                        else
+                        {
+                            personImage.setBackgroundResource(R.drawable.new_customer_icon);
+                            Toast.makeText(getApplicationContext(),response.body().getMsg(),Toast.LENGTH_SHORT).show();
+                        }
+                        LoadingDialog.cancelLoading();
+
+
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ImageNameUpdateResponse> call, Throwable t) {
+                    Log.e(TAG, "onFailure: ............" + t.getCause() );
+                    Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
                     LoadingDialog.cancelLoading();
                 }
 
@@ -719,6 +810,8 @@ public class NavigationalActivity extends AppCompatActivity
     private void setUpRestAdapter() {
         UserWalletAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserWalletClient.class, ApiEndPoints.BASE_URL, this);
          UpdatePhotoAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.updateProfilePicClient.class, ApiEndPoints.BASE_URL, this);
+        ImageNameServerAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.imageNameServerClient.class, ApiEndPoints.BASE_URL, this);
+        MyProfileAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserMyProfileClient.class, BASE_URL, this);
     }
 
     @Override

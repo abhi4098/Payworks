@@ -138,6 +138,9 @@ public class MyProfileFragment extends Fragment {
                             Log.e(TAG, "onResponse: image link............"+ profilePictureUrlComplete);
                             setProfilePicURL(profilePictureUrlComplete);
                         }
+                        else {
+                            personImage.setBackgroundResource(R.drawable.new_customer_icon);
+                        }
                         LoadingDialog.cancelLoading();
 
 

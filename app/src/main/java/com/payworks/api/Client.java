@@ -54,6 +54,7 @@ public class Client {
                     mClient = new OkHttpClient().newBuilder()
                             .cache(new Cache(context.getApplicationContext().getCacheDir(), cacheSize))
                             .readTimeout(60, TimeUnit.SECONDS)
+                            .writeTimeout(60, TimeUnit.SECONDS)
                             .connectTimeout(60, TimeUnit.SECONDS)
                             .addInterceptor(requestInterceptor)
                             .addInterceptor(logging)
