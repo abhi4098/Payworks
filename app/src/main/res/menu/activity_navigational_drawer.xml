@@ -6,7 +6,7 @@
         <item
             android:id="@+id/nav_Home"
             android:icon="@drawable/sliding_wallet48"
-            android:title="WALLET" />
+            android:title="DASHBOARD" />
         <item
             android:id="@+id/nav_my_profile"
             android:icon="@drawable/sliding_propfile48"
@@ -15,17 +15,17 @@
         <item
             android:id="@+id/nav_merchant"
             android:icon="@drawable/sliding_propfile48"
-            android:title="MERCHANT" />
+            android:title="MERCHANTS" />
 
 
         <item
             android:id="@+id/nav_my_transactions"
             android:icon="@drawable/sliding_transactions48"
-            android:title="MY TRANSACTION" />
+            android:title="MY TRANSACTIONS" />
         <item
             android:id="@+id/nav_sent_money_request"
             android:icon="@drawable/sliding_sent_request64"
-            android:title="SENT REQUEST" />
+            android:title="SENT REQUESTS" />
 
 
         <item
@@ -35,11 +35,11 @@
         <item
             android:id="@+id/nav_my_bank_account"
             android:icon="@drawable/sliding_bank_account48"
-            android:title="MY BANK ACCOUNT" />
+            android:title="MY BANK ACCOUNTS" />
         <item
             android:id="@+id/nav_notification"
             android:icon="@drawable/sliding_notification48"
-            android:title="NOTIFICATION" />
+            android:title="NOTIFICATIONS" />
 
         <item
             android:id="@+id/nav_logout"

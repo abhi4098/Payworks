@@ -131,6 +131,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
     private View mLoginFormView;
     Button btnRegistration;
     TextView btnForgotPassword;
+    String testImage = "test";
     Button mSignInButton;
     SignInButton btnGoogleLogin;
     LoginButton btnFacebookLogin;
@@ -616,7 +617,7 @@ public class LoginActivity extends AppCompatActivity implements  GoogleApiClient
 
     private void loginViaGoogle(GoogleSignInAccount account) {
         LoadingDialog.showLoadingDialog(this,"Loading...");
-        Call<GoogleLoginResponse> call = GoogleLoginAdapter.googleLoginData(new GoogleLogin(account.getEmail(),account.getDisplayName(),account.getId(),account.getPhotoUrl(),"glogin","83Ide@$321!"));
+        Call<GoogleLoginResponse> call = GoogleLoginAdapter.googleLoginData(new GoogleLogin(account.getEmail(),account.getDisplayName(),account.getId(),testImage,"glogin","83Ide@$321!"));
         if (NetworkUtils.isNetworkConnected(this)) {
             call.enqueue(new Callback<GoogleLoginResponse>() {
 

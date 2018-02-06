@@ -438,7 +438,8 @@ public class AddCardDetailActivity extends BaseActivity {
                 creditCardView.setCardNumber(cardNumber);
                 llcardContainer.addView(creditCardView);
                 llAditionalDetails.setVisibility(View.VISIBLE);
-                btnAddCard.setVisibility(View.GONE);
+               // btnAddCard.setVisibility(View.GONE);
+                btnAddCard.setText("UPDATE");
 
             }
 

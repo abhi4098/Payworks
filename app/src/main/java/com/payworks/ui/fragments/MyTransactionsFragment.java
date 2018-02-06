@@ -14,6 +14,10 @@ import android.view.ViewGroup;
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
+import com.payworks.generated.model.GetClient;
+import com.payworks.generated.model.GetClientResponse;
+import com.payworks.generated.model.GetUser;
+import com.payworks.generated.model.GetUserResponse;
 import com.payworks.generated.model.MyTransactions;
 import com.payworks.generated.model.MyTransactionsResponse;
 import com.payworks.generated.model.Usertransaction;
@@ -52,7 +56,11 @@ public class MyTransactionsFragment extends Fragment {
     private static final String TAG = LogUtils.makeLogTag(MyTransactionFragment.class);
     private RetrofitInterface.UserTransactionsClient MyTransactionAdapter;
     ArrayList<Usertransaction> myTransactionList = null;
-
+    private RetrofitInterface.getUserDetailsClient UserDetailAdapter;
+    private RetrofitInterface.getClientDetailsClient ClientDetailAdapter;
+    String userName,clientName;
+    int listSize;
+    int count=0;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -84,6 +92,7 @@ public class MyTransactionsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
         setUpRestAdapter();
+        LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
         getUserTransactions(view);
         // Set the adapter
 
@@ -135,7 +144,7 @@ public class MyTransactionsFragment extends Fragment {
                     if (response.isSuccessful()) {
                         Log.e(TAG, "onResponse: " +response.body().getUsertransactions().size() );
                         setUserTransaction(response,view);
-                        LoadingDialog.cancelLoading();
+                       // LoadingDialog.cancelLoading();
 
 
 
@@ -160,7 +169,17 @@ public class MyTransactionsFragment extends Fragment {
     private void setUserTransaction(Response<MyTransactionsResponse> response, View view) {
 
         myTransactionList = new ArrayList<>();
-        for (int i = 0; i < response.body().getUsertransactions().size(); i++) {
+        if (response.body().getUsertransactions().size()< 20)
+        {
+           listSize =  response.body().getUsertransactions().size();
+
+        }
+        else
+        {
+            listSize =  response.body().getUsertransactions().size();
+            //listSize =  20;
+        }
+        for (int i = 0; i < listSize; i++) {
             Usertransaction usertransaction = new Usertransaction();
 
             DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -180,33 +199,155 @@ public class MyTransactionsFragment extends Fragment {
             usertransaction.setTransactionMode(response.body().getUsertransactions().get(i).getTransactionMode());
             usertransaction.setFullname(response.body().getUsertransactions().get(i).getFullname());
             usertransaction.setMerchantType(response.body().getUsertransactions().get(i).getMerchantType());
-            usertransaction.setFullothername(response.body().getUsertransactions().get(i).getFullothername());
+            if (response.body().getUsertransactions().get(i).getTransactionMode().equals("4") || response.body().getUsertransactions().get(i).getTransactionMode().equals("5") )
+            {
+                getClientDetails(response.body().getUsertransactions().get(i).getTransactedTo(),usertransaction,view);
+
+            }
+            else
+            {
+                getUserDetails(response.body().getUsertransactions().get(i).getTransactedTo(),usertransaction,view);
+
+            }
+
             usertransaction.setTransactionId(response.body().getUsertransactions().get(i).getTransactionId());
             usertransaction.setTransactionStatus(response.body().getUsertransactions().get(i).getTransactionStatus());
             usertransaction.setReferenceid(response.body().getUsertransactions().get(i).getReferenceid());
             usertransaction.setTransactionComment(response.body().getUsertransactions().get(i).getTransactionComment());
             usertransaction.setTransactionAmount(response.body().getUsertransactions().get(i).getTransactionAmount());
-            Log.e(TAG, "setUserTransaction: =========" );
+            usertransaction.setTransactedTo(response.body().getUsertransactions().get(i).getTransactedTo());
+
+            Log.e(TAG, "setUserTransaction to: .................=========" +usertransaction.getFullname());
 
             myTransactionList.add(usertransaction);
+            Log.e(TAG, "setUserTransaction: count  ....listsize" + count + " " +listSize );
+          /*  if (count == listSize)
+            {
+                Log.e(TAG, "setUserTransaction: count  ....listsize" + count + " " +listSize );
+                if (view instanceof RecyclerView) {
+                    Context context = view.getContext();
+                    RecyclerView recyclerView = (RecyclerView) view;
+                    if (mColumnCount <= 1) {
+                        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                    } else {
+                        recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                    }
+                    Log.e(TAG, "onCreateView: ------------reached set adapter" );
+                    recyclerView.setAdapter(new MyItemRecyclerViewAdapter(myTransactionList, mListener,getActivity()));
+
+                }
+            }*/
         }
 
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            Log.e(TAG, "onCreateView: ------------reached set adapter" );
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(myTransactionList, mListener));
-        }
+
+
     }
 
 
     private void setUpRestAdapter() {
         MyTransactionAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserTransactionsClient.class, BASE_URL, getActivity());
+        ClientDetailAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.getClientDetailsClient.class, BASE_URL,getActivity());
+        UserDetailAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.getUserDetailsClient.class, BASE_URL, getActivity());
+    }
 
+    private void getUserDetails(String transactedTo, final Usertransaction usertransaction, final View view) {
+      //  LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
+        Call<GetUserResponse> call = UserDetailAdapter.userData(new GetUser(transactedTo,"getUser","83Ide@$321!"));
+        if (NetworkUtils.isNetworkConnected(getActivity())) {
+            call.enqueue(new Callback<GetUserResponse>() {
+
+                @Override
+                public void onResponse(Call<GetUserResponse> call, Response<GetUserResponse> response) {
+
+                    if (response.isSuccessful()) {
+                        for (int i = 0; i < response.body().getMsg().size(); i++) {
+                            userName =response.body().getMsg().get(i).getFullname();
+                            usertransaction.setFullname(userName);
+                            count++;
+                            populateTransactionList(view);
+                            Log.e("abhi", "onResponse:username..................... " +userName );
+                        }
+
+
+                       // LoadingDialog.cancelLoading();
+
+
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GetUserResponse> call, Throwable t) {
+                     LoadingDialog.cancelLoading();
+                }
+
+
+            });
+
+        } else {
+            SnakBarUtils.networkConnected(getActivity());
+            LoadingDialog.cancelLoading();
+        }
+    }
+
+    private void getClientDetails(String transactedTo, final Usertransaction usertransaction, final View view) {
+       // LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
+        Call<GetClientResponse> call = ClientDetailAdapter.clientData(new GetClient(transactedTo,"getClient","83Ide@$321!"));
+        if (NetworkUtils.isNetworkConnected(getActivity())) {
+            call.enqueue(new Callback<GetClientResponse>() {
+
+                @Override
+                public void onResponse(Call<GetClientResponse> call, Response<GetClientResponse> response) {
+
+                    if (response.isSuccessful()) {
+                        for (int i = 0; i < response.body().getMsg().size(); i++) {
+                            clientName =response.body().getMsg().get(i).getFullname();
+                            usertransaction.setFullname(clientName);
+                            count++;
+                            populateTransactionList(view);
+                            Log.e("abhi", "onResponse:username..................... " +clientName );
+                        }
+
+
+                       // LoadingDialog.cancelLoading();
+
+
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GetClientResponse> call, Throwable t) {
+                    LoadingDialog.cancelLoading();
+                }
+
+
+            });
+
+        } else {
+            SnakBarUtils.networkConnected(getActivity());
+             LoadingDialog.cancelLoading();
+        }
+    }
+
+    private void populateTransactionList(View view) {
+        Log.e(TAG, "setUserTransaction: count  ....listsize" + count + " " +listSize );
+        if (count == 4)
+        {
+            LoadingDialog.cancelLoading();
+
+            if (view instanceof RecyclerView) {
+                Context context = view.getContext();
+                RecyclerView recyclerView = (RecyclerView) view;
+                if (mColumnCount <= 1) {
+                    recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                } else {
+                    recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                }
+                Log.e("abhi", "onCreateView: ------------reached set adapter" );
+                recyclerView.setAdapter(new MyItemRecyclerViewAdapter(myTransactionList, mListener));
+
+            }
+        }
     }
 }

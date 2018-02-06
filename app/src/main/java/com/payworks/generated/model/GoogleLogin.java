@@ -19,7 +19,7 @@ public class GoogleLogin {
     private String name;
     @SerializedName("profile_pic")
     @Expose
-    private Uri profilePic;
+    private String profilePic;
     @SerializedName("type")
     @Expose
     private String type;
@@ -27,7 +27,7 @@ public class GoogleLogin {
     @Expose
     private String token;
 
-    public GoogleLogin(String email, String name,String gid,Uri profilePic,String type,String token) {
+    public GoogleLogin(String email, String name,String gid,String profilePic,String type,String token) {
         this.email = email;
         this.name = name;
         this.gid = gid;

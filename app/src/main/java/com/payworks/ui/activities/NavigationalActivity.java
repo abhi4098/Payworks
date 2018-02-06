@@ -572,7 +572,7 @@ public class NavigationalActivity extends AppCompatActivity
         profileHomePageFragment = new ProfileHomePageFragment();
         fragmentTransaction.add(R.id.fragment_container, profileHomePageFragment, "PROFILE").addToBackStack(null);
         fragmentTransaction.commit();
-        tvAppTitle.setText("WALLET");
+        tvAppTitle.setText("DASHBOARD");
         Log.e(TAG, "setFragment: =================="+walletBalance );
        // tvWalletBalance.setText(walletBalance);
 
@@ -609,7 +609,7 @@ public class NavigationalActivity extends AppCompatActivity
                 onNavigationItemSelected(itemid);
             }
             Log.e("abhi", "onBackPressed: "+getFragmentManager().getBackStackEntryCount() );
-            tvAppTitle.setText("WALLET");
+            tvAppTitle.setText("DASHBOARD");
             super.onBackPressed();
 
 
@@ -751,7 +751,7 @@ public class NavigationalActivity extends AppCompatActivity
             if (getFragmentManager().findFragmentById(R.id.fragment_container) == null) {
                 Log.e("abhi", "onClick: ----------------if"  );
                 onNavigationItemSelected(itemid);
-                tvAppTitle.setText("WALLET");
+                tvAppTitle.setText("DASHBOARD");
                 ivBackIcon.setVisibility(View.INVISIBLE);
             }
 

@@ -1,17 +1,43 @@
 package com.payworks.ui.adapters;
 
+import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.payworks.R;
+import com.payworks.api.ApiAdapter;
+import com.payworks.api.RetrofitInterface;
+import com.payworks.generated.model.GetClient;
+import com.payworks.generated.model.GetClientResponse;
+import com.payworks.generated.model.GetUser;
+import com.payworks.generated.model.GetUserResponse;
+import com.payworks.generated.model.Msg;
+import com.payworks.generated.model.MyTransactions;
+import com.payworks.generated.model.MyTransactionsResponse;
 import com.payworks.generated.model.Usertransaction;
 import com.payworks.ui.fragments.MyTransactionsFragment.OnListFragmentInteractionListener;
+import com.payworks.utils.LoadingDialog;
+import com.payworks.utils.NetworkUtils;
+import com.payworks.utils.PrefUtils;
+import com.payworks.utils.SnakBarUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.payworks.api.ApiEndPoints.BASE_URL;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link } and makes a call to the
@@ -22,10 +48,15 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     private final ArrayList<Usertransaction> mValues;
     private final OnListFragmentInteractionListener mListener;
+    int listSize;
+
+
 
     public MyItemRecyclerViewAdapter(ArrayList<Usertransaction> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
+       // this.listSize = listSize;
+
     }
 
     @Override
@@ -83,7 +114,10 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             }
             holder.mTransactionTypeView.setText(status);
         }
-        holder.mTransactionCommentView.setText(mValues.get(position).getFullothername());
+
+
+        holder.mTransactionCommentView.setText(mValues.get(position).getFullname());
+        Log.e("abhi", "onBindViewHolder:.................. "+ mValues.get(position).getFullname());
         holder.mAmount.setText(mValues.get(position).getTransactionAmount());
 
 
@@ -99,6 +133,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         });
     }
 
+
+
     @Override
     public int getItemCount() {
         return mValues.size();
@@ -111,6 +147,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public final TextView mTransactionIdView;
         public final TextView mTransactionCommentView;
         public final TextView mTransactionTypeView;
+
         public Usertransaction mItem;
 
         public ViewHolder(View view) {
