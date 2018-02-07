@@ -97,6 +97,8 @@
     <string name="camera">Camera</string>
     <string name="docs">Docs</string>
     <string name="gallery">Gallery</string>
+    <string name="show_more">Show more</string>
+    <string name="welcome_to_payworks_tm">Welcome to PayWorks TM</string>
 
     <string-array name="priority_array">
         <item>Normal</item>

@@ -14,7 +14,7 @@
 
         <item
             android:id="@+id/nav_merchant"
-            android:icon="@drawable/sliding_propfile48"
+            android:icon="@drawable/merchant64"
             android:title="MERCHANTS" />
 
 

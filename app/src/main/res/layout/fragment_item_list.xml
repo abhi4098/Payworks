@@ -1,18 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
 
 
-    >-->
-    <!--<TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="under construction"
-        android:background="#000000"/>-->
+    >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_alignParentTop="true"
+    android:id="@+id/ll_show_stats"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:layout_height="wrap_content">
 
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    <TextView
+        android:id="@+id/show_stats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Showing the count"
+        android:textSize="15sp"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:padding="2dp"
+        android:id="@+id/show_more_button"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/button_state_selector"
+        android:text="@string/show_more"/>
+
+
+</RelativeLayout>
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ll_show_stats"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:scrollbars="none"
+        android:layout_marginBottom="20dp"
+
+        >
+    </ListView>
+
+<!--<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list"
@@ -23,6 +63,6 @@
     android:background="@drawable/all_screens_bg"
     tools:context="com.payworks.ui.fragments.MyTransactionsFragment"
     tools:listitem="@layout/fragment_item"
-    android:layout_marginBottom="20dp"/>
-<!--
-</LinearLayout>-->
+    android:layout_marginBottom="20dp"/>-->
+
+</RelativeLayout>

@@ -1,15 +1,16 @@
 package com.payworks.ui.fragments;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
@@ -21,7 +22,7 @@ import com.payworks.generated.model.GetUserResponse;
 import com.payworks.generated.model.MyTransactions;
 import com.payworks.generated.model.MyTransactionsResponse;
 import com.payworks.generated.model.Usertransaction;
-import com.payworks.ui.adapters.MyItemRecyclerViewAdapter;
+import com.payworks.ui.adapters.MyTransactionsAdapter;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.LogUtils;
 import com.payworks.utils.NetworkUtils;
@@ -46,7 +47,13 @@ import static com.payworks.api.ApiEndPoints.BASE_URL;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class MyTransactionsFragment extends Fragment {
+public class MyTransactionsFragment extends Fragment implements View.OnClickListener{
+
+    ListView listview;
+    MyTransactionsAdapter myTransactionsAdapter;
+    Button showMoreButton;
+    int totalItems = 0;
+    TextView emptyMessage, tvPageNum, tvShowStats;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -61,6 +68,8 @@ public class MyTransactionsFragment extends Fragment {
     String userName,clientName;
     int listSize;
     int count=0;
+    int pageNum =1;
+    int  totalNoPages = 0;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -91,6 +100,9 @@ public class MyTransactionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
+        listview = (ListView) view.findViewById(R.id.listview);
+        showMoreButton = (Button) view.findViewById(R.id.show_more_button);
+        showMoreButton.setOnClickListener(this);
         setUpRestAdapter();
         LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
         getUserTransactions(view);
@@ -115,6 +127,11 @@ public class MyTransactionsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 
     /**
@@ -167,9 +184,11 @@ public class MyTransactionsFragment extends Fragment {
     }
 
     private void setUserTransaction(Response<MyTransactionsResponse> response, View view) {
-
+        pageNum = 1;
+        showMoreButton.setEnabled(true);
         myTransactionList = new ArrayList<>();
-        if (response.body().getUsertransactions().size()< 20)
+        totalItems =  response.body().getUsertransactions().size();
+       /* if (response.body().getUsertransactions().size()< 20)
         {
            listSize =  response.body().getUsertransactions().size();
 
@@ -178,8 +197,8 @@ public class MyTransactionsFragment extends Fragment {
         {
             listSize =  response.body().getUsertransactions().size();
             //listSize =  20;
-        }
-        for (int i = 0; i < listSize; i++) {
+        }*/
+        for (int i = 0; i < totalItems; i++) {
             Usertransaction usertransaction = new Usertransaction();
 
             DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -217,26 +236,27 @@ public class MyTransactionsFragment extends Fragment {
             usertransaction.setTransactionAmount(response.body().getUsertransactions().get(i).getTransactionAmount());
             usertransaction.setTransactedTo(response.body().getUsertransactions().get(i).getTransactedTo());
 
-            Log.e(TAG, "setUserTransaction to: .................=========" +usertransaction.getFullname());
 
             myTransactionList.add(usertransaction);
-            Log.e(TAG, "setUserTransaction: count  ....listsize" + count + " " +listSize );
-          /*  if (count == listSize)
-            {
-                Log.e(TAG, "setUserTransaction: count  ....listsize" + count + " " +listSize );
-                if (view instanceof RecyclerView) {
-                    Context context = view.getContext();
-                    RecyclerView recyclerView = (RecyclerView) view;
-                    if (mColumnCount <= 1) {
-                        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                    } else {
-                        recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-                    }
-                    Log.e(TAG, "onCreateView: ------------reached set adapter" );
-                    recyclerView.setAdapter(new MyItemRecyclerViewAdapter(myTransactionList, mListener,getActivity()));
 
-                }
-            }*/
+
+        }
+
+        if (totalItems != 0)
+
+        {
+            if ((totalItems % 20) == 0) {
+                // number is even
+                totalNoPages = totalItems / 20;
+
+            }
+
+            else {
+
+                totalNoPages = ((totalItems / 20)+1);
+
+            }
+
         }
 
 
@@ -331,23 +351,19 @@ public class MyTransactionsFragment extends Fragment {
     }
 
     private void populateTransactionList(View view) {
-        Log.e(TAG, "setUserTransaction: count  ....listsize" + count + " " +listSize );
+
         if (count == 4)
         {
             LoadingDialog.cancelLoading();
 
-            if (view instanceof RecyclerView) {
-                Context context = view.getContext();
-                RecyclerView recyclerView = (RecyclerView) view;
-                if (mColumnCount <= 1) {
-                    recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                } else {
-                    recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-                }
-                Log.e("abhi", "onCreateView: ------------reached set adapter" );
-                recyclerView.setAdapter(new MyItemRecyclerViewAdapter(myTransactionList, mListener));
+            myTransactionsAdapter = new MyTransactionsAdapter(getActivity(), R.layout.fragment_item, R.id.transactions_name, myTransactionList);
+            listview.setAdapter(myTransactionsAdapter);
+            LoadingDialog.cancelLoading();
+            listview.setDivider(new ColorDrawable(getResources().getColor(R.color.lighter_gray)));
+            listview.setDividerHeight(1);
+            listview.setTextFilterEnabled(true);
 
-            }
+
         }
     }
 }

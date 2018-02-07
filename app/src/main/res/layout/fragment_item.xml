@@ -51,52 +51,83 @@
             android:layout_toEndOf="@+id/round_icon"
             android:orientation="vertical">
         <TextView
-            android:id="@+id/transaction_comment"
+            android:id="@+id/transactions_name"
+            android:text="zndsk"
             android:layout_width="wrap_content"
              android:layout_height="wrap_content"
             android:textSize="12sp"/>
 
-            <TextView
-                android:id="@+id/transaction_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:layout_marginTop="-2dp"
-                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="-2dp"
                 android:orientation="horizontal">
-               <!-- <TextView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:textSize="12sp"
-                    android:text="Trans ID: "/>-->
+                    android:text="Status: "/>
+                <TextView
+                    android:id="@+id/transaction_status"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:lines="1"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-2dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:text="Trans ID: "/>
             <TextView
                 android:id="@+id/transaction_id"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
                 android:textSize="12sp"
                 android:lines="1"
                 />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/transaction_comment"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:lines="1"
+                />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/dollar_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$"/>
 
         <TextView
             android:id="@+id/content"
             android:text="0.00"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
             android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="2dp"
             android:textColor="@color/theme_primary_dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
              />
+        </LinearLayout>
     </RelativeLayout>
 
 
