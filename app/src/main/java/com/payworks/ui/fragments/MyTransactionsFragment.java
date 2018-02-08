@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,11 +35,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.google.android.gms.internal.zzahn.runOnUiThread;
 import static com.payworks.api.ApiEndPoints.BASE_URL;
 
 /**
@@ -63,6 +67,7 @@ public class MyTransactionsFragment extends Fragment implements View.OnClickList
     private static final String TAG = LogUtils.makeLogTag(MyTransactionFragment.class);
     private RetrofitInterface.UserTransactionsClient MyTransactionAdapter;
     ArrayList<Usertransaction> myTransactionList = null;
+    ArrayList<Usertransaction> showTransactionList = null;
     private RetrofitInterface.getUserDetailsClient UserDetailAdapter;
     private RetrofitInterface.getClientDetailsClient ClientDetailAdapter;
     String userName,clientName;
@@ -102,6 +107,8 @@ public class MyTransactionsFragment extends Fragment implements View.OnClickList
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
         listview = (ListView) view.findViewById(R.id.listview);
         showMoreButton = (Button) view.findViewById(R.id.show_more_button);
+        emptyMessage = (TextView) view.findViewById(R.id.empty);
+        tvShowStats = (TextView) view.findViewById(R.id.show_stats);
         showMoreButton.setOnClickListener(this);
         setUpRestAdapter();
         LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
@@ -132,7 +139,108 @@ public class MyTransactionsFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View view) {
 
+        if (pageNum < totalNoPages)
+
+        {
+            showMoreButton.setEnabled(false);
+            showMoreButton.setText("Loading...");
+            showMoreButton.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.rectangular_background_light_gray));
+            Timer buttonTimer = new Timer();
+            buttonTimer.schedule(new TimerTask() {
+
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            showMoreButton.setEnabled(true);
+                            showMoreButton.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.button_state_selector));
+                            showMoreButton.setText("Show more");
+                        }
+                    });
+                }
+            }, 3000);
+
+            pageNum++;
+            showTransactionList = new ArrayList<>();
+            for (int i = 0; i < totalItems && i < pageNum * 10; i++) {
+                Usertransaction usertransaction = new Usertransaction();
+
+                usertransaction.setCreatedDate(myTransactionList.get(i).getCreatedDate());
+                usertransaction.setEmail(myTransactionList.get(i).getEmail());
+                usertransaction.setId(myTransactionList.get(i).getId());
+                usertransaction.setEmailotheruser(myTransactionList.get(i).getEmailotheruser());
+                usertransaction.setTransactionMode(myTransactionList.get(i).getTransactionMode());
+                usertransaction.setFullname(myTransactionList.get(i).getFullname());
+                usertransaction.setMerchantType(myTransactionList.get(i).getMerchantType());
+                usertransaction.setTransactionId(myTransactionList.get(i).getTransactionId());
+                usertransaction.setTransactionStatus(myTransactionList.get(i).getTransactionStatus());
+                usertransaction.setReferenceid(myTransactionList.get(i).getReferenceid());
+                usertransaction.setTransactionComment(myTransactionList.get(i).getTransactionComment());
+                usertransaction.setTransactionAmount(myTransactionList.get(i).getTransactionAmount());
+                usertransaction.setTransactedTo(myTransactionList.get(i).getTransactedTo());
+                Log.e("xyz", "onClick: user.........................." +myTransactionList.get(i).getFullname() );
+
+                showTransactionList.add(usertransaction);
+
+
+            }
+
+            setPageInformation();
+            myTransactionsAdapter = new MyTransactionsAdapter(getActivity(), R.layout.fragment_item, R.id.transactions_name, showTransactionList);
+            listview.setAdapter(myTransactionsAdapter);
+            LoadingDialog.cancelLoading();
+            listview.setDivider(new ColorDrawable(getResources().getColor(R.color.lighter_gray)));
+            listview.setDividerHeight(1);
+            listview.setTextFilterEnabled(true);
+        }
+        else
+        {
+            showMoreButton.setEnabled(false);
+            showMoreButton.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.rectangular_background_light_gray));
+            showMoreButton.setText("Show more");
+        }
+
+
+
     }
+
+    private void setPageInformation() {
+
+
+        if (totalItems != 0)
+
+        {
+            if ((totalItems % 10) == 0) {
+                totalNoPages = totalItems / 10;
+                tvShowStats.setText("Showing " +1 + " to " +pageNum*10 + " of "  +totalItems + " transactions" );
+            }
+
+            else if(totalItems<10)
+            {
+                totalNoPages = 1;
+                tvShowStats.setText("Showing " +1 + " to " +totalItems + " of "  +totalItems+ " transactions" );
+            }
+
+            else {
+
+                totalNoPages = ((totalItems / 10)+1);
+                if (pageNum == totalNoPages) {
+                    tvShowStats.setText("Showing " + 1 + " to " + totalItems + " of " + totalItems+ " transactions");
+                }
+                else
+                {
+                    tvShowStats.setText("Showing " + 1 + " to " + pageNum * 10 + " of " + totalItems+ " transactions");
+                }
+            }
+
+
+
+        }
+    }
+
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -160,8 +268,19 @@ public class MyTransactionsFragment extends Fragment implements View.OnClickList
 
                     if (response.isSuccessful()) {
                         Log.e(TAG, "onResponse: " +response.body().getUsertransactions().size() );
-                        setUserTransaction(response,view);
-                       // LoadingDialog.cancelLoading();
+                        if (response.body().getUsertransactions().size() != 0) {
+                            setUserTransaction(response, view);
+                        }
+                        else {
+                            LoadingDialog.cancelLoading();
+                            Log.e("abhi", "onResponse: size 0................." );
+                            showMoreButton.setEnabled(false);
+                            showMoreButton.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.rectangular_background_light_gray));
+                            emptyMessage.setVisibility(View.VISIBLE);
+                            listview.setEmptyView(emptyMessage);
+                            tvShowStats.setText("Showing " +0 + " to " +0 + " of "  +0+ " transactions" );
+
+                        }
 
 
 
@@ -172,6 +291,13 @@ public class MyTransactionsFragment extends Fragment implements View.OnClickList
                 public void onFailure(Call<MyTransactionsResponse> call, Throwable t) {
                     Log.e("abhi", "onFailure: my transactions------------" +t.toString());
                     LoadingDialog.cancelLoading();
+                    Log.e("abhi", "onResponse: size 0................." );
+                    showMoreButton.setEnabled(false);
+                    showMoreButton.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.rectangular_background_light_gray));
+                    emptyMessage.setVisibility(View.VISIBLE);
+                    listview.setEmptyView(emptyMessage);
+                    tvShowStats.setText("Showing " +0 + " to " +0 + " of "  +0 + " transactions");
+
                 }
 
 
@@ -188,16 +314,7 @@ public class MyTransactionsFragment extends Fragment implements View.OnClickList
         showMoreButton.setEnabled(true);
         myTransactionList = new ArrayList<>();
         totalItems =  response.body().getUsertransactions().size();
-       /* if (response.body().getUsertransactions().size()< 20)
-        {
-           listSize =  response.body().getUsertransactions().size();
 
-        }
-        else
-        {
-            listSize =  response.body().getUsertransactions().size();
-            //listSize =  20;
-        }*/
         for (int i = 0; i < totalItems; i++) {
             Usertransaction usertransaction = new Usertransaction();
 
@@ -216,7 +333,7 @@ public class MyTransactionsFragment extends Fragment implements View.OnClickList
             usertransaction.setId(response.body().getUsertransactions().get(i).getId());
             usertransaction.setEmailotheruser(response.body().getUsertransactions().get(i).getEmailotheruser());
             usertransaction.setTransactionMode(response.body().getUsertransactions().get(i).getTransactionMode());
-            usertransaction.setFullname(response.body().getUsertransactions().get(i).getFullname());
+            //usertransaction.setFullname(response.body().getUsertransactions().get(i).getFullname());
             usertransaction.setMerchantType(response.body().getUsertransactions().get(i).getMerchantType());
             if (response.body().getUsertransactions().get(i).getTransactionMode().equals("4") || response.body().getUsertransactions().get(i).getTransactionMode().equals("5") )
             {
@@ -245,19 +362,20 @@ public class MyTransactionsFragment extends Fragment implements View.OnClickList
         if (totalItems != 0)
 
         {
-            if ((totalItems % 20) == 0) {
+            if ((totalItems % 10) == 0) {
                 // number is even
-                totalNoPages = totalItems / 20;
+                totalNoPages = totalItems / 10;
 
             }
 
             else {
 
-                totalNoPages = ((totalItems / 20)+1);
+                totalNoPages = ((totalItems / 10)+1);
 
             }
 
         }
+        tvShowStats.setText("Showing " +pageNum + " to " +pageNum*10 + " of "  +totalItems+ " transactions" );
 
 
 
@@ -283,9 +401,10 @@ public class MyTransactionsFragment extends Fragment implements View.OnClickList
                         for (int i = 0; i < response.body().getMsg().size(); i++) {
                             userName =response.body().getMsg().get(i).getFullname();
                             usertransaction.setFullname(userName);
+                            Log.e("123", "onResponse:user ........."+userName );
                             count++;
                             populateTransactionList(view);
-                            Log.e("abhi", "onResponse:username..................... " +userName );
+
                         }
 
 
@@ -325,7 +444,6 @@ public class MyTransactionsFragment extends Fragment implements View.OnClickList
                             usertransaction.setFullname(clientName);
                             count++;
                             populateTransactionList(view);
-                            Log.e("abhi", "onResponse:username..................... " +clientName );
                         }
 
 
@@ -352,11 +470,34 @@ public class MyTransactionsFragment extends Fragment implements View.OnClickList
 
     private void populateTransactionList(View view) {
 
-        if (count == 4)
+        if (count == 10)
         {
             LoadingDialog.cancelLoading();
 
-            myTransactionsAdapter = new MyTransactionsAdapter(getActivity(), R.layout.fragment_item, R.id.transactions_name, myTransactionList);
+            showTransactionList = new ArrayList<>();
+            for (int i = 0; i < totalItems && i< pageNum*10; i++) {
+                Usertransaction usertransaction = new Usertransaction();
+
+                usertransaction.setCreatedDate(myTransactionList.get(i).getCreatedDate());
+                usertransaction.setEmail(myTransactionList.get(i).getEmail());
+                usertransaction.setId(myTransactionList.get(i).getId());
+                usertransaction.setEmailotheruser(myTransactionList.get(i).getEmailotheruser());
+                usertransaction.setTransactionMode(myTransactionList.get(i).getTransactionMode());
+                usertransaction.setFullname(myTransactionList.get(i).getFullname());
+                usertransaction.setMerchantType(myTransactionList.get(i).getMerchantType());
+                usertransaction.setTransactionId(myTransactionList.get(i).getTransactionId());
+                usertransaction.setTransactionStatus(myTransactionList.get(i).getTransactionStatus());
+                usertransaction.setReferenceid(myTransactionList.get(i).getReferenceid());
+                usertransaction.setTransactionComment(myTransactionList.get(i).getTransactionComment());
+                usertransaction.setTransactionAmount(myTransactionList.get(i).getTransactionAmount());
+                usertransaction.setTransactedTo(myTransactionList.get(i).getTransactedTo());
+
+                showTransactionList.add(usertransaction);
+
+
+            }
+
+            myTransactionsAdapter = new MyTransactionsAdapter(getActivity(), R.layout.fragment_item, R.id.transactions_name, showTransactionList);
             listview.setAdapter(myTransactionsAdapter);
             LoadingDialog.cancelLoading();
             listview.setDivider(new ColorDrawable(getResources().getColor(R.color.lighter_gray)));

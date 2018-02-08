@@ -66,7 +66,7 @@
     <string name="my_tickets">My Tickets</string>
     <string name="my_subscriptions">My Subscriptions</string>
     <string name="my_donations">My Donations</string>
-    <string name="no_data_available">No Data Available</string>
+    <string name="no_data_available">No Transactions</string>
     <string name="product_name">Product Name</string>
     <string name="donation_name">Donation Name</string>
     <string name="invoice_name">Invoice Name</string>
