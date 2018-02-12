@@ -97,6 +97,7 @@ public class NavigationalActivity extends AppCompatActivity
     Fragment profileHomePageFragment;
     private String profilePicUrl;
     String fileName ;
+    String imgDecodableString;
     GoogleApiClient mGoogleApiClient;
     private static final String TAG = "NavigationalActivity";
     private RetrofitInterface.UserWalletClient UserWalletAdapter;
@@ -386,11 +387,13 @@ public class NavigationalActivity extends AppCompatActivity
 
             Bitmap bp = (Bitmap) data.getExtras().get("data");
             Log.e("abhi", "onActivityResult: bp---------"+bp );
-            personImage.setImageBitmap(getCircularBitmap(bp));
-            Uri tempUri = getImageUri(getApplicationContext(), bp);
-            File filePath = new File(getRealPathFromURI(tempUri));
-            Log.e(TAG, "onActivityResult:.......... " +filePath.getPath() );
-            sendImagesToServerFromCamera(filePath.getPath());
+            if (bp !=null) {
+                personImage.setImageBitmap(getCircularBitmap(bp));
+                Uri tempUri = getImageUri(getApplicationContext(), bp);
+                File filePath = new File(getRealPathFromURI(tempUri));
+                Log.e(TAG, "onActivityResult:.......... " + filePath.getPath());
+                sendImagesToServerFromCamera(filePath.getPath());
+            }
 
 
         } else if (requestCode == PICK_FROM_GALLERY && resultCode == RESULT_OK) {
@@ -401,14 +404,18 @@ public class NavigationalActivity extends AppCompatActivity
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String imgDecodableString = cursor.getString(columnIndex);
-            cursor.close();
+            if (cursor != null) {
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                imgDecodableString = cursor.getString(columnIndex);
+                cursor.close();
+                sendImagesToServerFromCamera(imgDecodableString);
+            }
+
             Log.e(TAG, "onActivityResult: image decodable "+imgDecodableString );
             imageProgressBar.setVisibility(View.VISIBLE);
             Log.e(TAG, "onActivityResult:.......... " +imgDecodableString );
-           sendImagesToServerFromCamera(imgDecodableString);
+
 
 
         }
@@ -482,6 +489,7 @@ public class NavigationalActivity extends AppCompatActivity
                                 Log.e(TAG, "onResponse: image link............" + profilePictureUrlComplete);
                                 setProfilePicURL(profilePictureUrlComplete);
                             Toast.makeText(getApplicationContext(),response.body().getMsg(),Toast.LENGTH_SHORT).show();
+                            imageProgressBar.setVisibility(View.GONE);
 
 
                         }
@@ -489,6 +497,7 @@ public class NavigationalActivity extends AppCompatActivity
                         {
                             personImage.setBackgroundResource(R.drawable.new_customer_icon);
                             Toast.makeText(getApplicationContext(),response.body().getMsg(),Toast.LENGTH_SHORT).show();
+                            imageProgressBar.setVisibility(View.GONE);
                         }
                         LoadingDialog.cancelLoading();
 
@@ -501,6 +510,7 @@ public class NavigationalActivity extends AppCompatActivity
                 public void onFailure(Call<ImageNameUpdateResponse> call, Throwable t) {
                     Log.e(TAG, "onFailure: ............" + t.getCause() );
                     Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                    imageProgressBar.setVisibility(View.GONE);
                     LoadingDialog.cancelLoading();
                 }
 
