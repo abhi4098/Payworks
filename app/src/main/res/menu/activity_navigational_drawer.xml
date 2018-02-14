@@ -27,6 +27,12 @@
             android:icon="@drawable/sliding_sent_request64"
             android:title="SENT REQUESTS" />
 
+        <item
+            android:id="@+id/nav_withdraw"
+            android:icon="@drawable/sliding_sent_request64"
+            android:title="WITHDRAW MONEY" />
+
+
 
         <item
             android:id="@+id/nav_refer_a_friend"

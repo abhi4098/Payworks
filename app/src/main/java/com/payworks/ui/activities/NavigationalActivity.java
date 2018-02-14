@@ -70,6 +70,7 @@ import com.payworks.ui.fragments.NotificationFragment;
 import com.payworks.ui.fragments.ProfileHomePageFragment;
 import com.payworks.ui.fragments.ReferAFriendFragment;
 import com.payworks.ui.fragments.SentMoneyRequestFragment;
+import com.payworks.ui.fragments.WithdrawMoneyFragment;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.NetworkUtils;
 import com.payworks.utils.PrefUtils;
@@ -676,12 +677,12 @@ public class NavigationalActivity extends AppCompatActivity
 
                 break;
 
-            /*case R.id.nav_add_money:
-                fragment = new AddMoneyFragment();
+            case R.id.nav_withdraw:
+                fragment = new WithdrawMoneyFragment();
                 tvAppTitle.setText(item.getTitle());
                 ivBackIcon.setVisibility(View.VISIBLE);
 
-                break;*/
+                break;
 
             case R.id.nav_merchant:
                 fragment = new MerchantFragment();

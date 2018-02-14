@@ -243,4 +243,10 @@ public class RetrofitInterface {
 
     }
 
+   /* public interface getLocalBanksClient {
+        @POST("getuserlocalaccounts")
+        Call<GetClientResponse> localBankDataData(@Body GetClient getClient);
+
+    }*/
+
 }
