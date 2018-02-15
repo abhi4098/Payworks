@@ -62,7 +62,7 @@ public class WithdrawMoneyFragment extends Fragment {
     private RetrofitInterface.withdrawMoneyClient WithdrawMoneyAdapter;
     ArrayList<Localbank> myLocalBankAccountList = null;
     ArrayList<String> myLocalBanknameList = null;
-    String spLocalBank;
+    String spLocalBank,bankDetailsToBeSend;
     int withdrawAmount;
     String userWithdrawalAmount,userLocalBank,userTransferMethod;
     @BindView(R.id.spinner2)
@@ -125,6 +125,14 @@ public class WithdrawMoneyFragment extends Fragment {
                         if(rbDirectDeposit.isChecked())
                         {
                             userLocalBank = spLocalBank;
+                            for (int i=0; i<myLocalBankAccountList.size(); i++)
+                            {
+                                if (myLocalBankAccountList.get(i).getLocalbankname().equals(userLocalBank))
+                                {
+                                    bankDetailsToBeSend = myLocalBankAccountList.get(i).getId().concat("-").concat(myLocalBankAccountList.get(i).getLocalbankname()).concat("-").concat(myLocalBankAccountList.get(i).getAccountnumber()).concat("-").concat(myLocalBankAccountList.get(i).getBranchname()).concat("-").concat(myLocalBankAccountList.get(i).getTransit());
+
+                                }
+                            }
                             if(isSpinnerValueAdded())
                             {
                                 userTransferMethod ="directdeposit";
@@ -157,6 +165,7 @@ public class WithdrawMoneyFragment extends Fragment {
                     rlSpinnerLayout.setVisibility(View.GONE);
                     rbDirectDeposit.setChecked(false);
                     rbRegularMail.setChecked(false);
+                    bankDetailsToBeSend = null;
 
 
             }
@@ -169,6 +178,7 @@ public class WithdrawMoneyFragment extends Fragment {
                     rlSpinnerLayout.setVisibility(View.GONE);
                     rbCheck.setChecked(false);
                     rbDirectDeposit.setChecked(false);
+                    bankDetailsToBeSend = null;
 
 
             }
@@ -255,7 +265,7 @@ public class WithdrawMoneyFragment extends Fragment {
 
     private void makeWithdrawalRequest() {
         LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
-        Call<WithdrawalResponse> call = WithdrawMoneyAdapter.withdrawMoneyData(new Withdrawal("withdraw", PrefUtils.getUserId(getActivity()),"83Ide@$321!",userWithdrawalAmount,userTransferMethod,userLocalBank));
+        Call<WithdrawalResponse> call = WithdrawMoneyAdapter.withdrawMoneyData(new Withdrawal("withdraw", PrefUtils.getUserId(getActivity()),"83Ide@$321!",userWithdrawalAmount,userTransferMethod,bankDetailsToBeSend));
         if (NetworkUtils.isNetworkConnected(getActivity())) {
             call.enqueue(new Callback<WithdrawalResponse>() {
 
@@ -266,7 +276,8 @@ public class WithdrawMoneyFragment extends Fragment {
                         if (response.body().getType() ==1)
                         {
                             Toast.makeText(getApplicationContext(),"Withdrawal Request Sent.",Toast.LENGTH_LONG).show();
-                            //getActivity().onBackPressed();
+
+
                         }
                         else
                         {
