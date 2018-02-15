@@ -24,6 +24,8 @@ import com.payworks.generated.model.GoogleLogin;
 import com.payworks.generated.model.GoogleLoginResponse;
 import com.payworks.generated.model.ImageNameUpdate;
 import com.payworks.generated.model.ImageNameUpdateResponse;
+import com.payworks.generated.model.LocalBankAccount;
+import com.payworks.generated.model.LocalBankAccountResponse;
 import com.payworks.generated.model.Login;
 import com.payworks.generated.model.MerchantData;
 import com.payworks.generated.model.MerchantDonationResponse;
@@ -54,6 +56,8 @@ import com.payworks.generated.model.StateList;
 import com.payworks.generated.model.StateListResponse;
 import com.payworks.generated.model.UploadPhoto;
 import com.payworks.generated.model.UploadPhotoResponse;
+import com.payworks.generated.model.Withdrawal;
+import com.payworks.generated.model.WithdrawalResponse;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -243,10 +247,16 @@ public class RetrofitInterface {
 
     }
 
-   /* public interface getLocalBanksClient {
+    public interface getLocalBanksClient {
         @POST("getuserlocalaccounts")
-        Call<GetClientResponse> localBankDataData(@Body GetClient getClient);
+        Call<LocalBankAccountResponse> localBankDataData(@Body LocalBankAccount localBankAccount);
 
-    }*/
+    }
+
+    public interface withdrawMoneyClient {
+        @POST("withdraw.html")
+        Call<WithdrawalResponse> withdrawMoneyData(@Body Withdrawal withdrawal);
+
+    }
 
 }

@@ -109,8 +109,8 @@ public class ReferAFriendFragment extends Fragment {
                     if (response.isSuccessful()) {
                         if (response.body().getType() ==1)
                         {
-                            Toast.makeText(getApplicationContext(),response.body().getMsg(),Toast.LENGTH_SHORT).show();
-                            getActivity().onBackPressed();
+                            Toast.makeText(getApplicationContext(),response.body().getMsg(),Toast.LENGTH_LONG).show();
+                            //getActivity().onBackPressed();
 
                         }
                         else {
