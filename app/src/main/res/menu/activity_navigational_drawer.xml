@@ -29,7 +29,7 @@
 
         <item
             android:id="@+id/nav_withdraw"
-            android:icon="@drawable/sliding_sent_request64"
+            android:icon="@drawable/withdraw64"
             android:title="WITHDRAW MONEY" />
 
 

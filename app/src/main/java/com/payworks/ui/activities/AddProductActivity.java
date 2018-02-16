@@ -16,11 +16,9 @@ import android.widget.TextView;
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
-import com.payworks.generated.model.Donation;
 import com.payworks.generated.model.MerchantData;
 import com.payworks.generated.model.MerchantProductResponse;
 import com.payworks.generated.model.Product;
-import com.payworks.ui.adapters.MyDonationsAdapter;
 import com.payworks.ui.adapters.MyProductAdapter;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.NetworkUtils;
@@ -42,7 +40,7 @@ import retrofit2.Response;
 
 import static com.payworks.api.ApiEndPoints.BASE_URL;
 
-public class MyProductActivity extends BaseActivity {
+public class AddProductActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -53,26 +51,20 @@ public class MyProductActivity extends BaseActivity {
     @BindView(R.id.notification_icon)
     ImageView notificationIcon;
 
-    @BindView(R.id.listview)
+    /*@BindView(R.id.listview)
     ListView listview;
     @BindView(R.id.search_item)
-    EditText etSearch;
+    EditText etSearch;*/
 
-    @OnClick(R.id.add_product_button)
-    public void addProduct()
-    {
-        Intent i = new Intent(this, AddProductActivity.class);
-        startActivity(i);
-    }
 
-    private RetrofitInterface.UserMyProductClient MyMerchantAdapter;
+   /* private RetrofitInterface.UserMyProductClient MyMerchantAdapter;
     ArrayList<Product> myProductList = null;
-    MyProductAdapter myProductAdapter;
+    MyProductAdapter myProductAdapter;*/
     ArrayList<Product> searchMyList = null;
 
     @Override
     public int getLayoutResourceId() {
-        return R.layout.activity_my_product;
+        return R.layout.activity_add_product;
     }
 
     @Override
@@ -99,15 +91,15 @@ public class MyProductActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        tvAppTitle.setText(R.string.my_products);
+        tvAppTitle.setText(R.string.add_products);
         notificationIcon.setVisibility(View.GONE);
-         setUpRestAdapter();
-         getMyProducts();
-         setSearchFunctionality();
+        // setUpRestAdapter();
+        // getMyProducts();
+        // setSearchFunctionality();
     }
 
 
-    private void setSearchFunctionality() {
+   /* private void setSearchFunctionality() {
 
         etSearch.addTextChangedListener(new TextWatcher() {
 
@@ -235,6 +227,6 @@ public class MyProductActivity extends BaseActivity {
     private void setUpRestAdapter() {
         MyMerchantAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserMyProductClient.class, BASE_URL, this);
 
-    }
+    }*/
 
 }
