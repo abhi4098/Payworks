@@ -4,6 +4,8 @@ package com.payworks.api;
 
 import com.payworks.generated.model.AddMoney;
 import com.payworks.generated.model.AddMoneyResponse;
+import com.payworks.generated.model.AddProduct;
+import com.payworks.generated.model.AddProductResponse;
 import com.payworks.generated.model.BankAccount;
 import com.payworks.generated.model.BankAccountResponse;
 import com.payworks.generated.model.CountryList;
@@ -256,6 +258,12 @@ public class RetrofitInterface {
     public interface withdrawMoneyClient {
         @POST("withdraw.html")
         Call<WithdrawalResponse> withdrawMoneyData(@Body Withdrawal withdrawal);
+
+    }
+
+    public interface addProductClient {
+        @POST("addproduct")
+        Call<AddProductResponse> addProductData(@Body AddProduct addProduct);
 
     }
 

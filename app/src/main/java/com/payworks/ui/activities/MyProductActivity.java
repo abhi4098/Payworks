@@ -106,6 +106,13 @@ public class MyProductActivity extends BaseActivity {
          setSearchFunctionality();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpRestAdapter();
+        getMyProducts();
+        setSearchFunctionality();
+    }
 
     private void setSearchFunctionality() {
 
@@ -195,7 +202,7 @@ public class MyProductActivity extends BaseActivity {
     private void setMyProduct(Response<MerchantProductResponse> response) {
 
         myProductList = new ArrayList<>();
-        for (int i = 0; i < response.body().getProducts().size(); i++) {
+        for (int i = response.body().getProducts().size()-1; i>=0; i--) {
             Product product = new Product();
 
             DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
