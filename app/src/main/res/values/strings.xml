@@ -64,6 +64,10 @@
     <string name="refer_a_friend_to_payworks">Refer a friend to Payworks.You and your friend will get $10 on first transaction.</string>
     <string name="my_products">My Products</string>
     <string name="add_products">Add Products</string>
+    <string name="add_donation">Add Donations</string>
+    <string name="add_subscriptions">Add Subscription</string>
+    <string name="add_invoices">Add Invoice</string>
+    <string name="add_tickets">Add Tickets</string>
     <string name="my_invoices">My Invoices</string>
     <string name="my_tickets">My Tickets</string>
     <string name="my_subscriptions">My Subscriptions</string>

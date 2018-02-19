@@ -1,5 +1,6 @@
 package com.payworks.ui.activities;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -36,6 +37,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,7 +60,12 @@ public class MyDonationsActivity extends BaseActivity {
     @BindView(R.id.search_item)
     EditText etSearch;
 
-
+    @OnClick(R.id.add_donation_btn)
+    public void addProduct()
+    {
+        Intent i = new Intent(this, AddDonationActivity.class);
+        startActivity(i);
+    }
     private RetrofitInterface.UserMyDonationstClient MyMerchantAdapter;
     MyDonationsAdapter myDonationsAdapter;
     ArrayList<Donation> searchMyList = null;
@@ -130,6 +137,13 @@ public class MyDonationsActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpRestAdapter();
+        getMyDonations();
+        setSearchFunctionality();
+    }
     private void filterSearch(String constraint) {
         constraint = constraint.toString().toLowerCase();
         searchMyList =new ArrayList<>();
@@ -188,7 +202,7 @@ public class MyDonationsActivity extends BaseActivity {
 
     private void setDonations(Response<MerchantDonationResponse> response) {
         myDonationList = new ArrayList<>();
-        for (int i = 0; i < response.body().getDonations().size(); i++) {
+        for (int i = response.body().getDonations().size()-1;i>=0; i--) {
             Donation donation = new Donation();
 
 

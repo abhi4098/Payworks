@@ -2,6 +2,8 @@ package com.payworks.api;
 
 
 
+import com.payworks.generated.model.AddDonation;
+import com.payworks.generated.model.AddDonationResponse;
 import com.payworks.generated.model.AddMoney;
 import com.payworks.generated.model.AddMoneyResponse;
 import com.payworks.generated.model.AddProduct;
@@ -267,4 +269,28 @@ public class RetrofitInterface {
 
     }
 
+    public interface addDonationClient {
+        @POST("adddonation")
+        Call<AddDonationResponse> addDonationData(@Body AddDonation addDonation);
+
+    }
+
+    /*public interface addProductClient {
+        @POST("addproduct")
+        Call<AddProductResponse> addProductData(@Body AddProduct addProduct);
+
+    }
+
+    public interface addProductClient {
+        @POST("addproduct")
+        Call<AddProductResponse> addProductData(@Body AddProduct addProduct);
+
+    }
+
+    public interface addProductClient {
+        @POST("addproduct")
+        Call<AddProductResponse> addProductData(@Body AddProduct addProduct);
+
+    }
+*/
 }
