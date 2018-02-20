@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
+import com.payworks.generated.model.AddProductResponse;
 import com.payworks.generated.model.Donation;
 import com.payworks.generated.model.MerchantData;
 import com.payworks.generated.model.MerchantProductResponse;
@@ -42,6 +43,7 @@ import retrofit2.Response;
 
 import static com.payworks.api.ApiEndPoints.BASE_URL;
 
+
 public class MyProductActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
@@ -62,10 +64,12 @@ public class MyProductActivity extends BaseActivity {
     public void addProduct()
     {
         Intent i = new Intent(this, AddProductActivity.class);
+        i.putExtra("INTENT_FROM","AddProduct");
         startActivity(i);
     }
 
     private RetrofitInterface.UserMyProductClient MyMerchantAdapter;
+
     ArrayList<Product> myProductList = null;
     MyProductAdapter myProductAdapter;
     ArrayList<Product> searchMyList = null;
@@ -103,8 +107,10 @@ public class MyProductActivity extends BaseActivity {
         notificationIcon.setVisibility(View.GONE);
          setUpRestAdapter();
          getMyProducts();
+
          setSearchFunctionality();
     }
+
 
     @Override
     protected void onResume() {
@@ -216,7 +222,7 @@ public class MyProductActivity extends BaseActivity {
             }
             String outputDateStr = outputFormat.format(date);
 
-
+            product.setId(response.body().getProducts().get(i).getId());
             product.setProductname(response.body().getProducts().get(i).getProductname());
             product.setProductprice(response.body().getProducts().get(i).getProductprice());
             product.setProductshipping(response.body().getProducts().get(i).getProductshipping());
@@ -241,6 +247,7 @@ public class MyProductActivity extends BaseActivity {
 
     private void setUpRestAdapter() {
         MyMerchantAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserMyProductClient.class, BASE_URL, this);
+
 
     }
 

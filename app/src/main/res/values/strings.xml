@@ -68,6 +68,13 @@
     <string name="add_subscriptions">Add Subscription</string>
     <string name="add_invoices">Add Invoice</string>
     <string name="add_tickets">Add Tickets</string>
+
+    <string name="edit_products">Edit Products</string>
+    <string name="edit_donation">Edit Donations</string>
+    <string name="edit_subscriptions">Edit Subscription</string>
+    <string name="edit_invoices">Edit Invoice</string>
+    <string name="edit_tickets">Edit Tickets</string>
+
     <string name="my_invoices">My Invoices</string>
     <string name="my_tickets">My Tickets</string>
     <string name="my_subscriptions">My Subscriptions</string>

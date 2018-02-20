@@ -14,6 +14,8 @@ import com.payworks.generated.model.BankAccount;
 import com.payworks.generated.model.BankAccountResponse;
 import com.payworks.generated.model.CountryList;
 import com.payworks.generated.model.CountryListResponse;
+import com.payworks.generated.model.EditProduct;
+import com.payworks.generated.model.EditProductResponse;
 import com.payworks.generated.model.EditProfile;
 import com.payworks.generated.model.EditProfileResponse;
 import com.payworks.generated.model.FacebookLogin;
@@ -271,6 +273,12 @@ public class RetrofitInterface {
 
     }
 
+    public interface editProductClient {
+        @POST("editproduct")
+        Call<EditProductResponse> editProductData(@Body EditProduct editProduct);
+
+    }
+
     public interface addDonationClient {
         @POST("adddonation")
         Call<AddDonationResponse> addDonationData(@Body AddDonation addDonation);
@@ -282,6 +290,13 @@ public class RetrofitInterface {
         Call<AddInvoiceResponse> addInvoiceData(@Body AddInvoice addInvoice);
 
     }
+
+    public interface generateCodeClient {
+        @POST("processor.html?product=193&member=markbrosnon@hotmail.com&action=product&send=yes")
+        Call<AddProductResponse> genData();
+
+    }
+
 
    /* public interface addProductClient {
         @POST("addproduct")
