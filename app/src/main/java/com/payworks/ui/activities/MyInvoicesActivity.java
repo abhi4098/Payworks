@@ -1,5 +1,6 @@
 package com.payworks.ui.activities;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -37,6 +38,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,7 +65,12 @@ public class MyInvoicesActivity extends BaseActivity {
     ArrayList<Invoice> myInvoicesList = null;
     ArrayList<Invoice> searchMyList = null;
 
-
+    @OnClick(R.id.add_invoice_button)
+    public void addInvoices()
+    {
+        Intent i = new Intent(this, AddInvoiceActivity.class);
+        startActivity(i);
+    }
     @Override
     public int getLayoutResourceId() {
         return R.layout.activity_my_invoices;
@@ -99,7 +106,13 @@ public class MyInvoicesActivity extends BaseActivity {
         getMyInvoices();
         setSearchFunctionality();
     }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpRestAdapter();
+        getMyInvoices();
+        setSearchFunctionality();
+    }
 
     private void setSearchFunctionality() {
 
@@ -192,7 +205,7 @@ public class MyInvoicesActivity extends BaseActivity {
 
     private void setInvoices(Response<MerchantInvoicesResponse> response) {
         myInvoicesList = new ArrayList<>();
-        for (int i = 0; i < response.body().getInvoices().size(); i++) {
+        for (int i = response.body().getInvoices().size()-1; i>=0; i--) {
             Invoice invoice = new Invoice();
 
 

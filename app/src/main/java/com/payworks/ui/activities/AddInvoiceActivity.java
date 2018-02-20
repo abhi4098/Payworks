@@ -2,6 +2,7 @@ package com.payworks.ui.activities;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
+import com.payworks.generated.model.AddInvoice;
+import com.payworks.generated.model.AddInvoiceResponse;
 import com.payworks.generated.model.AddProduct;
 import com.payworks.generated.model.AddProductResponse;
 import com.payworks.utils.LoadingDialog;
@@ -30,8 +33,8 @@ import static com.payworks.api.ApiEndPoints.BASE_URL;
 
 public class AddInvoiceActivity extends BaseActivity implements View.OnClickListener {
 
-    String userProductName,userProductPrice,userproductShipping,userProductDescription,userAbsorbFee,userProductButton;
-    private RetrofitInterface.addProductClient AddProductAdapter;
+    String usercustomerName,userInvoicePrice,usercompanyName,userInvoiceDescription,userAbsorbFee,userInvoiceButton,userCompanyEmail,userInvoiceNumber;
+    private RetrofitInterface.addInvoiceClient AddInvoiceAdapter;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -80,25 +83,33 @@ public class AddInvoiceActivity extends BaseActivity implements View.OnClickList
     @BindView(R.id.radio_button_03_08)
     RadioButton rb_03_08;
 
-    @BindView(R.id.add_product_name)
-    EditText etAddProductName;
+    @BindView(R.id.add_customer_name)
+    EditText etAddCustomerName;
 
-    @BindView(R.id.add_product_price)
-    EditText etAddProductPrice;
+    @BindView(R.id.add_invoice_amount)
+    EditText etAddInvoiceAmount;
 
-    @BindView(R.id.add_product_shipping)
-    EditText etAddProductShipping;
+    @BindView(R.id.add_company_name)
+    EditText etAddCompanyName;
+
+    @BindView(R.id.add_invoice_number)
+    EditText etAddInvoiceNumber;
+
+    @BindView(R.id.add_company_email)
+    EditText etAddCompanyEmail;
 
     @BindView(R.id.add_description)
     EditText etAddProductDescription;
 
-    @OnClick(R.id.add_product_button)
-    public void addProduct()
+    @OnClick(R.id.add_invoice_btn)
+    public void addInvoice()
     {
-        userProductName = etAddProductName.getText().toString();
-        userProductPrice = etAddProductPrice.getText().toString();
-        userproductShipping =etAddProductShipping.getText().toString();
-        userProductDescription = etAddProductDescription.getText().toString();
+        usercustomerName = etAddCustomerName.getText().toString();
+        userInvoicePrice = etAddInvoiceAmount.getText().toString();
+        usercompanyName =etAddCompanyName.getText().toString();
+        userInvoiceNumber = etAddInvoiceNumber.getText().toString();
+        userCompanyEmail =etAddCompanyEmail.getText().toString();
+        userInvoiceDescription = etAddProductDescription.getText().toString();
 
         if (isRegistrationValid()) {
 
@@ -124,83 +135,83 @@ public class AddInvoiceActivity extends BaseActivity implements View.OnClickList
 
         if(rb_02_01.isChecked())
         {
-           userProductButton = "/02/01.png";
-           addProductDetails();
+           userInvoiceButton = "/02/01.png";
+           addInvoiceDetails();
         }
         else if (rb_02_02.isChecked())
         {
-            userProductButton = "/02/02.png";
-            addProductDetails();
+            userInvoiceButton = "/02/02.png";
+            addInvoiceDetails();
         }
         else if (rb_02_03.isChecked())
         {
-            userProductButton = "/02/03.png";
-            addProductDetails();
+            userInvoiceButton = "/02/03.png";
+            addInvoiceDetails();
         }
         else if (rb_02_04.isChecked())
         {
-            userProductButton = "/02/04.png";
-            addProductDetails();
+            userInvoiceButton = "/02/04.png";
+            addInvoiceDetails();
         }
         else if (rb_02_05.isChecked())
         {
-            userProductButton = "/02/05.png";
-            addProductDetails();
+            userInvoiceButton = "/02/05.png";
+            addInvoiceDetails();
         }
         else if (rb_02_06.isChecked())
         {
-            userProductButton = "/02/06.png";
-            addProductDetails();
+            userInvoiceButton = "/02/06.png";
+            addInvoiceDetails();
         }
         else if (rb_02_07.isChecked())
         {
-            userProductButton = "/02/07.png";
-            addProductDetails();
+            userInvoiceButton = "/02/07.png";
+            addInvoiceDetails();
         }
         else if (rb_02_08.isChecked())
         {
-            userProductButton = "/02/08.png";
-            addProductDetails();
+            userInvoiceButton = "/02/08.png";
+            addInvoiceDetails();
         }
         else if (rb_03_01.isChecked())
         {
-            userProductButton = "/03/01.png";
-            addProductDetails();
+            userInvoiceButton = "/03/01.png";
+            addInvoiceDetails();
         }
         else if (rb_03_02.isChecked())
         {
-            userProductButton = "/03/02.png";
-            addProductDetails();
+            userInvoiceButton = "/03/02.png";
+            addInvoiceDetails();
         }
         else if (rb_03_03.isChecked())
         {
-            userProductButton = "/03/03.png";
-            addProductDetails();
+            userInvoiceButton = "/03/03.png";
+            addInvoiceDetails();
         }
         else if (rb_03_04.isChecked())
         {
-            userProductButton = "/03/04.png";
-            addProductDetails();
+            userInvoiceButton = "/03/04.png";
+            addInvoiceDetails();
         }
         else if (rb_03_05.isChecked())
         {
-            userProductButton = "/03/05.png";
-            addProductDetails();
+            userInvoiceButton = "/03/05.png";
+            addInvoiceDetails();
         }
         else if (rb_03_06.isChecked())
         {
-            userProductButton = "/03/06.png";
-            addProductDetails();
+            userInvoiceButton = "/03/06.png";
+            addInvoiceDetails();
         }
         else if (rb_03_07.isChecked())
         {
-            userProductButton = "/03/07.png";
-            addProductDetails();
+            userInvoiceButton = "/03/07.png";
+            addInvoiceDetails();
         }
         else if (rb_03_08.isChecked())
         {
-            userProductButton = "/03/08.png";
-            addProductDetails();
+            userInvoiceButton = "/03/08.png";
+            addInvoiceDetails();
         }
         else
         {
@@ -208,24 +219,26 @@ public class AddInvoiceActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-    private void addProductDetails() {
+    private void addInvoiceDetails() {
+
+        Log.e("abhi", "addInvoiceDetails:............. " +userAbsorbFee + " " +userInvoiceButton );
         LoadingDialog.showLoadingDialog(this,"Loading...");
-        Call<AddProductResponse> call = AddProductAdapter.addProductData(new AddProduct("addproduct", PrefUtils.getUserId(this),"83Ide@$321!",userAbsorbFee,userProductName,userProductPrice,userproductShipping,userProductDescription,userProductButton));
+        Call<AddInvoiceResponse> call = AddInvoiceAdapter.addInvoiceData(new AddInvoice("addinvoice", PrefUtils.getUserId(this),"83Ide@$321!",userAbsorbFee,usercustomerName,userInvoicePrice,usercompanyName,userCompanyEmail,userInvoiceNumber,userInvoiceDescription,userInvoiceButton));
         if (NetworkUtils.isNetworkConnected(this)) {
-            call.enqueue(new Callback<AddProductResponse>() {
+            call.enqueue(new Callback<AddInvoiceResponse>() {
 
                 @Override
-                public void onResponse(Call<AddProductResponse> call, Response<AddProductResponse> response) {
+                public void onResponse(Call<AddInvoiceResponse> call, Response<AddInvoiceResponse> response) {
 
                     if (response.isSuccessful()) {
                         if (response.body().getType() == 1)
                         {
-                            Toast.makeText(getApplicationContext(),"Product added successfully.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Invoice added successfully.",Toast.LENGTH_SHORT).show();
                             finish();
                         }
                         else
                         {
-                            Toast.makeText(getApplicationContext(),"Error Adding Product.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Error Adding Invoice.",Toast.LENGTH_SHORT).show();
                         }
                         LoadingDialog.cancelLoading();
 
@@ -234,7 +247,7 @@ public class AddInvoiceActivity extends BaseActivity implements View.OnClickList
                 }
 
                 @Override
-                public void onFailure(Call<AddProductResponse> call, Throwable t) {
+                public void onFailure(Call<AddInvoiceResponse> call, Throwable t) {
                     LoadingDialog.cancelLoading();
                 }
 
@@ -244,7 +257,6 @@ public class AddInvoiceActivity extends BaseActivity implements View.OnClickList
         } else {
             SnakBarUtils.networkConnected(this);
         }
-
     }
 
 
@@ -254,7 +266,7 @@ public class AddInvoiceActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public int getLayoutResourceId() {
-        return R.layout.activity_add_product;
+        return R.layout.activity_add_invoices;
     }
 
     @Override
@@ -309,23 +321,42 @@ public class AddInvoiceActivity extends BaseActivity implements View.OnClickList
 
     }
 
+    public final static boolean isValidEmail(CharSequence target) {
+        if (target == null) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
+
     private boolean isRegistrationValid() {
-        if (userProductName == null || userProductName.equals("")||userProductPrice == null || userProductPrice.equals("")
-                ||userproductShipping == null || userproductShipping.equals(""))
+        if (usercustomerName == null || usercustomerName.equals("")||userInvoicePrice == null || userInvoicePrice.equals("")
+                ||usercompanyName == null || usercompanyName.equals("")||userCompanyEmail == null || userCompanyEmail.equals("")||userInvoiceNumber == null || userInvoiceNumber.equals("")|| !isValidEmail(userCompanyEmail))
 
         {
 
-            if (userProductName == null || userProductName.equals("") ) {
-                etAddProductName.setError(getString(R.string.error_compulsory_field));
+            if (usercustomerName == null || usercustomerName.equals("") ) {
+                etAddCustomerName.setError(getString(R.string.error_compulsory_field));
             }
 
-            if (userProductPrice == null || userProductPrice.equals("") ) {
-                etAddProductPrice.setError(getString(R.string.error_compulsory_field));
+            if (userInvoicePrice == null || userInvoicePrice.equals("") ) {
+                etAddInvoiceAmount.setError(getString(R.string.error_compulsory_field));
             }
 
-            if (userproductShipping == null || userproductShipping.equals("") ) {
-                etAddProductShipping.setError(getString(R.string.error_compulsory_field));
+            if (usercompanyName == null || usercompanyName.equals("") ) {
+                etAddCompanyName.setError(getString(R.string.error_compulsory_field));
             }
+
+            if (userInvoiceNumber == null || userInvoiceNumber.equals("") ) {
+                etAddInvoiceNumber.setError(getString(R.string.error_compulsory_field));
+            }
+
+            if (userCompanyEmail == null || userCompanyEmail.equals("") ) {
+                etAddCompanyEmail.setError(getString(R.string.error_compulsory_field));
+            }
+
+            if (!isValidEmail(userCompanyEmail) )
+                etAddCompanyEmail.setError("Invalid Email");
 
 
             return false;
@@ -654,7 +685,7 @@ public class AddInvoiceActivity extends BaseActivity implements View.OnClickList
 
 
     private void setUpRestAdapter() {
-        AddProductAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.addProductClient.class, BASE_URL, this);
+        AddInvoiceAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.addInvoiceClient.class, BASE_URL, this);
 
     }
 
