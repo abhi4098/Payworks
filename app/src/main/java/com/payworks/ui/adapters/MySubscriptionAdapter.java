@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.payworks.R;
 import com.payworks.generated.model.Subscription;
 import com.payworks.generated.model.Ticket;
+import com.payworks.ui.activities.AddSubscriptionActivity;
 import com.payworks.ui.activities.MySubscriptionsActivity;
 import com.payworks.ui.activities.MyTicketsActivity;
 import com.payworks.utils.PrefUtils;
@@ -173,20 +174,20 @@ public class MySubscriptionAdapter extends ArrayAdapter<Subscription> {
                 @Override
                 public void onClick(View view) {
 
-                   /* Intent i = new Intent(getContext(), AddProductActivity.class);
-                    i.putExtra("PRODUCT_NAME",product.getProductname());
-                    i.putExtra("PRODUCT_PRICE",product.getProductprice());
-                    i.putExtra("PRODUCT_SHIPPING",product.getProductshipping());
-                    i.putExtra("PRODUCT_DESCRIPTION",product.getProductdescription());
-                    i.putExtra("PRODUCT_BUTTON",product.getProductbutton());
-                    i.putExtra("PRODUCT_ID",product.getId());
-                    Log.e("abhi", "onClick: product_id" +product.getId());
-                    i.putExtra("PRODUCT_FEE",product.getPaidby());
-                    Log.e("abhi", "onClick: fee" +product.getPaidby());
+                    Intent i = new Intent(getContext(), AddSubscriptionActivity.class);
+                    i.putExtra("SUBS_NAME",subscription.getSubscriptionname());
+                    i.putExtra("SUBS_PRICE",subscription.getSubscriptionprice());
+                    i.putExtra("SUBS_SHIPPING",subscription.getSubscriptionshipping());
+                    i.putExtra("SUBS_DESCRIPTION",subscription.getSubscriptiondescription());
+                    i.putExtra("SUBS_BUTTON",subscription.getSubscriptionbutton());
+                    i.putExtra("SUBS_ID",subscription.getId());
+                    i.putExtra("SUBS_FEE",subscription.getPaidby());
+                    i.putExtra("SUBS_SET_UP_FEE",subscription.getSubscriptionsetupfee());
+                    i.putExtra("SUBS_DURATION",subscription.getSubscriptionduration());
+                    i.putExtra("SUBS_TRAIL_PERIOD",subscription.getSubscriptiontrialperiod());
                     i.putExtra("INTENT_FROM","EditButton");
 
                     getContext().startActivity(i);
-*/
                 }
             });
 

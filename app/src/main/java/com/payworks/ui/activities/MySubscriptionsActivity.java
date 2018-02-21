@@ -66,13 +66,22 @@ public class MySubscriptionsActivity extends BaseActivity {
     public void addProduct()
     {
         Intent i = new Intent(this, AddSubscriptionActivity.class);
-        i.putExtra("INTENT_FROM","AddProduct");
+        i.putExtra("INTENT_FROM","AddSubscription");
         startActivity(i);
     }
     private RetrofitInterface.UserMySubscriptionClient MyMerchantAdapter;
     MySubscriptionAdapter mySubscriptionAdapter;
     ArrayList<Subscription>  mySubscriptionList = null;
     ArrayList<Subscription> searchMyList = null;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpRestAdapter();
+        getMySubscriptions();
+        setSearchFunctionality();
+    }
+
 
     @Override
     public int getLayoutResourceId() {
@@ -202,7 +211,7 @@ public class MySubscriptionsActivity extends BaseActivity {
 
     private void setSubscriptions(Response<MerchantSubscriptionsResponse> response) {
         mySubscriptionList = new ArrayList<>();
-        for (int i = 0; i < response.body().getSubscription().size(); i++) {
+        for (int i = response.body().getSubscription().size()-1; i>=0; i--) {
             Subscription subscription = new Subscription();
 
 
@@ -226,6 +235,10 @@ public class MySubscriptionsActivity extends BaseActivity {
             subscription.setId(response.body().getSubscription().get(i).getId());
             subscription.setPaidby(response.body().getSubscription().get(i).getPaidby());
             subscription.setSubscriptionbutton(response.body().getSubscription().get(i).getSubscriptionbutton());
+            subscription.setSubscriptionduration(response.body().getSubscription().get(i).getSubscriptionduration());
+            subscription.setSubscriptiondescription(response.body().getSubscription().get(i).getSubscriptiondescription());
+            subscription.setSubscriptionshipping(response.body().getSubscription().get(i).getSubscriptionshipping());
+            subscription.setSubscriptionsetupfee(response.body().getSubscription().get(i).getSubscriptionsetupfee());
 
 
             Log.e("abhi", "setUserProducts: =========" );

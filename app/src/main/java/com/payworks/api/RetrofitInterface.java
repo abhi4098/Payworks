@@ -10,6 +10,8 @@ import com.payworks.generated.model.AddMoney;
 import com.payworks.generated.model.AddMoneyResponse;
 import com.payworks.generated.model.AddProduct;
 import com.payworks.generated.model.AddProductResponse;
+import com.payworks.generated.model.AddSubscription;
+import com.payworks.generated.model.AddSubscriptionResponse;
 import com.payworks.generated.model.BankAccount;
 import com.payworks.generated.model.BankAccountResponse;
 import com.payworks.generated.model.CountryList;
@@ -18,6 +20,8 @@ import com.payworks.generated.model.EditProduct;
 import com.payworks.generated.model.EditProductResponse;
 import com.payworks.generated.model.EditProfile;
 import com.payworks.generated.model.EditProfileResponse;
+import com.payworks.generated.model.EditSubscription;
+import com.payworks.generated.model.EditSubscriptionResponse;
 import com.payworks.generated.model.FacebookLogin;
 import com.payworks.generated.model.FacebookLoginResponse;
 import com.payworks.generated.model.ForgotPassword;
@@ -297,6 +301,18 @@ public class RetrofitInterface {
 
     }
 
+
+    public interface addSubscriptionClient {
+        @POST("addsubscription")
+        Call<AddSubscriptionResponse> addSubscriptionData(@Body AddSubscription addSubscription);
+
+    }
+
+    public interface editSubsClient {
+        @POST("editsubscription")
+        Call<EditSubscriptionResponse> editSubsData(@Body EditSubscription editSubscription);
+
+    }
 
    /* public interface addProductClient {
         @POST("addproduct")

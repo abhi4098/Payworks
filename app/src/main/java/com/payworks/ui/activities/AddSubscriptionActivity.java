@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -15,6 +16,10 @@ import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
 import com.payworks.generated.model.AddProduct;
 import com.payworks.generated.model.AddProductResponse;
+import com.payworks.generated.model.AddSubscription;
+import com.payworks.generated.model.AddSubscriptionResponse;
+import com.payworks.generated.model.EditSubscription;
+import com.payworks.generated.model.EditSubscriptionResponse;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.NetworkUtils;
 import com.payworks.utils.PrefUtils;
@@ -32,7 +37,11 @@ import static com.payworks.api.ApiEndPoints.BASE_URL;
 public class AddSubscriptionActivity extends BaseActivity implements View.OnClickListener {
 
     String userSubsName,userSubsPrice,userSubsShipping,userSubsDescription,userAbsorbFee,userSubsButton,userTrailPeriod,userSetUpFee,userDuration;
-    private RetrofitInterface.addProductClient AddProductAdapter;
+    String subsNameViaIntent ,subsPriceViaIntent,subsShippingViaIntent,subsDescriptionViaIntent,subsButtonViaIntent,subsFeeViaIntent,subsId;
+    String subsSetUpFeeViaIntent,subsTrailPeriodViaIntent,subsDurationViaIntent;
+    private RetrofitInterface.addSubscriptionClient AddSubscriptionAdapter;
+    private RetrofitInterface.editSubsClient EditSubscriptionAdapter;
+    String intentFrom ;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -76,7 +85,12 @@ public class AddSubscriptionActivity extends BaseActivity implements View.OnClic
     EditText etAddSubsShipping;
 
     @BindView(R.id.add_description)
-    EditText etAddProductDescription;
+    EditText etAddSubsDescription;
+
+    @BindView(R.id.add_subs_button)
+    Button addSubsBtn;
+
+
 
     @OnClick(R.id.add_subs_button)
     public void addSubscription()
@@ -84,7 +98,7 @@ public class AddSubscriptionActivity extends BaseActivity implements View.OnClic
         userSubsName = etAddSubsName.getText().toString();
         userSubsPrice = etAddSubsPrice.getText().toString();
         userSubsShipping =etAddSubsShipping.getText().toString();
-        userSubsDescription = etAddProductDescription.getText().toString();
+        userSubsDescription = etAddSubsDescription.getText().toString();
         userDuration = etAddSubsDuration.getText().toString();
         userTrailPeriod = etAddSubsTrailPeriod.getText().toString();
         userSetUpFee = etAddSubsSetUpFee.getText().toString();
@@ -140,43 +154,77 @@ public class AddSubscriptionActivity extends BaseActivity implements View.OnClic
     }
 
     private void addSubsDetails() {
-        Log.e("abhi", "addSubsDetails: ........"+userSubsButton + " " +userAbsorbFee );
-     /*   LoadingDialog.showLoadingDialog(this,"Loading...");
-        Call<AddProductResponse> call = AddProductAdapter.addProductData(new AddProduct("addproduct", PrefUtils.getUserId(this),"83Ide@$321!",userAbsorbFee,userSubsName,userSubsPrice,userSubsShipping,userSubsDescription,userSubsButton));
-        if (NetworkUtils.isNetworkConnected(this)) {
-            call.enqueue(new Callback<AddProductResponse>() {
+        if (intentFrom.equals("AddSubscription")) {
+            Log.e("abhi", "addSubsDetails: ........" + userSubsButton + " " + userAbsorbFee);
+            LoadingDialog.showLoadingDialog(this, "Loading...");
+            Call<AddSubscriptionResponse> call = AddSubscriptionAdapter.addSubscriptionData(new AddSubscription("addsubscription", PrefUtils.getUserId(this), "83Ide@$321!", userAbsorbFee, userSubsName, userSubsPrice, userSubsShipping, userSubsDescription, userSubsButton, userSetUpFee, userTrailPeriod, userDuration));
+            if (NetworkUtils.isNetworkConnected(this)) {
+                call.enqueue(new Callback<AddSubscriptionResponse>() {
 
-                @Override
-                public void onResponse(Call<AddProductResponse> call, Response<AddProductResponse> response) {
+                    @Override
+                    public void onResponse(Call<AddSubscriptionResponse> call, Response<AddSubscriptionResponse> response) {
 
-                    if (response.isSuccessful()) {
-                        if (response.body().getType() == 1)
-                        {
-                            Toast.makeText(getApplicationContext(),"Product added successfully.",Toast.LENGTH_SHORT).show();
-                            finish();
+                        if (response.isSuccessful()) {
+                            if (response.body().getType() == 1) {
+                                Toast.makeText(getApplicationContext(), "Subscription added successfully.", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Error Adding Subscription.", Toast.LENGTH_SHORT).show();
+                            }
+                            LoadingDialog.cancelLoading();
+
+
                         }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(),"Error Adding Product.",Toast.LENGTH_SHORT).show();
-                        }
-                        LoadingDialog.cancelLoading();
-
-
                     }
-                }
 
-                @Override
-                public void onFailure(Call<AddProductResponse> call, Throwable t) {
-                    LoadingDialog.cancelLoading();
-                }
+                    @Override
+                    public void onFailure(Call<AddSubscriptionResponse> call, Throwable t) {
+                        LoadingDialog.cancelLoading();
+                    }
 
 
-            });
+                });
 
-        } else {
-            SnakBarUtils.networkConnected(this);
+            } else {
+                SnakBarUtils.networkConnected(this);
+            }
         }
-*/
+        else
+        {
+            LoadingDialog.showLoadingDialog(this, "Loading...");
+            Call<EditSubscriptionResponse> call = EditSubscriptionAdapter.editSubsData(new EditSubscription("editsubscription", PrefUtils.getUserId(this),subsId, "83Ide@$321!", userAbsorbFee, userSubsName, userSubsPrice, userSubsShipping, userSubsDescription, userSubsButton, userSetUpFee, userTrailPeriod, userDuration));
+            if (NetworkUtils.isNetworkConnected(this)) {
+                call.enqueue(new Callback<EditSubscriptionResponse>() {
+
+                    @Override
+                    public void onResponse(Call<EditSubscriptionResponse> call, Response<EditSubscriptionResponse> response) {
+
+                        if (response.isSuccessful()) {
+                            if (response.body().getType() == 1) {
+                                Toast.makeText(getApplicationContext(), "Subscription edited successfully.", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Error editing Subscription.", Toast.LENGTH_SHORT).show();
+                            }
+                            LoadingDialog.cancelLoading();
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<EditSubscriptionResponse> call, Throwable t) {
+                        LoadingDialog.cancelLoading();
+                    }
+
+
+                });
+
+            } else {
+                SnakBarUtils.networkConnected(this);
+            }
+
+        }
     }
 
 
@@ -213,7 +261,53 @@ public class AddSubscriptionActivity extends BaseActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        tvAppTitle.setText(R.string.add_subscriptions);
+        intentFrom= getIntent().getExtras().getString("INTENT_FROM");
+
+        if (intentFrom !=null) {
+            if (intentFrom.equals("AddSubscription")) {
+                tvAppTitle.setText(R.string.add_subscriptions);
+            } else {
+                subsNameViaIntent = getIntent().getExtras().getString("SUBS_NAME");
+                subsPriceViaIntent = getIntent().getExtras().getString("SUBS_PRICE");
+                subsShippingViaIntent = getIntent().getExtras().getString("SUBS_SHIPPING");
+                subsDescriptionViaIntent = getIntent().getExtras().getString("SUBS_DESCRIPTION");
+                subsButtonViaIntent = getIntent().getExtras().getString("SUBS_BUTTON");
+                subsFeeViaIntent = getIntent().getExtras().getString("SUBS_FEE");
+                subsSetUpFeeViaIntent = getIntent().getExtras().getString("SUBS_SET_UP_FEE");
+                subsTrailPeriodViaIntent = getIntent().getExtras().getString("SUBS_TRAIL_PERIOD");
+                subsDurationViaIntent = getIntent().getExtras().getString("SUBS_DURATION");
+                subsId = getIntent().getExtras().getString("SUBS_ID");
+                Log.e("abhi", "onCreate:..... " +subsFeeViaIntent  + " " + subsButtonViaIntent );
+
+                tvAppTitle.setText(R.string.edit_subscriptions);
+                addSubsBtn.setText("EDIT SUBSCRIPTION");
+                etAddSubsName.setText(subsNameViaIntent);
+                etAddSubsPrice.setText(subsPriceViaIntent);
+                etAddSubsShipping.setText(subsShippingViaIntent);
+                etAddSubsDescription.setText(subsDescriptionViaIntent);
+                etAddSubsTrailPeriod.setText(subsTrailPeriodViaIntent);
+                etAddSubsDuration.setText(subsDurationViaIntent);
+                etAddSubsSetUpFee.setText(subsSetUpFeeViaIntent);
+
+                if (subsFeeViaIntent !=null) {
+
+                    if (subsFeeViaIntent.equals("1")) {
+                        rbYes.setChecked(true);
+                    } else {
+                        rbNo.setChecked(true);
+                    }
+                }
+
+                if (subsButtonViaIntent !=null)
+                {
+                    setSubsButton();
+                }
+
+
+
+            }
+        }
+
         notificationIcon.setVisibility(View.GONE);
         rbYes.setOnClickListener(this);
         rbNo.setOnClickListener(this);
@@ -230,6 +324,27 @@ public class AddSubscriptionActivity extends BaseActivity implements View.OnClic
          setUpRestAdapter();
 
     }
+
+    private void setSubsButton() {
+        if(subsButtonViaIntent.equals("/subscribe/02.png"))
+        {
+            rb_02_01.setChecked(true);
+        }
+        else if (subsButtonViaIntent.equals("/subscribe/03.png"))
+        {
+            rb_03_01.setChecked(true);
+        }
+        else if (subsButtonViaIntent.equals("/subscribe/04.png"))
+        {
+            rb_02_02.setChecked(true);
+        }
+        else if (subsButtonViaIntent.equals("/subscribe/05.png"))
+        {
+            rb_03_02.setChecked(true);
+        }
+
+    }
+
 
     private boolean isRegistrationValid() {
         if (userSubsName == null || userSubsName.equals("")||userSubsPrice == null || userSubsPrice.equals("")
@@ -318,7 +433,8 @@ public class AddSubscriptionActivity extends BaseActivity implements View.OnClic
 
 
     private void setUpRestAdapter() {
-        AddProductAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.addProductClient.class, BASE_URL, this);
+        AddSubscriptionAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.addSubscriptionClient.class, BASE_URL, this);
+        EditSubscriptionAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.editSubsClient.class, BASE_URL, this);
 
     }
 

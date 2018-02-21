@@ -368,7 +368,7 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
                 etAddProductName.setText(productNameViaIntent);
                 etAddProductPrice.setText(productPriceViaIntent);
                 etAddProductShipping.setText(productShippingViaIntent);
-                etAddProductDescription.setText(userProductDescription);
+                etAddProductDescription.setText(productDescriptionViaIntent);
                 if (productFeeViaIntent !=null) {
 
                     if (productFeeViaIntent.equals("1")) {
