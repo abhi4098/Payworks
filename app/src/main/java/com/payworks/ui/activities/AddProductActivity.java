@@ -361,7 +361,7 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
                 productButtonViaIntent = getIntent().getExtras().getString("PRODUCT_BUTTON");
                 productFeeViaIntent = getIntent().getExtras().getString("PRODUCT_FEE");
                 productId = getIntent().getExtras().getString("PRODUCT_ID");
-                Log.e("abhi", "onCreate:..... " +productId );
+                Log.e("abhi", "onCreate:..... " +productFeeViaIntent  + " " + productButtonViaIntent );
 
                 tvAppTitle.setText(R.string.edit_products);
                 addProductButton.setText("EDIT PRODUCT");
@@ -415,67 +415,67 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
     }
 
     private void setProductButton() {
-        if(userProductButton.equals("/02/01.png"))
+        if(productButtonViaIntent.equals("/02/01.png"))
         {
             rb_02_01.setChecked(true);
         }
-        else if (userProductButton.equals("/02/02.png"))
+        else if (productButtonViaIntent.equals("/02/02.png"))
         {
             rb_02_02.setChecked(true);
         }
-        else if (userProductButton.equals("/02/03.png"))
+        else if (productButtonViaIntent.equals("/02/03.png"))
         {
             rb_02_03.setChecked(true);
         }
-        else if (userProductButton.equals("/02/04.png"))
+        else if (productButtonViaIntent.equals("/02/04.png"))
         {
             rb_02_04.setChecked(true);
         }
-        else if (userProductButton.equals("/02/05.png"))
+        else if (productButtonViaIntent.equals("/02/05.png"))
         {
             rb_02_05.setChecked(true);
         }
-        else if (userProductButton.equals("/02/06.png"))
+        else if (productButtonViaIntent.equals("/02/06.png"))
         {
             rb_02_06.setChecked(true);
         }
-        else if (userProductButton.equals("/02/07.png"))
+        else if (productButtonViaIntent.equals("/02/07.png"))
         {
             rb_02_07.setChecked(true);
         }
-        else if (userProductButton.equals("/02/08.png"))
+        else if (productButtonViaIntent.equals("/02/08.png"))
         {
             rb_02_08.setChecked(true);
         }
-        else if ( userProductButton.equals("/03/01.png"))
+        else if ( productButtonViaIntent.equals("/03/01.png"))
         {
             rb_03_01.setChecked(true);
         }
-        else if ( userProductButton.equals("/03/02.png"))
+        else if ( productButtonViaIntent.equals("/03/02.png"))
         {
             rb_03_02.setChecked(true);
         }
-        else if ( userProductButton.equals("/03/03.png"))
+        else if ( productButtonViaIntent.equals("/03/03.png"))
         {
             rb_03_03.setChecked(true);
         }
-        else if ( userProductButton.equals("/03/04.png"))
+        else if ( productButtonViaIntent.equals("/03/04.png"))
         {
             rb_03_04.setChecked(true);
         }
-        else if ( userProductButton.equals("/03/05.png"))
+        else if ( productButtonViaIntent.equals("/03/05.png"))
         {
             rb_03_05.setChecked(true);
         }
-        else if ( userProductButton.equals("/03/06.png"))
+        else if ( productButtonViaIntent.equals("/03/06.png"))
         {
             rb_03_06.setChecked(true);
         }
-        else if ( userProductButton.equals("/03/07.png"))
+        else if ( productButtonViaIntent.equals("/03/07.png"))
         {
             rb_03_07.setChecked(true);
         }
-        else if ( userProductButton.equals("/03/08.png"))
+        else if ( productButtonViaIntent.equals("/03/08.png"))
         {
             rb_03_08.setChecked(true);
         }

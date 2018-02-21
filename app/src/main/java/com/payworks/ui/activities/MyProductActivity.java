@@ -223,6 +223,8 @@ public class MyProductActivity extends BaseActivity {
             String outputDateStr = outputFormat.format(date);
 
             product.setId(response.body().getProducts().get(i).getId());
+            product.setPaidby(response.body().getProducts().get(i).getPaidby());
+            product.setProductbutton(response.body().getProducts().get(i).getProductbutton());
             product.setProductname(response.body().getProducts().get(i).getProductname());
             product.setProductprice(response.body().getProducts().get(i).getProductprice());
             product.setProductshipping(response.body().getProducts().get(i).getProductshipping());

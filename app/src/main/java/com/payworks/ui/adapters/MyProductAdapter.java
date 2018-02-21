@@ -126,35 +126,9 @@ public class MyProductAdapter extends ArrayAdapter<Product> {
             holder.generateCodeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    LayoutInflater li = LayoutInflater.from((Activity) view.getContext());
-                    View promptsView = li.inflate(R.layout.prompts, null);
 
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                            (Activity) view.getContext());
-
-                    // set prompts.xml to alertdialog builder
-                    alertDialogBuilder.setView(promptsView);
-
-                    final EditText ettinyUrl = (EditText) promptsView
-                            .findViewById(R.id.editTextDialogUserInput);
-
-                    final TextView entitiyName = (TextView) promptsView
-                            .findViewById(R.id.tv_Name);
-
-                    final TextView nameTag = (TextView) promptsView
-                            .findViewById(R.id.name_tag);
-
-                    final Button generateCodeBtn = (Button) promptsView
-                            .findViewById(R.id.gen_code_btn);
-
-                    nameTag.setText("Product Name: ");
-                    entitiyName.setText(product.getProductname());
-                    generateCodeBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            generateCodeBtn.setEnabled(false);
                     String itemId = product.getId();
-                            Log.e("abhi", "onClick: ...." +itemId );
+                    Log.e("abhi", "onClick: ...." +itemId );
                     String customerEmailId = PrefUtils.getEmail(getContext());
                     String action = "product";
                     String url1 = "https://www.payworks.bs/processor.html?product=";
@@ -182,9 +156,7 @@ public class MyProductAdapter extends ArrayAdapter<Product> {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        generateCodeBtn.setVisibility(View.GONE);
-                                        ettinyUrl.setVisibility(View.VISIBLE);
-                                        ettinyUrl.setText(generatedCode);
+                                        openDialog(generatedCode,view,product.getProductname());
                                     }
                                 });
 
@@ -203,38 +175,6 @@ public class MyProductAdapter extends ArrayAdapter<Product> {
                         }
                     });
 
-
-                        }
-                    });
-
-                    // set dialog message
-                    alertDialogBuilder
-                            .setCancelable(false)
-                            .setPositiveButton("Share",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,int id) {
-                                            Intent intent = new Intent(Intent.ACTION_SEND);
-                                            intent.setType("text/plain");
-                                            intent.putExtra(Intent.EXTRA_TEXT, generatedCode);
-                                            intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this product link!");
-                                            getContext().startActivity(Intent.createChooser(intent, "Share"));
-                                            dialog.cancel();
-                                        }
-                                    })
-                            .setNegativeButton("Cancel",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,int id) {
-                                            dialog.cancel();
-                                        }
-                                    });
-
-                    // create alert dialog
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-
-                    // show it
-                    alertDialog.show();
-                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#1ea9e1"));
-                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#1ea9e1"));
 
 
                 }
@@ -287,6 +227,58 @@ public class MyProductAdapter extends ArrayAdapter<Product> {
         return rowView;
     }
 
+    private void openDialog(final String generatedCode, View view, String productname) {
+        LayoutInflater li = LayoutInflater.from((Activity) view.getContext());
+        View promptsView = li.inflate(R.layout.prompts, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                (Activity) view.getContext());
+
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(promptsView);
+
+        final EditText ettinyUrl = (EditText) promptsView
+                .findViewById(R.id.editTextDialogUserInput);
+
+        final TextView entitiyName = (TextView) promptsView
+                .findViewById(R.id.tv_Name);
+
+        final TextView nameTag = (TextView) promptsView
+                .findViewById(R.id.name_tag);
+
+        nameTag.setText("Product Name: ");
+        entitiyName.setText(productname);
+        ettinyUrl.setText(generatedCode);
+
+        // set dialog message
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("Share",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                Intent intent = new Intent(Intent.ACTION_SEND);
+                                intent.setType("text/plain");
+                                intent.putExtra(Intent.EXTRA_TEXT, generatedCode);
+                                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this product link!");
+                                getContext().startActivity(Intent.createChooser(intent, "Share"));
+                                dialog.cancel();
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#1ea9e1"));
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#1ea9e1"));
+    }
 
 
 }
