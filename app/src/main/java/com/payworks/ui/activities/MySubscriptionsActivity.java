@@ -214,6 +214,10 @@ public class MySubscriptionsActivity extends BaseActivity {
             subscription.setSubscriptiontrialperiod(response.body().getSubscription().get(i).getSubscriptiontrialperiod());
             subscription.setSold(response.body().getSubscription().get(i).getSold());
             subscription.setSubscriptiontax(response.body().getSubscription().get(i).getSubscriptiontax());
+            subscription.setId(response.body().getSubscription().get(i).getId());
+            subscription.setPaidby(response.body().getSubscription().get(i).getPaidby());
+            subscription.setSubscriptionbutton(response.body().getSubscription().get(i).getSubscriptionbutton());
+
 
             Log.e("abhi", "setUserProducts: =========" );
 

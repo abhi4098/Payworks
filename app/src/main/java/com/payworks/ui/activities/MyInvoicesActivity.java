@@ -223,6 +223,7 @@ public class MyInvoicesActivity extends BaseActivity {
             invoice.setCustomerName(response.body().getInvoices().get(i).getCustomerName());
             invoice.setAmount(response.body().getInvoices().get(i).getAmount());
             invoice.setInvoicenumber(response.body().getInvoices().get(i).getInvoicenumber());
+            invoice.setId(response.body().getInvoices().get(i).getId());
             invoice.setUpdatedDate(outputDateStr);
 
             Log.e("abhi", "setUserProducts: =========" );

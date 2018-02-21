@@ -45,7 +45,8 @@ public class MyDonationsAdapter extends ArrayAdapter<Donation> {
 
     int groupid;
     ArrayList<Donation> myDonationList;
-    Context context;  String generatedCode ;
+    Context context;
+    String generatedCode ;
 
 
     public MyDonationsAdapter(MyDonationsActivity myDonationsActivity, int layout_my_donation_list, int date, ArrayList<Donation> myDonationList) {
@@ -62,7 +63,7 @@ public class MyDonationsAdapter extends ArrayAdapter<Donation> {
         public TextView donationName;
         public TextView donationPrice;
         public TextView donationUpdateDate;
-        public ImageView editProductBtn;
+        public ImageView editDonationBtn;
         public ImageView generateCodeBtn;
 
 
@@ -83,7 +84,7 @@ public class MyDonationsAdapter extends ArrayAdapter<Donation> {
             viewHolder.donationName= (TextView) rowView.findViewById(R.id.donation_name);
             viewHolder.donationPrice= (TextView) rowView.findViewById(R.id.donation_price);
             viewHolder.donationUpdateDate= (TextView) rowView.findViewById(R.id.donatio_update_date);
-            viewHolder.editProductBtn= (ImageView) rowView.findViewById(R.id.edit_product);
+            viewHolder.editDonationBtn= (ImageView) rowView.findViewById(R.id.edit_product);
             viewHolder.generateCodeBtn= (ImageView) rowView.findViewById(R.id.generate_code);
 
 
@@ -158,7 +159,7 @@ public class MyDonationsAdapter extends ArrayAdapter<Donation> {
             });
 
 
-            holder.editProductBtn.setOnClickListener(new View.OnClickListener() {
+            holder.editDonationBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 

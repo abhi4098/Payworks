@@ -214,6 +214,10 @@ public class MyTicketsActivity extends BaseActivity {
             ticket.setTickettax(response.body().getTicket().get(i).getTickettax());
             ticket.setTicketavailable(response.body().getTicket().get(i).getTicketavailable());
             ticket.setSold(response.body().getTicket().get(i).getSold());
+            ticket.setSold(response.body().getTicket().get(i).getSold());
+            ticket.setId(response.body().getTicket().get(i).getId());
+            ticket.setPaidby(response.body().getTicket().get(i).getPaidby());
+            ticket.setTicketbutton(response.body().getTicket().get(i).getTicketbutton());
 
             Log.e("abhi", "setUserProducts: =========" );
 
