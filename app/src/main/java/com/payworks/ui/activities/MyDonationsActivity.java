@@ -219,6 +219,9 @@ public class MyDonationsActivity extends BaseActivity {
 
             donation.setDonationname(response.body().getDonations().get(i).getDonationname());
             donation.setDonationprice(response.body().getDonations().get(i).getDonationprice());
+            donation.setId(response.body().getDonations().get(i).getId());
+            donation.setDonationbutton(response.body().getDonations().get(i).getDonationbutton());
+            donation.setPaidby(response.body().getDonations().get(i).getPaidby());
             donation.setUpdatedDate(outputDateStr);
 
             Log.e("abhi", "setUserProducts: =========" );

@@ -80,7 +80,6 @@ public class MyProductAdapter extends ArrayAdapter<Product> {
         public TextView productPrice;
         public TextView productUpdateDate;
         public ImageView editProductBtn;
-        public ImageView sendProductBtn;
         public ImageView generateCodeBtn;
 
 
@@ -202,21 +201,7 @@ public class MyProductAdapter extends ArrayAdapter<Product> {
                 }
             });
 
-           /* holder.sendProductBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-              if (generatedCode == null)
-              {
-                  Toast.makeText(getContext(),"Please Generate code",Toast.LENGTH_SHORT).show();
-              }
-              else
-              {
 
-                  Toast.makeText(getContext(),generatedCode,Toast.LENGTH_SHORT).show();
-              }
-                }
-            });
-*/
 
 
 
