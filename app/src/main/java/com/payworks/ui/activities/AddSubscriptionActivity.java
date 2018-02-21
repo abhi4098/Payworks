@@ -2,6 +2,7 @@ package com.payworks.ui.activities;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,7 +31,7 @@ import static com.payworks.api.ApiEndPoints.BASE_URL;
 
 public class AddSubscriptionActivity extends BaseActivity implements View.OnClickListener {
 
-    String userProductName,userProductPrice,userproductShipping,userProductDescription,userAbsorbFee,userProductButton;
+    String userSubsName,userSubsPrice,userSubsShipping,userSubsDescription,userAbsorbFee,userSubsButton,userTrailPeriod,userSetUpFee,userDuration;
     private RetrofitInterface.addProductClient AddProductAdapter;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -50,55 +51,43 @@ public class AddSubscriptionActivity extends BaseActivity implements View.OnClic
     RadioButton rb_02_01;
     @BindView(R.id.radio_button_02_02)
     RadioButton rb_02_02;
-    @BindView(R.id.radio_button_02_03)
-    RadioButton rb_02_03;
-    @BindView(R.id.radio_button_02_04)
-    RadioButton rb_02_04;
-    @BindView(R.id.radio_button_02_05)
-    RadioButton rb_02_05;
-    @BindView(R.id.radio_button_02_06)
-    RadioButton rb_02_06;
-    @BindView(R.id.radio_button_02_07)
-    RadioButton rb_02_07;
-    @BindView(R.id.radio_button_02_08)
-    RadioButton rb_02_08;
 
     @BindView(R.id.radio_button_03_01)
     RadioButton rb_03_01;
     @BindView(R.id.radio_button_03_02)
     RadioButton rb_03_02;
-    @BindView(R.id.radio_button_03_03)
-    RadioButton rb_03_03;
-    @BindView(R.id.radio_button_03_04)
-    RadioButton rb_03_04;
-    @BindView(R.id.radio_button_03_05)
-    RadioButton rb_03_05;
-    @BindView(R.id.radio_button_03_06)
-    RadioButton rb_03_06;
-    @BindView(R.id.radio_button_03_07)
-    RadioButton rb_03_07;
-    @BindView(R.id.radio_button_03_08)
-    RadioButton rb_03_08;
 
-    @BindView(R.id.add_product_name)
-    EditText etAddProductName;
+    @BindView(R.id.add_subscription_name)
+    EditText etAddSubsName;
 
-    @BindView(R.id.add_product_price)
-    EditText etAddProductPrice;
+    @BindView(R.id.add_subscription_price)
+    EditText etAddSubsPrice;
 
-    @BindView(R.id.add_product_shipping)
-    EditText etAddProductShipping;
+    @BindView(R.id.add_subs_trail_period)
+    EditText etAddSubsTrailPeriod;
+
+    @BindView(R.id.add_subscription_duration)
+    EditText etAddSubsDuration;
+
+    @BindView(R.id.add_subscription_set_up_fee)
+    EditText etAddSubsSetUpFee;
+
+    @BindView(R.id.add_subs_shipping)
+    EditText etAddSubsShipping;
 
     @BindView(R.id.add_description)
     EditText etAddProductDescription;
 
-    @OnClick(R.id.add_product_button)
-    public void addProduct()
+    @OnClick(R.id.add_subs_button)
+    public void addSubscription()
     {
-        userProductName = etAddProductName.getText().toString();
-        userProductPrice = etAddProductPrice.getText().toString();
-        userproductShipping =etAddProductShipping.getText().toString();
-        userProductDescription = etAddProductDescription.getText().toString();
+        userSubsName = etAddSubsName.getText().toString();
+        userSubsPrice = etAddSubsPrice.getText().toString();
+        userSubsShipping =etAddSubsShipping.getText().toString();
+        userSubsDescription = etAddProductDescription.getText().toString();
+        userDuration = etAddSubsDuration.getText().toString();
+        userTrailPeriod = etAddSubsTrailPeriod.getText().toString();
+        userSetUpFee = etAddSubsSetUpFee.getText().toString();
 
         if (isRegistrationValid()) {
 
@@ -124,93 +113,36 @@ public class AddSubscriptionActivity extends BaseActivity implements View.OnClic
 
         if(rb_02_01.isChecked())
         {
-           userProductButton = "/02/01.png";
-           addProductDetails();
+           userSubsButton = "/subscribe/02.png";
+           addSubsDetails();
         }
         else if (rb_02_02.isChecked())
         {
-            userProductButton = "/02/02.png";
-            addProductDetails();
+            userSubsButton = "/subscribe/04.png";
+            addSubsDetails();
         }
-        else if (rb_02_03.isChecked())
-        {
-            userProductButton = "/02/03.png";
-            addProductDetails();
-        }
-        else if (rb_02_04.isChecked())
-        {
-            userProductButton = "/02/04.png";
-            addProductDetails();
-        }
-        else if (rb_02_05.isChecked())
-        {
-            userProductButton = "/02/05.png";
-            addProductDetails();
-        }
-        else if (rb_02_06.isChecked())
-        {
-            userProductButton = "/02/06.png";
-            addProductDetails();
-        }
-        else if (rb_02_07.isChecked())
-        {
-            userProductButton = "/02/07.png";
-            addProductDetails();
-        }
-        else if (rb_02_08.isChecked())
-        {
-            userProductButton = "/02/08.png";
-            addProductDetails();
-        }
+
         else if (rb_03_01.isChecked())
         {
-            userProductButton = "/03/01.png";
-            addProductDetails();
+            userSubsButton = "/subscribe/03.png";
+            addSubsDetails();
         }
         else if (rb_03_02.isChecked())
         {
-            userProductButton = "/03/02.png";
-            addProductDetails();
+            userSubsButton = "/subscribe/05.png";
+            addSubsDetails();
         }
-        else if (rb_03_03.isChecked())
-        {
-            userProductButton = "/03/03.png";
-            addProductDetails();
-        }
-        else if (rb_03_04.isChecked())
-        {
-            userProductButton = "/03/04.png";
-            addProductDetails();
-        }
-        else if (rb_03_05.isChecked())
-        {
-            userProductButton = "/03/05.png";
-            addProductDetails();
-        }
-        else if (rb_03_06.isChecked())
-        {
-            userProductButton = "/03/06.png";
-            addProductDetails();
-        }
-        else if (rb_03_07.isChecked())
-        {
-            userProductButton = "/03/07.png";
-            addProductDetails();
-        }
-        else if (rb_03_08.isChecked())
-        {
-            userProductButton = "/03/08.png";
-            addProductDetails();
-        }
+
         else
         {
             Toast.makeText(getApplicationContext(),"Choose a button",Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void addProductDetails() {
-        LoadingDialog.showLoadingDialog(this,"Loading...");
-        Call<AddProductResponse> call = AddProductAdapter.addProductData(new AddProduct("addproduct", PrefUtils.getUserId(this),"83Ide@$321!",userAbsorbFee,userProductName,userProductPrice,userproductShipping,userProductDescription,userProductButton));
+    private void addSubsDetails() {
+        Log.e("abhi", "addSubsDetails: ........"+userSubsButton + " " +userAbsorbFee );
+     /*   LoadingDialog.showLoadingDialog(this,"Loading...");
+        Call<AddProductResponse> call = AddProductAdapter.addProductData(new AddProduct("addproduct", PrefUtils.getUserId(this),"83Ide@$321!",userAbsorbFee,userSubsName,userSubsPrice,userSubsShipping,userSubsDescription,userSubsButton));
         if (NetworkUtils.isNetworkConnected(this)) {
             call.enqueue(new Callback<AddProductResponse>() {
 
@@ -244,7 +176,7 @@ public class AddSubscriptionActivity extends BaseActivity implements View.OnClic
         } else {
             SnakBarUtils.networkConnected(this);
         }
-
+*/
     }
 
 
@@ -254,7 +186,7 @@ public class AddSubscriptionActivity extends BaseActivity implements View.OnClic
 
     @Override
     public int getLayoutResourceId() {
-        return R.layout.activity_add_product;
+        return R.layout.activity_add_subscription;
     }
 
     @Override
@@ -288,21 +220,11 @@ public class AddSubscriptionActivity extends BaseActivity implements View.OnClic
 
         rb_02_01.setOnClickListener(this);
         rb_02_02.setOnClickListener(this);
-        rb_02_03.setOnClickListener(this);
-        rb_02_04.setOnClickListener(this);
-        rb_02_05.setOnClickListener(this);
-        rb_02_06.setOnClickListener(this);
-        rb_02_07.setOnClickListener(this);
-        rb_02_08.setOnClickListener(this);
+
 
         rb_03_01.setOnClickListener(this);
         rb_03_02.setOnClickListener(this);
-        rb_03_03.setOnClickListener(this);
-        rb_03_04.setOnClickListener(this);
-        rb_03_05.setOnClickListener(this);
-        rb_03_06.setOnClickListener(this);
-        rb_03_07.setOnClickListener(this);
-        rb_03_08.setOnClickListener(this);
+
 
 
          setUpRestAdapter();
@@ -310,21 +232,34 @@ public class AddSubscriptionActivity extends BaseActivity implements View.OnClic
     }
 
     private boolean isRegistrationValid() {
-        if (userProductName == null || userProductName.equals("")||userProductPrice == null || userProductPrice.equals("")
-                ||userproductShipping == null || userproductShipping.equals(""))
+        if (userSubsName == null || userSubsName.equals("")||userSubsPrice == null || userSubsPrice.equals("")
+                ||userSubsShipping == null || userSubsShipping.equals("")||userSetUpFee == null || userSetUpFee.equals("")
+                ||userTrailPeriod == null || userTrailPeriod.equals("")||userDuration == null || userDuration.equals(""))
 
         {
 
-            if (userProductName == null || userProductName.equals("") ) {
-                etAddProductName.setError(getString(R.string.error_compulsory_field));
+            if (userSubsName == null || userSubsName.equals("") ) {
+                etAddSubsName.setError(getString(R.string.error_compulsory_field));
             }
 
-            if (userProductPrice == null || userProductPrice.equals("") ) {
-                etAddProductPrice.setError(getString(R.string.error_compulsory_field));
+            if (userSubsPrice == null || userSubsPrice.equals("") ) {
+                etAddSubsPrice.setError(getString(R.string.error_compulsory_field));
             }
 
-            if (userproductShipping == null || userproductShipping.equals("") ) {
-                etAddProductShipping.setError(getString(R.string.error_compulsory_field));
+            if (userSubsShipping == null || userSubsShipping.equals("") ) {
+                etAddSubsShipping.setError(getString(R.string.error_compulsory_field));
+            }
+
+            if (userSetUpFee == null || userSetUpFee.equals("") ) {
+                etAddSubsSetUpFee.setError(getString(R.string.error_compulsory_field));
+            }
+
+            if (userTrailPeriod == null || userTrailPeriod.equals("") ) {
+                etAddSubsTrailPeriod.setError(getString(R.string.error_compulsory_field));
+            }
+
+            if (userDuration == null || userDuration.equals("") ) {
+                etAddSubsDuration.setError(getString(R.string.error_compulsory_field));
             }
 
 
@@ -350,304 +285,33 @@ public class AddSubscriptionActivity extends BaseActivity implements View.OnClic
             case R.id.radio_button_02_01:
 
                 rb_02_02.setChecked(false);
-                rb_02_03.setChecked(false);
-                rb_02_04.setChecked(false);
-                rb_02_05.setChecked(false);
-                rb_02_06.setChecked(false);
-                rb_02_07.setChecked(false);
-                rb_02_08.setChecked(false);
-
                 rb_03_01.setChecked(false);
                 rb_03_02.setChecked(false);
-                rb_03_03.setChecked(false);
-                rb_03_04.setChecked(false);
-                rb_03_05.setChecked(false);
-                rb_03_06.setChecked(false);
-                rb_03_07.setChecked(false);
-                rb_03_08.setChecked(false);
+
                 break;
 
             case R.id.radio_button_02_02:
                 rb_02_01.setChecked(false);
-                rb_02_03.setChecked(false);
-                rb_02_04.setChecked(false);
-                rb_02_05.setChecked(false);
-                rb_02_06.setChecked(false);
-                rb_02_07.setChecked(false);
-                rb_02_08.setChecked(false);
-
                 rb_03_01.setChecked(false);
                 rb_03_02.setChecked(false);
-                rb_03_03.setChecked(false);
-                rb_03_04.setChecked(false);
-                rb_03_05.setChecked(false);
-                rb_03_06.setChecked(false);
-                rb_03_07.setChecked(false);
-                rb_03_08.setChecked(false);
-                break;
 
-            case R.id.radio_button_02_03:
-                rb_02_01.setChecked(false);
-                rb_02_02.setChecked(false);
-                rb_02_04.setChecked(false);
-                rb_02_05.setChecked(false);
-                rb_02_06.setChecked(false);
-                rb_02_07.setChecked(false);
-                rb_02_08.setChecked(false);
-
-                rb_03_01.setChecked(false);
-                rb_03_02.setChecked(false);
-                rb_03_03.setChecked(false);
-                rb_03_04.setChecked(false);
-                rb_03_05.setChecked(false);
-                rb_03_06.setChecked(false);
-                rb_03_07.setChecked(false);
-                rb_03_08.setChecked(false);
-                break;
-
-            case R.id.radio_button_02_04:
-                rb_02_01.setChecked(false);
-                rb_02_02.setChecked(false);
-                rb_02_03.setChecked(false);
-                rb_02_05.setChecked(false);
-                rb_02_06.setChecked(false);
-                rb_02_07.setChecked(false);
-                rb_02_08.setChecked(false);
-
-                rb_03_01.setChecked(false);
-                rb_03_02.setChecked(false);
-                rb_03_03.setChecked(false);
-                rb_03_04.setChecked(false);
-                rb_03_05.setChecked(false);
-                rb_03_06.setChecked(false);
-                rb_03_07.setChecked(false);
-                rb_03_08.setChecked(false);
-                break;
-            case R.id.radio_button_02_05:
-                rb_02_01.setChecked(false);
-                rb_02_02.setChecked(false);
-                rb_02_03.setChecked(false);
-                rb_02_04.setChecked(false);
-                rb_02_06.setChecked(false);
-                rb_02_07.setChecked(false);
-                rb_02_08.setChecked(false);
-
-                rb_03_01.setChecked(false);
-                rb_03_02.setChecked(false);
-                rb_03_03.setChecked(false);
-                rb_03_04.setChecked(false);
-                rb_03_05.setChecked(false);
-                rb_03_06.setChecked(false);
-                rb_03_07.setChecked(false);
-                rb_03_08.setChecked(false);
-                break;
-
-            case R.id.radio_button_02_06:
-                rb_02_01.setChecked(false);
-                rb_02_02.setChecked(false);
-                rb_02_03.setChecked(false);
-                rb_02_04.setChecked(false);
-                rb_02_05.setChecked(false);
-                rb_02_07.setChecked(false);
-                rb_02_08.setChecked(false);
-
-                rb_03_01.setChecked(false);
-                rb_03_02.setChecked(false);
-                rb_03_03.setChecked(false);
-                rb_03_04.setChecked(false);
-                rb_03_05.setChecked(false);
-                rb_03_06.setChecked(false);
-                rb_03_07.setChecked(false);
-                rb_03_08.setChecked(false);
-                break;
-
-            case R.id.radio_button_02_07:
-                rb_02_01.setChecked(false);
-                rb_02_02.setChecked(false);
-                rb_02_03.setChecked(false);
-                rb_02_04.setChecked(false);
-                rb_02_05.setChecked(false);
-                rb_02_06.setChecked(false);
-                rb_02_08.setChecked(false);
-
-                rb_03_01.setChecked(false);
-                rb_03_02.setChecked(false);
-                rb_03_03.setChecked(false);
-                rb_03_04.setChecked(false);
-                rb_03_05.setChecked(false);
-                rb_03_06.setChecked(false);
-                rb_03_07.setChecked(false);
-                rb_03_08.setChecked(false);
-                break;
-
-            case R.id.radio_button_02_08:
-                rb_02_01.setChecked(false);
-                rb_02_02.setChecked(false);
-                rb_02_03.setChecked(false);
-                rb_02_04.setChecked(false);
-                rb_02_05.setChecked(false);
-                rb_02_06.setChecked(false);
-                rb_02_07.setChecked(false);
-
-                rb_03_01.setChecked(false);
-                rb_03_02.setChecked(false);
-                rb_03_03.setChecked(false);
-                rb_03_04.setChecked(false);
-                rb_03_05.setChecked(false);
-                rb_03_06.setChecked(false);
-                rb_03_07.setChecked(false);
-                rb_03_08.setChecked(false);
                 break;
 
             case R.id.radio_button_03_01:
                 rb_02_01.setChecked(false);
                 rb_02_02.setChecked(false);
-                rb_02_03.setChecked(false);
-                rb_02_04.setChecked(false);
-                rb_02_05.setChecked(false);
-                rb_02_06.setChecked(false);
-                rb_02_07.setChecked(false);
-                rb_02_08.setChecked(false);
 
                 rb_03_02.setChecked(false);
-                rb_03_03.setChecked(false);
-                rb_03_04.setChecked(false);
-                rb_03_05.setChecked(false);
-                rb_03_06.setChecked(false);
-                rb_03_07.setChecked(false);
-                rb_03_08.setChecked(false);
+
                 break;
 
             case R.id.radio_button_03_02:
                 rb_02_01.setChecked(false);
                 rb_02_02.setChecked(false);
-                rb_02_03.setChecked(false);
-                rb_02_04.setChecked(false);
-                rb_02_05.setChecked(false);
-                rb_02_06.setChecked(false);
-                rb_02_07.setChecked(false);
-                rb_02_08.setChecked(false);
-
                 rb_03_01.setChecked(false);
-                rb_03_03.setChecked(false);
-                rb_03_04.setChecked(false);
-                rb_03_05.setChecked(false);
-                rb_03_06.setChecked(false);
-                rb_03_07.setChecked(false);
-                rb_03_08.setChecked(false);
+
                 break;
 
-            case R.id.radio_button_03_03:
-                rb_02_01.setChecked(false);
-                rb_02_02.setChecked(false);
-                rb_02_03.setChecked(false);
-                rb_02_04.setChecked(false);
-                rb_02_05.setChecked(false);
-                rb_02_06.setChecked(false);
-                rb_02_07.setChecked(false);
-                rb_02_08.setChecked(false);
-
-                rb_03_01.setChecked(false);
-                rb_03_02.setChecked(false);
-                rb_03_04.setChecked(false);
-                rb_03_05.setChecked(false);
-                rb_03_06.setChecked(false);
-                rb_03_07.setChecked(false);
-                rb_03_08.setChecked(false);
-                break;
-
-            case R.id.radio_button_03_04:
-                rb_02_01.setChecked(false);
-                rb_02_02.setChecked(false);
-                rb_02_03.setChecked(false);
-                rb_02_04.setChecked(false);
-                rb_02_05.setChecked(false);
-                rb_02_06.setChecked(false);
-                rb_02_07.setChecked(false);
-                rb_02_08.setChecked(false);
-
-                rb_03_01.setChecked(false);
-                rb_03_02.setChecked(false);
-                rb_03_03.setChecked(false);
-                rb_03_05.setChecked(false);
-                rb_03_06.setChecked(false);
-                rb_03_07.setChecked(false);
-                rb_03_08.setChecked(false);
-                break;
-            case R.id.radio_button_03_05:
-                rb_02_01.setChecked(false);
-                rb_02_02.setChecked(false);
-                rb_02_03.setChecked(false);
-                rb_02_04.setChecked(false);
-                rb_02_05.setChecked(false);
-                rb_02_06.setChecked(false);
-                rb_02_07.setChecked(false);
-                rb_02_08.setChecked(false);
-
-                rb_03_01.setChecked(false);
-                rb_03_02.setChecked(false);
-                rb_03_03.setChecked(false);
-                rb_03_04.setChecked(false);
-                rb_03_06.setChecked(false);
-                rb_03_07.setChecked(false);
-                rb_03_08.setChecked(false);
-                break;
-
-            case R.id.radio_button_03_06:
-                rb_02_01.setChecked(false);
-                rb_02_02.setChecked(false);
-                rb_02_03.setChecked(false);
-                rb_02_04.setChecked(false);
-                rb_02_05.setChecked(false);
-                rb_02_06.setChecked(false);
-                rb_02_07.setChecked(false);
-                rb_02_08.setChecked(false);
-
-                rb_03_01.setChecked(false);
-                rb_03_02.setChecked(false);
-                rb_03_03.setChecked(false);
-                rb_03_04.setChecked(false);
-                rb_03_05.setChecked(false);
-                rb_03_07.setChecked(false);
-                rb_03_08.setChecked(false);
-                break;
-            case R.id.radio_button_03_07:
-                rb_02_01.setChecked(false);
-                rb_02_02.setChecked(false);
-                rb_02_03.setChecked(false);
-                rb_02_04.setChecked(false);
-                rb_02_05.setChecked(false);
-                rb_02_06.setChecked(false);
-                rb_02_07.setChecked(false);
-                rb_02_08.setChecked(false);
-
-                rb_03_01.setChecked(false);
-                rb_03_02.setChecked(false);
-                rb_03_03.setChecked(false);
-                rb_03_04.setChecked(false);
-                rb_03_05.setChecked(false);
-                rb_03_06.setChecked(false);
-                rb_03_08.setChecked(false);
-                break;
-
-            case R.id.radio_button_03_08:
-                rb_02_01.setChecked(false);
-                rb_02_02.setChecked(false);
-                rb_02_03.setChecked(false);
-                rb_02_04.setChecked(false);
-                rb_02_05.setChecked(false);
-                rb_02_06.setChecked(false);
-                rb_02_07.setChecked(false);
-                rb_02_08.setChecked(false);
-
-                rb_03_01.setChecked(false);
-                rb_03_02.setChecked(false);
-                rb_03_03.setChecked(false);
-                rb_03_04.setChecked(false);
-                rb_03_05.setChecked(false);
-                rb_03_06.setChecked(false);
-                rb_03_07.setChecked(false);
-                break;
         }
 
     }

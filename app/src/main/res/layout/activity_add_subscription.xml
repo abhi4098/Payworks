@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_registration"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/all_screens_bg"
+    tools:context="com.payworks.ui.activities.EditProfileActivity">
+
+
+    <include
+        android:id="@+id/toolbar_actionbar"
+        layout="@layout/activity_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:scrollbars="none"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:background="@drawable/profile_bg"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Absorb Fees ?"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"/>
+
+            <RelativeLayout
+                android:layout_width="80dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="5dp"
+                android:background="@drawable/rectangular_background"
+                android:layout_height="35dp">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textStyle="normal"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/text_color"
+                    android:lines="1"
+                    android:background="@android:color/transparent"
+                    android:textSize="15sp"
+                    android:layout_centerInParent="true"
+                    android:hint="Yes"/>
+
+                <RadioButton
+                    android:id="@+id/radio_button_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"/>
+
+
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="80dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="10dp"
+                android:paddingStart="10dp"
+                android:layout_marginBottom="20dp"
+                android:paddingEnd="5dp"
+                android:background="@drawable/rectangular_background"
+                android:layout_height="35dp">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textStyle="normal"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/text_color"
+                    android:lines="1"
+                    android:background="@android:color/transparent"
+                    android:textSize="15sp"
+                    android:layout_centerInParent="true"
+                    android:hint="No"/>
+
+                <RadioButton
+                    android:id="@+id/radio_button_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"/>
+
+
+
+
+            </RelativeLayout>
+
+    <EditText
+        android:id="@+id/add_subscription_name"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:textStyle="normal"
+        android:gravity="center_vertical"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/text_color"
+        android:lines="1"
+        android:textSize="15sp"
+        android:background="@drawable/rectangular_background"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:hint="Subscription Name"/>
+
+        <EditText
+            android:id="@+id/add_subscription_set_up_fee"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:textStyle="normal"
+            android:gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/text_color"
+            android:lines="1"
+            android:textSize="15sp"
+            android:background="@drawable/rectangular_background"
+            android:layout_marginBottom="10dp"
+            android:hint="Subscription set up fee"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    <EditText
+        android:id="@+id/add_subscription_price"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_width="150dp"
+        android:layout_height="35dp"
+        android:textStyle="normal"
+        android:inputType="number"
+        android:gravity="center_vertical"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/text_color"
+        android:lines="1"
+        android:textSize="15sp"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/rectangular_background"
+        android:layout_marginBottom="10dp"
+        android:hint="Subs Price"/>
+
+        <EditText
+            android:id="@+id/add_subs_shipping"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:layout_width="150dp"
+            android:layout_height="35dp"
+            android:textStyle="normal"
+            android:inputType="number"
+            android:gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/text_color"
+            android:lines="1"
+            android:layout_alignParentEnd="true"
+            android:textSize="15sp"
+            android:background="@drawable/rectangular_background"
+            android:layout_marginBottom="10dp"
+            android:hint="Subs Shipping"/>
+
+
+    </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <EditText
+                android:id="@+id/add_subscription_duration"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_width="150dp"
+                android:layout_height="35dp"
+                android:textStyle="normal"
+                android:inputType="number"
+                android:gravity="center_vertical"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/text_color"
+                android:lines="1"
+                android:textSize="15sp"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/rectangular_background"
+                android:layout_marginBottom="10dp"
+                android:hint="Subs Duration"/>
+
+            <EditText
+                android:id="@+id/add_subs_trail_period"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_width="150dp"
+                android:layout_height="35dp"
+                android:textStyle="normal"
+                android:gravity="center_vertical"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/text_color"
+                android:lines="1"
+                android:layout_alignParentEnd="true"
+                android:textSize="15sp"
+                android:background="@drawable/rectangular_background"
+                android:layout_marginBottom="10dp"
+                android:hint="Subs Trial Period"/>
+
+
+        </RelativeLayout>
+
+
+    <EditText
+        android:id="@+id/add_description"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="normal"
+        android:textColor="@color/text_color"
+        android:lines="3"
+        android:textSize="15sp"
+        android:padding="10dp"
+        android:gravity="top"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/rectangular_background"
+        android:hint="Description"
+
+
+        />
+</LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose a Button"
+                android:textSize="18sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="140dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="5dp"
+                android:layout_alignParentStart="true"
+                android:layout_height="40dp">
+
+
+                <ImageView
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:textStyle="normal"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/text_color"
+                    android:lines="1"
+                    android:src="@drawable/subs02"
+                    android:background="@android:color/transparent"
+                    android:layout_centerInParent="true"
+                    />
+
+                <RadioButton
+                    android:id="@+id/radio_button_02_01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"/>
+
+
+
+
+            </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="140dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingStart="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:paddingEnd="5dp"
+                    android:layout_height="40dp">
+
+
+                    <ImageView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:textStyle="normal"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentStart="true"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/text_color"
+                        android:lines="1"
+                        android:src="@drawable/subs03"
+                        android:background="@android:color/transparent"
+                        android:layout_centerInParent="true"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/radio_button_03_01"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"/>
+
+
+
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="140dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="5dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_height="40dp">
+
+
+                    <ImageView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:textStyle="normal"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentStart="true"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/text_color"
+                        android:lines="1"
+                        android:src="@drawable/subs04"
+                        android:background="@android:color/transparent"
+                        android:layout_centerInParent="true"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/radio_button_02_02"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"/>
+
+
+
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="140dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingStart="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:paddingEnd="5dp"
+                    android:layout_height="40dp">
+
+
+                    <ImageView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:textStyle="normal"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentStart="true"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/text_color"
+                        android:lines="1"
+                        android:src="@drawable/subs05"
+                        android:background="@android:color/transparent"
+                        android:layout_centerInParent="true"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/radio_button_03_02"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"/>
+
+
+
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+
+
+
+            <Button
+                android:id="@+id/add_subs_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="200dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_state_selector"
+                android:text="ADD SUBSCRIPTION"
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>
+

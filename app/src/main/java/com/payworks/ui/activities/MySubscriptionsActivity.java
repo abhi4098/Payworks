@@ -1,5 +1,6 @@
 package com.payworks.ui.activities;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -37,6 +38,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,6 +62,13 @@ public class MySubscriptionsActivity extends BaseActivity {
     @BindView(R.id.search_item)
     EditText etSearch;
 
+    @OnClick(R.id.add_subscription_btn)
+    public void addProduct()
+    {
+        Intent i = new Intent(this, AddSubscriptionActivity.class);
+        i.putExtra("INTENT_FROM","AddProduct");
+        startActivity(i);
+    }
     private RetrofitInterface.UserMySubscriptionClient MyMerchantAdapter;
     MySubscriptionAdapter mySubscriptionAdapter;
     ArrayList<Subscription>  mySubscriptionList = null;
