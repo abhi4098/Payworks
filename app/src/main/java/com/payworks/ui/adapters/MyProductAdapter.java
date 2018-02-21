@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -31,6 +32,7 @@ import com.payworks.R;
 import com.payworks.generated.model.Product;
 import com.payworks.ui.activities.AddProductActivity;
 import com.payworks.ui.activities.MyProductActivity;
+import com.payworks.utils.PrefUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -49,6 +51,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.internal.http.StatusLine;
+
+import static com.google.android.gms.internal.zzahn.runOnUiThread;
 
 
 public class MyProductAdapter extends ArrayAdapter<Product> {
@@ -101,7 +105,7 @@ public class MyProductAdapter extends ArrayAdapter<Product> {
             viewHolder.productUpdateDate= (TextView) rowView.findViewById(R.id.update_date);
             viewHolder.editProductBtn= (ImageView) rowView.findViewById(R.id.edit_product);
             viewHolder.generateCodeBtn= (ImageView) rowView.findViewById(R.id.generate_code);
-            viewHolder.sendProductBtn= (ImageView) rowView.findViewById(R.id.send_product);
+            //viewHolder.sendProductBtn= (ImageView) rowView.findViewById(R.id.send_product);
 
 
             rowView.setTag(viewHolder);
@@ -122,10 +126,46 @@ public class MyProductAdapter extends ArrayAdapter<Product> {
             holder.generateCodeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
+                    LayoutInflater li = LayoutInflater.from((Activity) view.getContext());
+                    View promptsView = li.inflate(R.layout.prompts, null);
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                            (Activity) view.getContext());
+
+                    // set prompts.xml to alertdialog builder
+                    alertDialogBuilder.setView(promptsView);
+
+                    final EditText ettinyUrl = (EditText) promptsView
+                            .findViewById(R.id.editTextDialogUserInput);
+
+                    final TextView entitiyName = (TextView) promptsView
+                            .findViewById(R.id.tv_Name);
+
+                    final TextView nameTag = (TextView) promptsView
+                            .findViewById(R.id.name_tag);
+
+                    final Button generateCodeBtn = (Button) promptsView
+                            .findViewById(R.id.gen_code_btn);
+
+                    nameTag.setText("Product Name: ");
+                    entitiyName.setText(product.getProductname());
+                    generateCodeBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            generateCodeBtn.setEnabled(false);
+                    String itemId = product.getId();
+                            Log.e("abhi", "onClick: ...." +itemId );
+                    String customerEmailId = PrefUtils.getEmail(getContext());
+                    String action = "product";
+                    String url1 = "https://www.payworks.bs/processor.html?product=";
+                    String url2 = "&member=";
+                    String url3 = "&action=";
+                    String url4 = "&send=yes";
+                    String baseUrl = url1.concat(itemId).concat(url2).concat(customerEmailId).concat(url3).concat(action).concat(url4);
                     OkHttpClient client = new OkHttpClient();
                     String urlTemplate = "http://tinyurl.com/api-create.php?url=%s";
-                    String uri = String.format(urlTemplate, URLEncoder.encode("https://www.payworks.bs/processor.html?product=193&member=markbrosnon@hotmail.com&action=product&send=yes"));
-                    Log.e("abhi", "onClick:............url " +uri );
+                    String uri = String.format(urlTemplate, URLEncoder.encode(baseUrl));
+                    Log.e("abhi", "onClick: " +uri );
                     Request request = new Request.Builder()
                             .url(uri)
                             .build();
@@ -137,15 +177,65 @@ public class MyProductAdapter extends ArrayAdapter<Product> {
 
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
-                            //Log.e("abhi", "onResponse: " +response.body().string() );
                             if (response.isSuccessful()) {
                                 generatedCode = response.body().string();
-                               //openDialog(generatedCode, view);
-                                // Toast.makeText(getContext(),response.body().toString(),Toast.LENGTH_SHORT).show();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        generateCodeBtn.setVisibility(View.GONE);
+                                        ettinyUrl.setVisibility(View.VISIBLE);
+                                        ettinyUrl.setText(generatedCode);
+                                    }
+                                });
+
+
+                            }
+                            else
+                            {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getContext(),"Error encountered",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
 
                         }
                     });
+
+
+                        }
+                    });
+
+                    // set dialog message
+                    alertDialogBuilder
+                            .setCancelable(false)
+                            .setPositiveButton("Share",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,int id) {
+                                            Intent intent = new Intent(Intent.ACTION_SEND);
+                                            intent.setType("text/plain");
+                                            intent.putExtra(Intent.EXTRA_TEXT, generatedCode);
+                                            intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this product link!");
+                                            getContext().startActivity(Intent.createChooser(intent, "Share"));
+                                            dialog.cancel();
+                                        }
+                                    })
+                            .setNegativeButton("Cancel",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                    // create alert dialog
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // show it
+                    alertDialog.show();
+                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#1ea9e1"));
+                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#1ea9e1"));
+
 
                 }
             });
@@ -172,7 +262,7 @@ public class MyProductAdapter extends ArrayAdapter<Product> {
                 }
             });
 
-            holder.sendProductBtn.setOnClickListener(new View.OnClickListener() {
+           /* holder.sendProductBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
               if (generatedCode == null)
@@ -186,7 +276,7 @@ public class MyProductAdapter extends ArrayAdapter<Product> {
               }
                 }
             });
-
+*/
 
 
 
@@ -197,49 +287,6 @@ public class MyProductAdapter extends ArrayAdapter<Product> {
         return rowView;
     }
 
-    private void openDialog(String generatedCode, View view) {
-        //Log.e("abhi", "openDialog: "+generatedCode );
-
-        LayoutInflater li = LayoutInflater.from((Activity) view.getContext());
-        View promptsView = li.inflate(R.layout.prompts, null);
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                (Activity) view.getContext());
-
-        // set prompts.xml to alertdialog builder
-        alertDialogBuilder.setView(promptsView);
-
-        final EditText userInput = (EditText) promptsView
-                .findViewById(R.id.editTextDialogUserInput);
-        userInput.setText(generatedCode);
-
-        // set dialog message
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("Submit",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                // get user input and set it to result
-                                // edit text
-                                // result.setText(userInput.getText());
-                                dialog.cancel();
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-        // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
-        alertDialog.show();
-        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ea466b"));
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#ea466b"));
-    }
 
 
 }

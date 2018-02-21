@@ -134,7 +134,7 @@
 
             />
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/generate_code"
             android:layout_centerInParent="true"
             android:layout_marginEnd="5dp"
@@ -146,17 +146,17 @@
             android:background="@drawable/button_state_selector_transparent"
             android:layout_height="25dp"
 
-            />
+            />-->
 
         <ImageView
-            android:id="@+id/send_product"
+            android:id="@+id/generate_code"
             android:layout_alignParentEnd="true"
             android:layout_centerInParent="true"
             android:layout_marginEnd="5dp"
             android:layout_marginStart="5dp"
             android:textColor="@color/theme_primary_dark"
             android:layout_width="25dp"
-            android:src="@drawable/email36"
+            android:src="@drawable/generate_code36"
             android:background="@drawable/button_state_selector_transparent"
             android:layout_height="25dp"
 
