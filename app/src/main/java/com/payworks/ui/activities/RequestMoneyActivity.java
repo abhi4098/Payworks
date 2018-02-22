@@ -300,27 +300,26 @@ public class RequestMoneyActivity extends BaseActivity {
                 public void onResponse(Call<RequestMoneyResponse> call, Response<RequestMoneyResponse> response) {
 
                     if (response.isSuccessful()) {
-
-
-                        if (response.body().getTokenid() !=null) {
+                        Log.e("abhi", "onResponse: ...suceess" );
 
                             if (response.body().getType() == 1) {
                                 Log.e("abhi", "onResponse: "+response.body().getMsg() );
                                 Toast.makeText(getApplicationContext(),"Request Successfully Sent ",Toast.LENGTH_SHORT).show();
-                                LoadingDialog.cancelLoading();
                                 finish();
                             }
+                            else
+                            {
+                                Toast.makeText(getApplicationContext(),response.body().getMsg(),Toast.LENGTH_SHORT).show();
+                                LoadingDialog.cancelLoading();
+                            }
 
-                        }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(),"Invalid Details",Toast.LENGTH_SHORT).show();
-                        }
+
                     }
                 }
 
                 @Override
                 public void onFailure(Call<RequestMoneyResponse> call, Throwable t) {
+                    Log.e("abhi", "onFailure: "+t.getMessage());
                     LoadingDialog.cancelLoading();
                 }
 

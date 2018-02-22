@@ -652,6 +652,7 @@ public class AddDonationActivity extends BaseActivity implements View.OnClickLis
 
 
     private void setUpRestAdapter() {
+        AddDonationAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.addDonationClient.class, BASE_URL, this);
         EditDonationAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.editDonationClient.class, BASE_URL, this);
 
     }
