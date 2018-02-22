@@ -12,6 +12,8 @@ import com.payworks.generated.model.AddProduct;
 import com.payworks.generated.model.AddProductResponse;
 import com.payworks.generated.model.AddSubscription;
 import com.payworks.generated.model.AddSubscriptionResponse;
+import com.payworks.generated.model.AddTicket;
+import com.payworks.generated.model.AddTicketResponse;
 import com.payworks.generated.model.BankAccount;
 import com.payworks.generated.model.BankAccountResponse;
 import com.payworks.generated.model.CountryList;
@@ -22,6 +24,8 @@ import com.payworks.generated.model.EditProfile;
 import com.payworks.generated.model.EditProfileResponse;
 import com.payworks.generated.model.EditSubscription;
 import com.payworks.generated.model.EditSubscriptionResponse;
+import com.payworks.generated.model.EditTicket;
+import com.payworks.generated.model.EditTicketResponse;
 import com.payworks.generated.model.FacebookLogin;
 import com.payworks.generated.model.FacebookLoginResponse;
 import com.payworks.generated.model.ForgotPassword;
@@ -311,6 +315,18 @@ public class RetrofitInterface {
     public interface editSubsClient {
         @POST("editsubscription")
         Call<EditSubscriptionResponse> editSubsData(@Body EditSubscription editSubscription);
+
+    }
+
+    public interface addTicketClient {
+        @POST("addticket")
+        Call<AddTicketResponse> addTicketData(@Body AddTicket addTicket);
+
+    }
+
+    public interface editTicketClient {
+        @POST("editticket")
+        Call<EditTicketResponse> editTicketsData(@Body EditTicket editTicket);
 
     }
 

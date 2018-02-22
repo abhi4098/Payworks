@@ -1,5 +1,6 @@
 package com.payworks.ui.activities;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -37,6 +38,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,10 +62,26 @@ public class MyTicketsActivity extends BaseActivity {
     @BindView(R.id.notification_icon)
     ImageView notificationIcon;
 
+    @OnClick(R.id.add_ticket_btn)
+    public void addTicket()
+    {
+        Intent i = new Intent(this, AddTicketActivity.class);
+        i.putExtra("INTENT_FROM","AddTicket");
+        startActivity(i);
+    }
+
     private RetrofitInterface.UserMyTicketsClient MyMerchantAdapter;
     MyTicketAdapter myTicketAdapter;
     ArrayList<Ticket> myTicketList = null;
     ArrayList<Ticket> searchMyList = null;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpRestAdapter();
+        getMyTickets();
+        setSearchFunctionality();
+    }
 
     @Override
     public int getLayoutResourceId() {
@@ -193,7 +211,7 @@ public class MyTicketsActivity extends BaseActivity {
 
     private void setTickets(Response<MerchantTicketsResponse> response) {
         myTicketList = new ArrayList<>();
-        for (int i = 0; i < response.body().getTicket().size(); i++) {
+        for (int i = response.body().getTicket().size()-1; i>=0; i--) {
             Ticket ticket = new Ticket();
 
 
@@ -214,7 +232,7 @@ public class MyTicketsActivity extends BaseActivity {
             ticket.setTickettax(response.body().getTicket().get(i).getTickettax());
             ticket.setTicketavailable(response.body().getTicket().get(i).getTicketavailable());
             ticket.setSold(response.body().getTicket().get(i).getSold());
-            ticket.setSold(response.body().getTicket().get(i).getSold());
+            ticket.setTicketdescription(response.body().getTicket().get(i).getTicketdescription());
             ticket.setId(response.body().getTicket().get(i).getId());
             ticket.setPaidby(response.body().getTicket().get(i).getPaidby());
             ticket.setTicketbutton(response.body().getTicket().get(i).getTicketbutton());

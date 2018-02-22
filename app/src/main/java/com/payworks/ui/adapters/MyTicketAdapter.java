@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.payworks.R;
 import com.payworks.generated.model.Donation;
 import com.payworks.generated.model.Ticket;
+import com.payworks.ui.activities.AddTicketActivity;
 import com.payworks.ui.activities.MyDonationsActivity;
 import com.payworks.ui.activities.MyTicketsActivity;
 import com.payworks.utils.PrefUtils;
@@ -172,20 +173,19 @@ public class MyTicketAdapter extends ArrayAdapter<Ticket> {
                 @Override
                 public void onClick(View view) {
 
-                   /* Intent i = new Intent(getContext(), AddProductActivity.class);
-                    i.putExtra("PRODUCT_NAME",product.getProductname());
-                    i.putExtra("PRODUCT_PRICE",product.getProductprice());
-                    i.putExtra("PRODUCT_SHIPPING",product.getProductshipping());
-                    i.putExtra("PRODUCT_DESCRIPTION",product.getProductdescription());
-                    i.putExtra("PRODUCT_BUTTON",product.getProductbutton());
-                    i.putExtra("PRODUCT_ID",product.getId());
-                    Log.e("abhi", "onClick: product_id" +product.getId());
-                    i.putExtra("PRODUCT_FEE",product.getPaidby());
-                    Log.e("abhi", "onClick: fee" +product.getPaidby());
+                    Intent i = new Intent(getContext(), AddTicketActivity.class);
+                    i.putExtra("TICKET_NAME",ticket.getTicketname());
+                    i.putExtra("TICKET_PRICE",ticket.getTicketprice());
+                    i.putExtra("TICKET_AVAIL",ticket.getTicketavailable());
+                    i.putExtra("TICKET_DESCRIPTION",ticket.getTicketdescription());
+                    i.putExtra("TICKET_BUTTON",ticket.getTicketbutton());
+                    i.putExtra("TICKET_ID",ticket.getId());
+                    Log.e("abhi", "onClick: ticket_id" +ticket.getId());
+                    i.putExtra("TICKET_FEE",ticket.getPaidby());
+                    Log.e("abhi", "onClick: fee" +ticket.getPaidby());
                     i.putExtra("INTENT_FROM","EditButton");
 
                     getContext().startActivity(i);
-*/
                 }
             });
 
