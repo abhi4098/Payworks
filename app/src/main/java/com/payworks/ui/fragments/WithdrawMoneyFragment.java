@@ -307,7 +307,7 @@ public class WithdrawMoneyFragment extends Fragment {
     private void setLocalBankDetails(Response<LocalBankAccountResponse> response) {
         myLocalBankAccountList = new ArrayList<>();
         myLocalBanknameList = new ArrayList<>();
-        myLocalBanknameList.add("Select Local Bank");
+        //myLocalBanknameList.add("Select Local Bank");
         for (int i = 0; i < response.body().getLocalbanks().size(); i++) {
             Localbank localbank = new Localbank();
 
@@ -316,13 +316,20 @@ public class WithdrawMoneyFragment extends Fragment {
             localbank.setLocalbankname(response.body().getLocalbanks().get(i).getLocalbankname());
             localbank.setBranchname(response.body().getLocalbanks().get(i).getBranchname());
             localbank.setTransit(response.body().getLocalbanks().get(i).getTransit());
+            localbank.setIsdefault(response.body().getLocalbanks().get(i).getIsdefault());
             myLocalBankAccountList.add(localbank);
             myLocalBanknameList.add(response.body().getLocalbanks().get(i).getLocalbankname());
+            if (response.body().getLocalbanks().get(i).getIsdefault().equals("1"))
+            {
+
+            }
         }
+
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.spinner_item_layout, myLocalBanknameList);
         spinner.setPrompt("Direct Deposit");
+        //spinner.setSelection();
         dataAdapter.setDropDownViewResource(R.layout.select_dialog_singlechoice_custom);
 
         spinner.setAdapter(dataAdapter);
