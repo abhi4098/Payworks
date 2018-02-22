@@ -64,6 +64,7 @@ public class MyDonationsActivity extends BaseActivity {
     public void addProduct()
     {
         Intent i = new Intent(this, AddDonationActivity.class);
+        i.putExtra("INTENT_FROM","AddDonation");
         startActivity(i);
     }
     private RetrofitInterface.UserMyDonationstClient MyMerchantAdapter;

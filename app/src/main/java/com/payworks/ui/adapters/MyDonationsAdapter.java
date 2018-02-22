@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.payworks.R;
 import com.payworks.generated.model.Donation;
 import com.payworks.generated.model.Product;
+import com.payworks.ui.activities.AddDonationActivity;
 import com.payworks.ui.activities.AddProductActivity;
 import com.payworks.ui.activities.MyDonationsActivity;
 import com.payworks.ui.activities.MyProductActivity;
@@ -163,20 +164,15 @@ public class MyDonationsAdapter extends ArrayAdapter<Donation> {
                 @Override
                 public void onClick(View view) {
 
-                   /* Intent i = new Intent(getContext(), AddProductActivity.class);
-                    i.putExtra("PRODUCT_NAME",product.getProductname());
-                    i.putExtra("PRODUCT_PRICE",product.getProductprice());
-                    i.putExtra("PRODUCT_SHIPPING",product.getProductshipping());
-                    i.putExtra("PRODUCT_DESCRIPTION",product.getProductdescription());
-                    i.putExtra("PRODUCT_BUTTON",product.getProductbutton());
-                    i.putExtra("PRODUCT_ID",product.getId());
-                    Log.e("abhi", "onClick: product_id" +product.getId());
-                    i.putExtra("PRODUCT_FEE",product.getPaidby());
-                    Log.e("abhi", "onClick: fee" +product.getPaidby());
+                    Intent i = new Intent(getContext(), AddDonationActivity.class);
+                    i.putExtra("DONATION_NAME",donation.getDonationname());
+                    i.putExtra("DONATION_PRICE",donation.getDonationprice());
+                    i.putExtra("DONATION_BUTTON",donation.getDonationbutton());
+                    i.putExtra("DONATION_ID",donation.getId());
+                    i.putExtra("DONATION_FEE",donation.getPaidby());
                     i.putExtra("INTENT_FROM","EditButton");
 
                     getContext().startActivity(i);
-*/
                 }
             });
 

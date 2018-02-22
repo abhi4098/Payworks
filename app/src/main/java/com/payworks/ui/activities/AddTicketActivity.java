@@ -360,7 +360,7 @@ public class AddTicketActivity extends BaseActivity implements View.OnClickListe
 
                 if (ticketButtonViaIntent !=null)
                 {
-                    setProductButton();
+                    setTicketButton();
                 }
 
 
@@ -421,7 +421,7 @@ public class AddTicketActivity extends BaseActivity implements View.OnClickListe
     }
 
 
-    private void setProductButton() {
+    private void setTicketButton() {
         if(ticketButtonViaIntent.equals("/02/01.png"))
         {
             rb_02_01.setChecked(true);

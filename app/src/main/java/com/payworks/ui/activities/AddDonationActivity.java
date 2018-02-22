@@ -2,7 +2,9 @@ package com.payworks.ui.activities;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -16,6 +18,8 @@ import com.payworks.generated.model.AddDonation;
 import com.payworks.generated.model.AddDonationResponse;
 import com.payworks.generated.model.AddProduct;
 import com.payworks.generated.model.AddProductResponse;
+import com.payworks.generated.model.EditDonation;
+import com.payworks.generated.model.EditDonationResponse;
 import com.payworks.utils.LoadingDialog;
 import com.payworks.utils.NetworkUtils;
 import com.payworks.utils.PrefUtils;
@@ -33,7 +37,10 @@ import static com.payworks.api.ApiEndPoints.BASE_URL;
 public class AddDonationActivity extends BaseActivity implements View.OnClickListener {
 
     String userDonationName,userDonationPrice,userAbsorbFee,userDonationButton;
+    String donationNameViaIntent ,donationPriceViaIntent,donationButtonViaIntent,donationFeeViaIntent,donationId;
     private RetrofitInterface.addDonationClient AddDonationAdapter;
+    private RetrofitInterface.editDonationClient EditDonationAdapter;
+    String intentFrom ;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -81,6 +88,9 @@ public class AddDonationActivity extends BaseActivity implements View.OnClickLis
 
     @BindView(R.id.add_donation_price)
     EditText etAddDonationPrice;
+
+    @BindView(R.id.add_donation_button)
+    Button addDonationButton;
 
 
 
@@ -182,40 +192,75 @@ public class AddDonationActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void addDonationDetails() {
-        LoadingDialog.showLoadingDialog(this,"Loading...");
-        Call<AddDonationResponse> call = AddDonationAdapter.addDonationData(new AddDonation("adddonation", PrefUtils.getUserId(this),"83Ide@$321!",userAbsorbFee,userDonationName,userDonationPrice,userDonationButton));
-        if (NetworkUtils.isNetworkConnected(this)) {
-            call.enqueue(new Callback<AddDonationResponse>() {
 
-                @Override
-                public void onResponse(Call<AddDonationResponse> call, Response<AddDonationResponse> response) {
+        if (intentFrom.equals("AddDonation")) {
+            LoadingDialog.showLoadingDialog(this, "Loading...");
+            Call<AddDonationResponse> call = AddDonationAdapter.addDonationData(new AddDonation("adddonation", PrefUtils.getUserId(this), "83Ide@$321!", userAbsorbFee, userDonationName, userDonationPrice, userDonationButton));
+            if (NetworkUtils.isNetworkConnected(this)) {
+                call.enqueue(new Callback<AddDonationResponse>() {
 
-                    if (response.isSuccessful()) {
-                        if (response.body().getType() == 1)
-                        {
-                            Toast.makeText(getApplicationContext(),"Donation added successfully.",Toast.LENGTH_SHORT).show();
-                            finish();
+                    @Override
+                    public void onResponse(Call<AddDonationResponse> call, Response<AddDonationResponse> response) {
+
+                        if (response.isSuccessful()) {
+                            if (response.body().getType() == 1) {
+                                Toast.makeText(getApplicationContext(), "Donation added successfully.", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Error Adding Donation.", Toast.LENGTH_SHORT).show();
+                            }
+                            LoadingDialog.cancelLoading();
+
+
                         }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(),"Error Adding Donation.",Toast.LENGTH_SHORT).show();
-                        }
-                        LoadingDialog.cancelLoading();
-
-
                     }
-                }
 
-                @Override
-                public void onFailure(Call<AddDonationResponse> call, Throwable t) {
-                    LoadingDialog.cancelLoading();
-                }
+                    @Override
+                    public void onFailure(Call<AddDonationResponse> call, Throwable t) {
+                        LoadingDialog.cancelLoading();
+                    }
 
 
-            });
+                });
 
-        } else {
-            SnakBarUtils.networkConnected(this);
+            } else {
+                SnakBarUtils.networkConnected(this);
+            }
+        }
+        else
+        {
+            LoadingDialog.showLoadingDialog(this, "Loading...");
+            Call<EditDonationResponse> call = EditDonationAdapter.editDonationData(new EditDonation("editdonation",donationId, PrefUtils.getUserId(this), "83Ide@$321!", userAbsorbFee, userDonationName, userDonationPrice, userDonationButton));
+            if (NetworkUtils.isNetworkConnected(this)) {
+                call.enqueue(new Callback<EditDonationResponse>() {
+
+                    @Override
+                    public void onResponse(Call<EditDonationResponse> call, Response<EditDonationResponse> response) {
+
+                        if (response.isSuccessful()) {
+                            if (response.body().getType() == 1) {
+                                Toast.makeText(getApplicationContext(), "Donation edited successfully.", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Error editing Donation.", Toast.LENGTH_SHORT).show();
+                            }
+                            LoadingDialog.cancelLoading();
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<EditDonationResponse> call, Throwable t) {
+                        LoadingDialog.cancelLoading();
+                    }
+
+
+                });
+
+            } else {
+                SnakBarUtils.networkConnected(this);
+            }
         }
     }
 
@@ -253,7 +298,42 @@ public class AddDonationActivity extends BaseActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        tvAppTitle.setText(R.string.add_donation);
+        intentFrom= getIntent().getExtras().getString("INTENT_FROM");
+
+        if (intentFrom !=null) {
+            if (intentFrom.equals("AddDonation")) {
+                tvAppTitle.setText(R.string.add_donation);
+            } else {
+                donationNameViaIntent = getIntent().getExtras().getString("DONATION_NAME");
+                donationPriceViaIntent = getIntent().getExtras().getString("DONATION_PRICE");
+                donationButtonViaIntent = getIntent().getExtras().getString("DONATION_BUTTON");
+                donationFeeViaIntent = getIntent().getExtras().getString("DONATION_FEE");
+                donationId = getIntent().getExtras().getString("DONATION_ID");
+                Log.e("abhi", "onCreate:..... " +donationFeeViaIntent  + " " + donationButtonViaIntent );
+
+                tvAppTitle.setText(R.string.edit_donation);
+                addDonationButton.setText("EDIT DONATION");
+                etAddDonationName.setText(donationNameViaIntent);
+                etAddDonationPrice.setText(donationPriceViaIntent);
+                if (donationFeeViaIntent !=null) {
+
+                    if (donationFeeViaIntent.equals("1")) {
+                        rbYes.setChecked(true);
+                    } else {
+                        rbNo.setChecked(true);
+                    }
+                }
+
+                if (donationButtonViaIntent !=null)
+                {
+                    setDonationButton();
+                }
+
+
+
+            }
+        }
+
         notificationIcon.setVisibility(View.GONE);
         rbYes.setOnClickListener(this);
         rbNo.setOnClickListener(this);
@@ -276,6 +356,60 @@ public class AddDonationActivity extends BaseActivity implements View.OnClickLis
          setUpRestAdapter();
 
     }
+
+    private void setDonationButton() {
+        if(donationButtonViaIntent.equals("/donate/01.png"))
+        {
+            rb_02_01.setChecked(true);
+        }
+        else if (donationButtonViaIntent.equals("/donate/02.png"))
+        {
+            rb_02_02.setChecked(true);
+        }
+        else if (donationButtonViaIntent.equals("/donate/03.png"))
+        {
+            rb_02_03.setChecked(true);
+        }
+        else if (donationButtonViaIntent.equals("/donate/04.png"))
+        {
+            rb_02_04.setChecked(true);
+        }
+        else if (donationButtonViaIntent.equals("/donate/05.png"))
+        {
+            rb_02_05.setChecked(true);
+        }
+        else if (donationButtonViaIntent.equals("/donate/07.png"))
+        {
+            rb_02_06.setChecked(true);
+        }
+        else if ( donationButtonViaIntent.equals("/01/gray-color/01.png"))
+        {
+            rb_03_01.setChecked(true);
+        }
+        else if ( donationButtonViaIntent.equals("/01/gray-color/02.png"))
+        {
+            rb_03_02.setChecked(true);
+        }
+        else if ( donationButtonViaIntent.equals("/01/gray-color/03.png"))
+        {
+            rb_03_03.setChecked(true);
+        }
+        else if ( donationButtonViaIntent.equals("/01/gray-color/04.png"))
+        {
+            rb_03_04.setChecked(true);
+        }
+        else if ( donationButtonViaIntent.equals("/01/gray-color/05.png"))
+        {
+            rb_03_05.setChecked(true);
+        }
+        else if ( donationButtonViaIntent.equals("/01/gray-color/06.png"))
+        {
+            rb_03_06.setChecked(true);
+        }
+
+
+    }
+
 
     private boolean isRegistrationValid() {
         if (userDonationName == null || userDonationName.equals("")||userDonationPrice == null || userDonationPrice.equals(""))
@@ -518,7 +652,7 @@ public class AddDonationActivity extends BaseActivity implements View.OnClickLis
 
 
     private void setUpRestAdapter() {
-        AddDonationAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.addDonationClient.class, BASE_URL, this);
+        EditDonationAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.editDonationClient.class, BASE_URL, this);
 
     }
 

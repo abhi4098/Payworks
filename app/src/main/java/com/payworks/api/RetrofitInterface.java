@@ -18,6 +18,8 @@ import com.payworks.generated.model.BankAccount;
 import com.payworks.generated.model.BankAccountResponse;
 import com.payworks.generated.model.CountryList;
 import com.payworks.generated.model.CountryListResponse;
+import com.payworks.generated.model.EditDonation;
+import com.payworks.generated.model.EditDonationResponse;
 import com.payworks.generated.model.EditProduct;
 import com.payworks.generated.model.EditProductResponse;
 import com.payworks.generated.model.EditProfile;
@@ -290,6 +292,12 @@ public class RetrofitInterface {
     public interface addDonationClient {
         @POST("adddonation")
         Call<AddDonationResponse> addDonationData(@Body AddDonation addDonation);
+
+    }
+
+    public interface editDonationClient {
+        @POST("editdonation")
+        Call<EditDonationResponse> editDonationData(@Body EditDonation editDonation);
 
     }
 
