@@ -110,13 +110,14 @@ public class NavigationalActivity extends AppCompatActivity
     de.hdodenhof.circleimageview.CircleImageView personImage;
 
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    public Toolbar toolbar;
 
     @BindView(R.id.back_icon)
     ImageView ivBackIcon;
 
     @BindView(R.id.tv_app_title)
-    TextView tvAppTitle;
+    public TextView tvAppTitle;
+
     @BindView(R.id.wallet_balance)
     TextView tvWalletBalance;
     private String frag;

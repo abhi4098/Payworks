@@ -64,6 +64,7 @@ public class WithdrawMoneyFragment extends Fragment {
     ArrayList<String> myLocalBanknameList = null;
     String spLocalBank,bankDetailsToBeSend;
     int withdrawAmount;
+    String localBankNameSaved;
     String userWithdrawalAmount,userLocalBank,userTransferMethod;
     @BindView(R.id.spinner2)
     Spinner spinner;
@@ -309,16 +310,37 @@ public class WithdrawMoneyFragment extends Fragment {
         myLocalBanknameList = new ArrayList<>();
         //myLocalBanknameList.add("Select Local Bank");
         for (int i = 0; i < response.body().getLocalbanks().size(); i++) {
+            localBankNameSaved = "";
             Localbank localbank = new Localbank();
-
             localbank.setId(response.body().getLocalbanks().get(i).getId());
             localbank.setAccountnumber(response.body().getLocalbanks().get(i).getAccountnumber());
             localbank.setLocalbankname(response.body().getLocalbanks().get(i).getLocalbankname());
             localbank.setBranchname(response.body().getLocalbanks().get(i).getBranchname());
             localbank.setTransit(response.body().getLocalbanks().get(i).getTransit());
             localbank.setIsdefault(response.body().getLocalbanks().get(i).getIsdefault());
+
+            String localBankName = response.body().getLocalbanks().get(i).getLocalbankname();
+            String[] localBankNameArray = localBankName.split(" ");
+            if (localBankNameArray.length >1) {
+                for (int j = 0; j < localBankNameArray.length; j++) {
+                    String splittedLocalBankName = localBankNameArray[j];
+                    char firstLetter = splittedLocalBankName.charAt(0);
+                    if (firstLetter>=65 && firstLetter<=90)
+                    {
+                        String firstLetterLocalBank = String.valueOf(firstLetter);
+                        localBankNameSaved = localBankNameSaved.concat(firstLetterLocalBank);
+                    }
+
+
+                }
+
+            }
+            else
+            {
+                localBankNameSaved =response.body().getLocalbanks().get(i).getLocalbankname();
+            }
             myLocalBankAccountList.add(localbank);
-            myLocalBanknameList.add(response.body().getLocalbanks().get(i).getLocalbankname().concat("-").concat(response.body().getLocalbanks().get(i).getAccountnumber()));
+            myLocalBanknameList.add(localBankNameSaved.concat(" - ").concat(response.body().getLocalbanks().get(i).getAccountnumber()));
 
         }
 

@@ -302,13 +302,14 @@
 
                 <TextView
                     android:layout_width="115dp"
+                    android:layout_marginTop="4dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="13sp"
                     android:drawableTop="@drawable/pay_money"
                     android:textColor="@color/black"
                     android:drawablePadding="5dp"
-                    android:text="Pay or send using QR code"/>
+                    android:text="Merchants"/>
 
             </LinearLayout>
 

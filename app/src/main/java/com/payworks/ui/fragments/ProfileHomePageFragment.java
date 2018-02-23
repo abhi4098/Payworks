@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +50,7 @@ public class ProfileHomePageFragment extends Fragment {
     private RetrofitInterface.UserWalletClient UserWalletAdapter;
     private RetrofitInterface.UserTransactionsClient MyTransactionAdapter;
     private RetrofitInterface.UserReceivedMoneyRequestClient UserReceivedMoneyRequestAdapter;
+    Fragment fragment = null;
 
 
     @BindView(R.id.transactions)
@@ -59,7 +62,15 @@ public class ProfileHomePageFragment extends Fragment {
     @OnClick(R.id.ll_pay_money)
     public void payMoney() {
 
-        Toast.makeText(getApplicationContext(),"Feature will be implemented soon",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),"Feature will be implemented soon",Toast.LENGTH_SHORT).show();
+        fragment = new MerchantFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        TextView tvAppTitle = (TextView) getActivity().findViewById(R.id.tv_app_title);
+        ImageView ivBackIcon = (ImageView) getActivity().findViewById(R.id.company_logo);
+        tvAppTitle.setText("MERCHANTS");
+        ivBackIcon.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.ll_request_money)

@@ -126,6 +126,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 {
                     etCompanyName.setVisibility(View.VISIBLE);
                     userCheckBox = "1";
+
                 }
                 else
                 {
@@ -148,7 +149,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        userCompanyName = etUserFirstName.getText().toString();
+        userCompanyName = etCompanyName.getText().toString();
         userFirstname = etUserFirstName.getText().toString();
         userLastName = etUserLastName.getText().toString();
         userEmail = etUserEmailId.getText().toString();
@@ -168,7 +169,15 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         PrefUtils.storeEmail(userEmail, RegistrationActivity.this);
         //String password = (etUserPassword.getText().toString());
         if (isRegistrationValid()) {
-            getRegistrationDetails();
+            if (cbCompany.isChecked())
+            {
+                if (isCompanyValid()) {
+                    getRegistrationDetails();
+                }
+            }
+            else {
+                getRegistrationDetails();
+            }
         }
     }
 
@@ -178,6 +187,22 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         } else {
             return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
         }
+    }
+
+    private boolean isCompanyValid() {
+
+        if (userCompanyName == null || userCompanyName.equals("") )
+
+        {
+
+            if (userCompanyName == null || userCompanyName.equals("") )
+                etCompanyName.setError(getString(R.string.error_compulsory_field));
+
+
+            return false;
+        } else
+            return true;
+
     }
 
     private boolean isRegistrationValid() {
@@ -203,6 +228,9 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             if ( userEmail == null || userEmail.equals(""))
                 etUserEmailId.setError(getString(R.string.error_compulsory_field));
 
+            if ( userEmail == null || userEmail.equals(""))
+                etUserEmailId.setError(getString(R.string.error_compulsory_field));
+
             if (userCountry == null || userCountry.equals("")||userCountry.equals("select Country"))
                 Toast.makeText(getApplicationContext(),"Select Country",Toast.LENGTH_SHORT).show();
 
@@ -218,7 +246,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
     private void getRegistrationDetails() {
         LoadingDialog.showLoadingDialog(this,"Loading...");
-        Call<RegistrationResponse> call = registrationAdapter.userRegistration(new Registration(userEmail, userFirstname, userLastName, userPassword, userCountry,"registration","83Ide@$321!",userPhone));
+        Call<RegistrationResponse> call = registrationAdapter.userRegistration(new Registration(userEmail, userFirstname, userLastName, userPassword, userCountry,"registration","83Ide@$321!",userPhone,userCheckBox,userCompanyName));
         if (NetworkUtils.isNetworkConnected(RegistrationActivity.this)) {
             call.enqueue(new Callback<RegistrationResponse>() {
 
@@ -232,6 +260,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
                             if (response.body().getType() == 1) {
                                 PrefUtils.storeUsernId(response.body().getTokenid().toString(),RegistrationActivity.this);
+                                Toast.makeText(getApplicationContext(),response.body().getMsg(),Toast.LENGTH_SHORT).show();
 
                                 Intent intent = new Intent(RegistrationActivity.this, NavigationalActivity.class);
                                 startActivity(intent);

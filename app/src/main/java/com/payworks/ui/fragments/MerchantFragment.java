@@ -25,18 +25,6 @@ import butterknife.OnClick;
 public class MerchantFragment extends Fragment {
 
     private static final String TAG = LogUtils.makeLogTag(MerchantFragment.class);
-   // private RetrofitInterface.UserMyProfileClient MyProfileAdapter;
-
-/*    @BindView(R.id.my_product)
-    LinearLayout llMyProducts;
-    @BindView(R.id.my_donation)
-    LinearLayout llDonations;
-    @BindView(R.id.my_invoices)
-    LinearLayout llInvoices;
-    @BindView(R.id.my_subscription)
-    LinearLayout llSubscriptions;
-    @BindView(R.id.my_tickets)
-    LinearLayout llTickets;*/
 
     @OnClick(R.id.my_product)
     public void myProduct() {
