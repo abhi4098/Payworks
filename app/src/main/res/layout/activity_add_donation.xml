@@ -160,7 +160,7 @@
             android:textSize="15sp"
             android:background="@drawable/rectangular_background"
             android:layout_marginBottom="10dp"
-            android:hint="Donation Price"/>
+            android:hint="Donation Amount"/>
 
 
 

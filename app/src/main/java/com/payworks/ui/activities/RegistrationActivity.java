@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -58,7 +60,9 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     //EditText etUserCountry;
     EditText etUserPhoneNumber;
     EditText etUserPassword;
+    EditText etCompanyName;
     TextView tvAppTitle;
+    CheckBox cbCompany;
     Spinner spCountryDropdown;
     String spCountrySelectedItem = "Select Country";
     android.support.v7.widget.Toolbar toolbar;
@@ -66,7 +70,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     boolean isPasswordValid =false;
     ArrayList<Country> countryList = null;
     ArrayList<String> showCountryList = null;
-    String userFirstname,userLastName,userPhone,userEmail,userCountry,userPassword,userFullName;
+    String userCheckBox ="0";
+    String userFirstname,userLastName,userPhone,userEmail,userCountry,userPassword,userFullName,userCompanyName;
     private RetrofitInterface.UserRegistrationClient registrationAdapter;
     private RetrofitInterface.getCountryListClient countryListAdapter;
 
@@ -103,6 +108,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         etUserPhoneNumber = (EditText) findViewById(R.id.user_phone_num);
         etUserEmailId = (EditText) findViewById(R.id.user_email);
         etUserPassword = (EditText) findViewById(R.id.user_password);
+        etCompanyName = (EditText) findViewById(R.id.company_name);
+        cbCompany = (CheckBox) findViewById(R.id.checkbox_agree);
         spCountryDropdown = (Spinner) findViewById(R.id.country_spinner);
         notificationIcon = (ImageView) findViewById(R.id.notification_icon);
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
@@ -112,6 +119,21 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         //setSupportActionBar(toolbar);
         tvAppTitle.setText("REGISTRATION");
         //notificationIcon.setVisibility(View.GONE);
+        cbCompany.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (cbCompany.isChecked())
+                {
+                    etCompanyName.setVisibility(View.VISIBLE);
+                    userCheckBox = "1";
+                }
+                else
+                {
+                    etCompanyName.setVisibility(View.GONE);
+                    userCheckBox ="0";
+                }
+            }
+        });
         setUpRestAdapter();
         getCountryDropDownList();
 
@@ -126,7 +148,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-
+        userCompanyName = etUserFirstName.getText().toString();
         userFirstname = etUserFirstName.getText().toString();
         userLastName = etUserLastName.getText().toString();
         userEmail = etUserEmailId.getText().toString();

@@ -88,7 +88,7 @@
         android:inputType="phone"
         android:textSize="15sp"
         android:background="@drawable/rectangular_background_curved_edges"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:hint="@string/hint_user_phone_num_registration"/>
 
 
@@ -223,47 +223,64 @@
     </RelativeLayout>
 
 
-    <!-- <EditText
-         android:id="@+id/user_country"
-         android:layout_width="match_parent"
-         android:layout_height="32dp"
-         android:paddingStart="5dp"
-         android:paddingEnd="10dp"
-         android:lines="1"
-         android:drawableStart="@drawable/country24"
-         android:drawablePadding="5dp"
-         android:textColor="@color/text_color"
-         android:textStyle="normal"
-         android:layout_marginStart="55dp"
-         android:layout_marginEnd="55dp"
-         android:layout_marginTop="10dp"
-         android:layout_gravity="center_horizontal"
-         android:textSize="13sp"
-         android:background="@drawable/rectangular_background_curved_edges"
-         android:hint="@string/hint_country"
-         android:inputType="textEmailAddress" />-->
-
-   <!-- <Button
-        android:id="@+id/register_account"
-        style="?android:textAppearanceSmall"
+    <EditText
+        android:id="@+id/company_name"
+        android:paddingStart="5dp"
+        android:visibility="gone"
+        android:paddingEnd="10dp"
+        android:drawableStart="@drawable/first_last_name24"
+        android:drawablePadding="5dp"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginStart="55dp"
-        android:layout_marginEnd="55dp"
-        android:textColor="@color/white"
-        android:drawableStart="@drawable/register24"
-        android:background="@color/resister_button_color"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:text="@string/action_register"
-        android:textStyle="bold" />-->
+        android:layout_height="40dp"
+        android:textStyle="normal"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:textColor="@color/text_color"
+        android:lines="1"
+        android:textSize="15sp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rectangular_background_curved_edges"
+        android:layout_marginTop="15dp"
+        android:hint="@string/company_name"/>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="50dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkbox_agree"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:layout_marginStart="5dp"
+                android:text="I want to register as a company"
+                android:textColor="@color/text_color"
+                android:layout_marginEnd="10dp"/>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:id="@+id/register_account"
         android:layout_marginStart="55dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="55dp"
         android:clickable="true"
         android:background="@drawable/button_state_selector"
@@ -285,6 +302,8 @@
 
 
     </LinearLayout>
+
+
 
 
 </LinearLayout>

@@ -318,11 +318,8 @@ public class WithdrawMoneyFragment extends Fragment {
             localbank.setTransit(response.body().getLocalbanks().get(i).getTransit());
             localbank.setIsdefault(response.body().getLocalbanks().get(i).getIsdefault());
             myLocalBankAccountList.add(localbank);
-            myLocalBanknameList.add(response.body().getLocalbanks().get(i).getLocalbankname());
-            if (response.body().getLocalbanks().get(i).getIsdefault().equals("1"))
-            {
+            myLocalBanknameList.add(response.body().getLocalbanks().get(i).getLocalbankname().concat("-").concat(response.body().getLocalbanks().get(i).getAccountnumber()));
 
-            }
         }
 
 
