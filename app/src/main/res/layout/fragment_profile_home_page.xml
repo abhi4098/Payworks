@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/all_screens_bg"
+    android:background="@color/white"
   >
 
 
@@ -48,8 +48,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal"
-            android:layout_marginTop="20dp"
             android:weightSum="1">
 
       <LinearLayout
@@ -120,8 +120,109 @@
 
         </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="30dp"
+        android:layout_alignParentBottom="true"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:background="@color/wallet_background">
 
-    <LinearLayout
+
+
+        <TextView
+            android:id="@+id/ll_add_money"
+            android:layout_width="115dp"
+            android:layout_marginTop="30dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:background="@drawable/button_state_selector_transparent"
+            android:drawablePadding="5dp"
+            android:drawableTop="@drawable/add_money"
+            android:textColor="@color/black"
+            android:text="@string/add_money"/>
+
+        <TextView
+            android:layout_width="115dp"
+            android:id="@+id/ll_my_transactions"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:textSize="13sp"
+            android:layout_below="@id/ll_add_money"
+            android:drawablePadding="5dp"
+            android:background="@drawable/button_state_selector_transparent"
+            android:drawableTop="@drawable/my_transactions"
+            android:textColor="@color/black"
+            android:text="My Transactions"/>
+
+
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:textSize="13sp"
+            android:id="@+id/ll_send_money"
+            android:drawablePadding="5dp"
+            android:background="@drawable/button_state_selector_transparent"
+            android:drawableTop="@drawable/send_money"
+            android:textColor="@color/black"
+            android:text="@string/send_money"/>
+
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:textSize="13sp"
+            android:layout_below="@+id/ll_send_money"
+            android:id="@+id/ll_withdraw_money"
+            android:drawablePadding="5dp"
+            android:background="@drawable/button_state_selector_transparent"
+            android:drawableTop="@drawable/withdraw_money"
+            android:textColor="@color/black"
+            android:text="Withdraw Money"/>
+
+        <TextView
+            android:id="@+id/ll_request_money"
+            android:layout_width="115dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:textSize="13sp"
+            android:layout_alignParentEnd="true"
+            android:drawablePadding="5dp"
+            android:background="@drawable/button_state_selector_transparent"
+
+            android:drawableTop="@drawable/request_money"
+            android:textColor="@color/black"
+            android:text="Request Money"/>
+
+        <TextView
+            android:id="@+id/ll_merchants"
+            android:layout_width="115dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:textSize="13sp"
+            android:layout_alignParentEnd="true"
+            android:drawablePadding="5dp"
+            android:background="@drawable/button_state_selector_transparent"
+           android:layout_below="@+id/ll_request_money"
+            android:drawableTop="@drawable/merchants_tools"
+            android:textColor="@color/black"
+            android:text="Merchant Tool"/>
+    </RelativeLayout>
+
+
+   <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -354,11 +455,11 @@
 
 </LinearLayout>
 
+-->
 
 
 
-
-</LinearLayout>
+</RelativeLayout>
 
 
 

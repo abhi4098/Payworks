@@ -59,7 +59,7 @@ public class ProfileHomePageFragment extends Fragment {
     @BindView(R.id.received_request)
     TextView tvReceivedRequests;
 
-    @OnClick(R.id.ll_pay_money)
+    @OnClick(R.id.ll_merchants)
     public void payMoney() {
 
         //Toast.makeText(getApplicationContext(),"Feature will be implemented soon",Toast.LENGTH_SHORT).show();
@@ -68,8 +68,36 @@ public class ProfileHomePageFragment extends Fragment {
         fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         TextView tvAppTitle = (TextView) getActivity().findViewById(R.id.tv_app_title);
-        ImageView ivBackIcon = (ImageView) getActivity().findViewById(R.id.company_logo);
+        ImageView ivBackIcon = (ImageView) getActivity().findViewById(R.id.back_icon);
         tvAppTitle.setText("MERCHANTS");
+        ivBackIcon.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.ll_my_transactions)
+    public void myTransactions() {
+
+        //Toast.makeText(getApplicationContext(),"Feature will be implemented soon",Toast.LENGTH_SHORT).show();
+        fragment = new MyTransactionsFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        TextView tvAppTitle = (TextView) getActivity().findViewById(R.id.tv_app_title);
+        ImageView ivBackIcon = (ImageView) getActivity().findViewById(R.id.back_icon);
+        tvAppTitle.setText("MY TRANSACTIONS");
+        ivBackIcon.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.ll_withdraw_money)
+    public void withdrawMoney() {
+
+        //Toast.makeText(getApplicationContext(),"Feature will be implemented soon",Toast.LENGTH_SHORT).show();
+        fragment = new WithdrawMoneyFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        TextView tvAppTitle = (TextView) getActivity().findViewById(R.id.tv_app_title);
+        ImageView ivBackIcon = (ImageView) getActivity().findViewById(R.id.back_icon);
+        tvAppTitle.setText("WITHDRAW MONEY");
         ivBackIcon.setVisibility(View.VISIBLE);
     }
 

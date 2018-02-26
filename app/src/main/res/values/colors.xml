@@ -13,6 +13,7 @@
     <color name="resister_button_color">#1ea9e1</color>
     <color name="bottom_bar">#2b2b2b</color>
     <color name="silver">#C0C0C0</color>
+    <color name="wallet_background">#46c9fe</color>
 
 
 </resources>
