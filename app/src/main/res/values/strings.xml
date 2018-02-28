@@ -55,6 +55,7 @@
     <string name="credit_debit_card">Credit/Debit Card</string>
     <string name="add_money_title">ADD MONEY</string>
     <string name="edit_profile_title">EDIT PROFILE</string>
+    <string name="add_bank_account">ADD BANK ACCOUNT</string>
     <string name="otp_verification_title">OTP Verification</string>
     <string name="received_money_request_title">RECEIVED REQUESTS</string>
     <string name="add_card_Details_title">ADD CARD DETAILS</string>
@@ -114,6 +115,12 @@
     <string name="welcome_to_payworks_tm">Welcome to PayWorks TM</string>
     <string name="donation_text">Add a \'0\' to allow donor to donate their own amount.</string>
     <string name="company_name">Enter Company Name</string>
+    <string name="bank_name">Bank Name</string>
+    <string name="bank_city">Bank City</string>
+    <string name="bank_zip">Bank Zip</string>
+    <string name="bank_phone">Bank Phone</string>
+    <string name="account_holder_name">Account Holder</string>
+    <string name="account_number">Account Number</string>
 
     <string-array name="priority_array">
         <item>Normal</item>

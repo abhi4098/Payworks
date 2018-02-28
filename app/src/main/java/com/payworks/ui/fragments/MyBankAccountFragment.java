@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,7 +23,9 @@ import com.payworks.generated.model.MyProfile;
 import com.payworks.generated.model.MyProfileResponse;
 import com.payworks.generated.model.Sentrequest;
 import com.payworks.generated.model.Userbankaccount;
+import com.payworks.ui.activities.AddBankActivity;
 import com.payworks.ui.activities.EditProfileActivity;
+import com.payworks.ui.activities.RequestMoneyActivity;
 import com.payworks.ui.adapters.BankAccountDetailsAdapter;
 import com.payworks.ui.adapters.SentMoneyRequestAdapter;
 import com.payworks.utils.LoadingDialog;
@@ -62,6 +65,13 @@ public class MyBankAccountFragment extends Fragment {
     TextView tvEmpty;
     @BindView(R.id.listview)
     ListView listview;
+
+    @OnClick(R.id.add_bank_button)
+    public void addBank()
+    {
+        Intent activityChangeIntent = new Intent(getActivity(), AddBankActivity.class);
+        startActivity(activityChangeIntent);
+    }
 
 
     public MyBankAccountFragment() {

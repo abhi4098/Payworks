@@ -124,6 +124,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activities.AddTicketActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.AddBankActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
