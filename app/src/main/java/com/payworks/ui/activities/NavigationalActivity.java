@@ -64,6 +64,7 @@ import com.payworks.generated.model.UploadPhotoResponse;
 import com.payworks.generated.model.Usertransaction;
 import com.payworks.ui.fragments.MerchantFragment;
 import com.payworks.ui.fragments.MyBankAccountFragment;
+import com.payworks.ui.fragments.MyBillsFragment;
 import com.payworks.ui.fragments.MyProfileFragment;
 import com.payworks.ui.fragments.MyTransactionsFragment;
 import com.payworks.ui.fragments.NotificationFragment;
@@ -716,6 +717,13 @@ public class NavigationalActivity extends AppCompatActivity
                 tvAppTitle.setText(item.getTitle());
                 ivBackIcon.setVisibility(View.VISIBLE);
                // Toast.makeText(getApplicationContext(),"Feature will be implemented soon",Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.nav_my_bills:
+                fragment = new MyBillsFragment();
+                tvAppTitle.setText(item.getTitle());
+                ivBackIcon.setVisibility(View.VISIBLE);
+                // Toast.makeText(getApplicationContext(),"Feature will be implemented soon",Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.nav_notification:

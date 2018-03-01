@@ -42,6 +42,13 @@
             android:id="@+id/nav_my_bank_account"
             android:icon="@drawable/sliding_bank_account48"
             android:title="MY BANK ACCOUNTS" />
+
+        <item
+            android:id="@+id/nav_my_bills"
+            android:icon="@drawable/my_bills_new"
+            android:title="MY BILLS" />
+
+
         <item
             android:id="@+id/nav_notification"
             android:icon="@drawable/sliding_notification48"

@@ -51,6 +51,8 @@ import com.payworks.generated.model.MerchantInvoicesResponse;
 import com.payworks.generated.model.MerchantProductResponse;
 import com.payworks.generated.model.MerchantSubscriptionsResponse;
 import com.payworks.generated.model.MerchantTicketsResponse;
+import com.payworks.generated.model.MyBills;
+import com.payworks.generated.model.MyBillsResponse;
 import com.payworks.generated.model.MyProfile;
 import com.payworks.generated.model.MyProfileResponse;
 import com.payworks.generated.model.MyTransactions;
@@ -335,6 +337,12 @@ public class RetrofitInterface {
     public interface editTicketClient {
         @POST("editticket")
         Call<EditTicketResponse> editTicketsData(@Body EditTicket editTicket);
+
+    }
+
+    public interface myBillsClient {
+        @POST("getmybills")
+        Call<MyBillsResponse> myBillsData(@Body MyBills myBills);
 
     }
 
