@@ -332,6 +332,16 @@ public class AddBankActivity extends BaseActivity {
 
     }
 
+    @OnClick(R.id.inter_acctype_spinner)
+    public void userInterAccountType()
+    {
+
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(actInterAccType.getWindowToken(), 0);
+        actInterAccType.showDropDown();
+
+    }
+
 
 
     private void getMyLocalBanks() {
@@ -631,6 +641,7 @@ public class AddBankActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 spStateSelectedItem = spStateDropdown.getSelectedItem().toString();
+                isInternationalSelected =true;
                 if (!spStateSelectedItem.equals("Select State")) {
                     for (int j=0;j<stateList.size();j++)
                     {

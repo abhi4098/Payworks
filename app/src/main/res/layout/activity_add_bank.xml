@@ -448,30 +448,42 @@
             android:layout_gravity="center_horizontal"
             />
 
-        <AutoCompleteTextView
-            android:id="@+id/inter_acctype_spinner"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_gravity="start"
-            android:background="@android:color/transparent"
-            android:gravity="start"
-            android:textSize="16sp"
-            android:lines="1"
-            android:textColor="@color/text_color"
-            android:focusable="false"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:hint="Account Type" />
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rectangular_background_grey"
+            android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_keyboard_arrow_down_black_24dp" />
 
+            <AutoCompleteTextView
+                android:id="@+id/inter_acctype_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="start"
+                android:background="@android:color/transparent"
+                android:gravity="start"
+                android:textSize="16sp"
+                android:lines="1"
+                android:textColor="@color/text_color"
+                android:focusable="false"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:hint="Account Type" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_keyboard_arrow_down_black_24dp" />
+
+        </RelativeLayout>
         <EditText
             android:id="@+id/bank_routing_number"
             android:layout_width="match_parent"
