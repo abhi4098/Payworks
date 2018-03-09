@@ -121,6 +121,7 @@
     <string name="bank_phone">Bank Phone</string>
     <string name="account_holder_name">Account Holder</string>
     <string name="account_number">Account Number</string>
+    <string name="bank_address">Bank Address</string>
 
     <string-array name="priority_array">
         <item>Normal</item>
@@ -133,7 +134,13 @@
     <string-array name="card_type">
         <item>MasterCard</item>
         <item>VISA</item>
+    </string-array>
 
 
+    <string-array name="account_type">
+        <item>Business Checking</item>
+        <item>Business Saving</item>
+        <item>Personal Checking</item>
+        <item>Personal Saving</item>
     </string-array>
 </resources>

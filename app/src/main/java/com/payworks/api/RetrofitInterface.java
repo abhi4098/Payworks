@@ -2,6 +2,7 @@ package com.payworks.api;
 
 
 
+import com.payworks.generated.LocalBankBranch;
 import com.payworks.generated.model.AddDonation;
 import com.payworks.generated.model.AddDonationResponse;
 import com.payworks.generated.model.AddInvoice;
@@ -44,6 +45,8 @@ import com.payworks.generated.model.ImageNameUpdate;
 import com.payworks.generated.model.ImageNameUpdateResponse;
 import com.payworks.generated.model.LocalBankAccount;
 import com.payworks.generated.model.LocalBankAccountResponse;
+import com.payworks.generated.model.LocalBankBranchResponse;
+import com.payworks.generated.model.LocalBankList;
 import com.payworks.generated.model.Login;
 import com.payworks.generated.model.MerchantData;
 import com.payworks.generated.model.MerchantDonationResponse;
@@ -270,6 +273,18 @@ public class RetrofitInterface {
     public interface getLocalBanksClient {
         @POST("getuserlocalaccounts")
         Call<LocalBankAccountResponse> localBankDataData(@Body LocalBankAccount localBankAccount);
+
+    }
+
+    public interface getLocalBanksListClient {
+        @POST("getlocalbanks")
+        Call<LocalBankAccountResponse> localBankListData(@Body LocalBankList localBankList);
+
+    }
+
+    public interface getLocalBanksBranchClient {
+        @POST("getbankbranches")
+        Call<LocalBankBranchResponse> localBankBranchData(@Body LocalBankBranch localBankBranch);
 
     }
 

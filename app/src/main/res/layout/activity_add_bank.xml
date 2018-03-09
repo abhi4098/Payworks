@@ -39,6 +39,7 @@
         android:orientation="horizontal">
 
             <Button
+                android:id="@+id/select_Local"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:paddingStart="40dp"
@@ -49,6 +50,7 @@
                 android:layout_marginEnd="2dp"/>
 
             <Button
+                android:id="@+id/select_international_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:paddingStart="10dp"
@@ -62,19 +64,12 @@
         </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:orientation="vertical"
-        >
+        android:id="@+id/ll_local_bank"
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -82,15 +77,14 @@
             android:gravity="center"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:id="@+id/rl_bank_name_spinner"
+            android:id="@+id/rl_local_bank_name_spinner"
             android:layout_marginTop="10dp"
-            android:layout_alignParentStart="true"
             android:background="@drawable/rectangular_background_grey"
             android:orientation="horizontal">
 
 
             <Spinner
-                android:id="@+id/bank_name_spinner"
+                android:id="@+id/local_bank_name_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -112,6 +106,167 @@
         </RelativeLayout>
 
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:id="@+id/rl_bank_name_spinner"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rectangular_background_grey"
+            android:orientation="horizontal">
+
+
+            <Spinner
+                android:id="@+id/local_bank_branch_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:spinnerMode="dropdown" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_keyboard_arrow_down_black_24dp" />
+
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/local_bank_account_holder"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:lines="1"
+            android:textColor="@color/text_color"
+            android:textStyle="normal"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:focusable="false"
+            android:background="@drawable/rectangular_background_grey"
+            android:hint="@string/account_holder_name"
+            android:layout_gravity="center_horizontal"
+            />
+
+        <EditText
+            android:id="@+id/local_bank_account_number"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:lines="1"
+            android:inputType="number"
+            android:textColor="@color/text_color"
+            android:textStyle="normal"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/rectangular_background_grey"
+            android:hint="@string/account_number"
+            android:layout_gravity="center_horizontal"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:id="@+id/rl_local_accounttype_spinner"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rectangular_background_grey"
+            android:orientation="horizontal">
+
+
+            <AutoCompleteTextView
+                android:id="@+id/local_acctype_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="start"
+                android:background="@android:color/transparent"
+                android:gravity="start"
+                android:textSize="16sp"
+                android:lines="1"
+                android:textColor="@color/text_color"
+                android:focusable="false"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:hint="Account Type" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_keyboard_arrow_down_black_24dp" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/add_local_bank_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:background="@drawable/button_state_selector"
+            android:text="@string/action_submit"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/rl_international_bank"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <EditText
+            android:id="@+id/bank_name"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:lines="1"
+            android:textColor="@color/text_color"
+            android:textStyle="normal"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/rectangular_background_grey"
+            android:hint="@string/bank_name"
+            android:layout_gravity="center_horizontal"
+            />
+
+
         <EditText
             android:id="@+id/bank_address"
             android:layout_width="match_parent"
@@ -126,7 +281,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/rectangular_background_grey"
-            android:hint="@string/bank_name"
+            android:hint="@string/bank_address"
             android:layout_gravity="center_horizontal"
            />
 
@@ -293,40 +448,29 @@
             android:layout_gravity="center_horizontal"
             />
 
-        <RelativeLayout
+        <AutoCompleteTextView
+            android:id="@+id/inter_acctype_spinner"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:id="@+id/rl_bank_account_type_spinner"
-            android:layout_marginTop="10dp"
-            android:layout_alignParentStart="true"
-            android:background="@drawable/rectangular_background_grey"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="start"
+            android:background="@android:color/transparent"
+            android:gravity="start"
+            android:textSize="16sp"
+            android:lines="1"
+            android:textColor="@color/text_color"
+            android:focusable="false"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:hint="Account Type" />
 
-
-            <Spinner
-                android:id="@+id/bank_acc_type_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:spinnerMode="dropdown" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_keyboard_arrow_down_black_24dp" />
-
-        </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_keyboard_arrow_down_black_24dp" />
 
         <EditText
             android:id="@+id/bank_routing_number"
@@ -365,10 +509,11 @@
             />
 
         <Button
-            android:id="@+id/edit_profile_button"
+            android:id="@+id/add_international_button"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginTop="20dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
@@ -382,7 +527,6 @@
 
 
     </RelativeLayout>
-
 
 
 </LinearLayout>

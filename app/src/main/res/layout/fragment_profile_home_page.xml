@@ -171,7 +171,7 @@
             android:id="@+id/ll_send_money"
             android:drawablePadding="5dp"
             android:background="@drawable/button_state_selector_transparent"
-            android:drawableTop="@drawable/send_money"
+            android:drawableTop="@drawable/send_money_dash"
             android:textColor="@color/black"
             android:text="@string/send_money"/>
 
@@ -201,7 +201,7 @@
             android:drawablePadding="5dp"
             android:background="@drawable/button_state_selector_transparent"
 
-            android:drawableTop="@drawable/request_money"
+            android:drawableTop="@drawable/request_money_dash"
             android:textColor="@color/black"
             android:text="Request Money"/>
 

@@ -14,22 +14,22 @@ public class Localbank {
     private String bankname;
     @SerializedName("bankaddress")
     @Expose
-    private Object bankaddress;
+    private String bankaddress;
     @SerializedName("bankcity")
     @Expose
-    private Object bankcity;
+    private String bankcity;
     @SerializedName("bankzip")
     @Expose
-    private Object bankzip;
+    private String bankzip;
     @SerializedName("bankcountry")
     @Expose
-    private Object bankcountry;
+    private String bankcountry;
     @SerializedName("bankstate")
     @Expose
-    private Object bankstate;
+    private String bankstate;
     @SerializedName("bankphone")
     @Expose
-    private Object bankphone;
+    private String bankphone;
     @SerializedName("accountholder")
     @Expose
     private String accountholder;
@@ -41,10 +41,10 @@ public class Localbank {
     private String accounttype;
     @SerializedName("routingnumber")
     @Expose
-    private Object routingnumber;
+    private String routingnumber;
     @SerializedName("swiftcode")
     @Expose
-    private Object swiftcode;
+    private String swiftcode;
     @SerializedName("user_id")
     @Expose
     private String userId;
@@ -65,7 +65,7 @@ public class Localbank {
     private String isdefault;
     @SerializedName("name")
     @Expose
-    private Object name;
+    private String name;
     @SerializedName("localbankname")
     @Expose
     private String localbankname;
@@ -92,51 +92,51 @@ public class Localbank {
         this.bankname = bankname;
     }
 
-    public Object getBankaddress() {
+    public String getBankaddress() {
         return bankaddress;
     }
 
-    public void setBankaddress(Object bankaddress) {
+    public void setBankaddress(String bankaddress) {
         this.bankaddress = bankaddress;
     }
 
-    public Object getBankcity() {
+    public String getBankcity() {
         return bankcity;
     }
 
-    public void setBankcity(Object bankcity) {
+    public void setBankcity(String bankcity) {
         this.bankcity = bankcity;
     }
 
-    public Object getBankzip() {
+    public String getBankzip() {
         return bankzip;
     }
 
-    public void setBankzip(Object bankzip) {
+    public void setBankzip(String bankzip) {
         this.bankzip = bankzip;
     }
 
-    public Object getBankcountry() {
+    public String getBankcountry() {
         return bankcountry;
     }
 
-    public void setBankcountry(Object bankcountry) {
+    public void setBankcountry(String bankcountry) {
         this.bankcountry = bankcountry;
     }
 
-    public Object getBankstate() {
+    public String getBankstate() {
         return bankstate;
     }
 
-    public void setBankstate(Object bankstate) {
+    public void setBankstate(String bankstate) {
         this.bankstate = bankstate;
     }
 
-    public Object getBankphone() {
+    public String getBankphone() {
         return bankphone;
     }
 
-    public void setBankphone(Object bankphone) {
+    public void setBankphone(String bankphone) {
         this.bankphone = bankphone;
     }
 
@@ -164,19 +164,19 @@ public class Localbank {
         this.accounttype = accounttype;
     }
 
-    public Object getRoutingnumber() {
+    public String getRoutingnumber() {
         return routingnumber;
     }
 
-    public void setRoutingnumber(Object routingnumber) {
+    public void setRoutingnumber(String routingnumber) {
         this.routingnumber = routingnumber;
     }
 
-    public Object getSwiftcode() {
+    public String getSwiftcode() {
         return swiftcode;
     }
 
-    public void setSwiftcode(Object swiftcode) {
+    public void setSwiftcode(String swiftcode) {
         this.swiftcode = swiftcode;
     }
 
@@ -228,11 +228,11 @@ public class Localbank {
         this.isdefault = isdefault;
     }
 
-    public Object getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Object name) {
+    public void setName(String name) {
         this.name = name;
     }
 

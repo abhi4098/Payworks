@@ -1,13 +1,18 @@
 package com.payworks.ui.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,11 +20,18 @@ import android.widget.Toast;
 import com.payworks.R;
 import com.payworks.api.ApiAdapter;
 import com.payworks.api.RetrofitInterface;
+import com.payworks.generated.LocalBankBranch;
+import com.payworks.generated.model.Branch;
 import com.payworks.generated.model.Country;
 import com.payworks.generated.model.CountryList;
 import com.payworks.generated.model.CountryListResponse;
 import com.payworks.generated.model.EditProfile;
 import com.payworks.generated.model.EditProfileResponse;
+import com.payworks.generated.model.LocalBankAccount;
+import com.payworks.generated.model.LocalBankAccountResponse;
+import com.payworks.generated.model.LocalBankBranchResponse;
+import com.payworks.generated.model.LocalBankList;
+import com.payworks.generated.model.Localbank;
 import com.payworks.generated.model.State;
 import com.payworks.generated.model.StateList;
 import com.payworks.generated.model.StateListResponse;
@@ -43,7 +55,31 @@ public class AddBankActivity extends BaseActivity {
 
     /*private RetrofitInterface.editProfileClient EditProfileAdapter;
     String userTitle,userFirstName,userLastName,userAddress,userPhone,userEmail,userBio,userTinnumber,usernibpassport,userZip,userCity,userCountry,userState;*/
+    private RetrofitInterface.getLocalBanksListClient MyLocalBankAdapter;
+    private RetrofitInterface.getLocalBanksBranchClient MyLocalBankBranchAdapter;
+    ArrayList<Branch> branchList = null;
+    ArrayList<String> showBranchList = null;
+    Boolean isBankSelected =false;
+    Boolean isInternationalSelected =false;
+    String spBranchSelectedItem,selectedAccountType,userAccountName,userAccountNumber,selectedInterAccountType ;
+    private RetrofitInterface.getCountryListClient countryListAdapter;
+    private RetrofitInterface.getStateListClient stateListAdapter;
 
+    ArrayList<Country> countryList = null;
+    ArrayList<String> showCountryList = null;
+    String spCountrySelectedItem ;
+
+    ArrayList<State> stateList = null;
+    ArrayList<String> showStateList = null;
+    String spStateSelectedItem;
+
+    String userCountry,userState,userInterBankName,userInterBankAdd,userInterBankCity, userInterBankZip,userInterBankPhone
+            ,userInterBankAccNum,userInterBankRoutingNumber,userInterBankSwift,userInterBankAccHolder;
+
+
+    ArrayList<Localbank> myLocalBankAccountList = null;
+    ArrayList<String> myLocalBanknameList = null;
+    String spLocalBank,userLocalBankId,userBranch,userAccountType,userInterAccountType;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -53,94 +89,192 @@ public class AddBankActivity extends BaseActivity {
     @BindView(R.id.notification_icon)
     ImageView notificationIcon;
 
-   /* @BindView(R.id.user_first_name)
-    EditText etUserFirstName;
+    @BindView(R.id.ll_local_bank)
+    LinearLayout llLocalBank;
 
-    @BindView(R.id.user_last_name)
-    EditText etUserLastName;
+    @BindView(R.id.rl_international_bank)
+    RelativeLayout rlInternationalBank;
 
-    @BindView(R.id.user_email)
-    EditText etUserEmailId;
+    @BindView(R.id.local_bank_account_holder)
+    EditText etLocalBankAccountHolder;
 
+    @BindView(R.id.local_bank_account_number)
+    EditText etLocalBankAccountNumber;
+
+    @BindView(R.id.local_acctype_spinner)
+    AutoCompleteTextView actLocalAccType;
+
+    @BindView(R.id.local_bank_name_spinner)
+    Spinner spLocalBankNameDropdown;
+
+    @BindView(R.id.local_bank_branch_spinner)
+    Spinner spLocalBranchDropdown;
+
+
+
+
+    @BindView(R.id.bank_country_spinner)
+    Spinner spCountryDropdown;
     @BindView(R.id.state_spinner)
     Spinner spStateDropdown;
 
-    @BindView(R.id.country_spinner)
-    Spinner spCountryDropdown;
+
+    @BindView(R.id.bank_name)
+    EditText etInterBankName;
+
+    @BindView(R.id.bank_address)
+    EditText etInterBankAdd;
+
+    @BindView(R.id.bank_city)
+    EditText etInterBankCity;
+
+    @BindView(R.id.bank_zip)
+    EditText etInterBankZip;
+
+    @BindView(R.id.bank_phone)
+    EditText etInterBankPhone;
+
+    @BindView(R.id.bank_account_holder)
+    EditText etInterBankAccountHolder;
+
+    @BindView(R.id.bank_account_number)
+    EditText etInterBankAccNum;
+
+    @BindView(R.id.bank_routing_number)
+    EditText etInterBankRoutingNum;
+
+    @BindView(R.id.bank_swiftcode)
+    EditText etInterBankSwiftCode;
+
+    @BindView(R.id.inter_acctype_spinner)
+    AutoCompleteTextView actInterAccType;
 
 
-    @BindView(R.id.user_phone_num)
-    EditText etUserPhoneNumber;
-
-    @BindView(R.id.user_address)
-    EditText etUserAddress;
-
-    @BindView(R.id.user_city)
-    EditText etUserCity;
-
-
-    @BindView(R.id.user_zip)
-    EditText etUserZip;
-
-    @BindView(R.id.user_passport)
-    EditText etUserPassport;
-
-    @BindView(R.id.user_tin_number)
-    EditText etUserTinNumber;
-
-    @BindView(R.id.user_title)
-    EditText etUserTitle;
-
-    @BindView(R.id.user_bio)
-    EditText etUserBio;
-
-
-    ArrayList<Country> countryList = null;
-    ArrayList<String> showCountryList = null;
-    String spCountrySelectedItem ;
-
-    ArrayList<State> stateList = null;
-    ArrayList<String> showStateList = null;
-    String spStateSelectedItem ;
-
-    private RetrofitInterface.getCountryListClient countryListAdapter;
-    private RetrofitInterface.getStateListClient stateListAdapter;
-
-    @OnClick(R.id.edit_profile_button)
-    public void editUserProfile()
+    @OnClick(R.id.add_international_button)
+    public void addInternational()
     {
-        userTitle = etUserTitle.getText().toString();
-        userFirstName = etUserFirstName.getText().toString();
-        userLastName = etUserLastName.getText().toString();
-        userAddress = etUserAddress.getText().toString();
-        userPhone = etUserPhoneNumber.getText().toString();
-        userEmail = etUserEmailId.getText().toString();
-        userBio = etUserBio.getText().toString();
-        userTinnumber = etUserTinNumber.getText().toString();
-        usernibpassport = etUserPassport.getText().toString();
-        userZip = etUserZip.getText().toString();
-        userCity = etUserCity.getText().toString();
 
-        for (int j=0;j<countryList.size();j++)
-        {
-            if ((countryList.get(j).getName()).equals(spCountrySelectedItem))
-            {
-                userCountry = countryList.get(j).getId();
+        if (isInternationalSelected) {
+            userInterBankName = etInterBankName.getText().toString();
+            userInterBankAdd = etInterBankAdd.getText().toString();
+            userInterBankCity = etInterBankCity.getText().toString();
+            userInterBankZip = etInterBankZip.getText().toString();
+            userInterBankPhone = etInterBankPhone.getText().toString();
+            userAccountNumber = etInterBankAccNum.getText().toString();
+            userInterBankAccHolder = PrefUtils.getFirstName(this).concat(PrefUtils.getLastName(this));
+            userInterBankRoutingNumber = etInterBankRoutingNum.getText().toString();
+            userInterBankSwift = etInterBankSwiftCode.getText().toString();
+            userCountry =spCountrySelectedItem;
+            userState =spStateSelectedItem;
+            userInterAccountType =selectedInterAccountType;
+
+
+            if (isInterRegistrationValid()) {
+                Log.e("abhi", "requestMoney: valid............");
+                //addLocalBankDetails();
             }
         }
-
-        for (int j=0;j<stateList.size();j++)
+        else
         {
-            if ((stateList.get(j).getName()).equals(spStateSelectedItem))
-            {
-                userState = stateList.get(j).getId();
-            }
+            Toast.makeText(getApplicationContext(),"Add Bank Details ",Toast.LENGTH_SHORT).show();
         }
-
-
-        editProfileDetails();
     }
-*/
+
+
+    @OnClick(R.id.select_international_btn)
+    public void selectInternational()
+    {
+        rlInternationalBank.setVisibility(View.VISIBLE);
+        llLocalBank.setVisibility(View.GONE);
+
+        etInterBankAccountHolder.setText(PrefUtils.getFirstName(this).concat(PrefUtils.getLastName(this)));
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.account_type, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        actInterAccType.setAdapter(adapter);
+        actInterAccType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedInterAccountType = (String)adapterView.getItemAtPosition(i);
+                Log.e("abhi", "onCreate: ------------"+selectedInterAccountType );
+            }
+        });
+        getCountryDropDownList();
+    }
+
+    @OnClick(R.id.select_Local)
+    public void selectLocal()
+    {
+     rlInternationalBank.setVisibility(View.GONE);
+     llLocalBank.setVisibility(View.VISIBLE);
+        etLocalBankAccountHolder.setText(PrefUtils.getFirstName(this).concat(PrefUtils.getLastName(this)));
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.account_type, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        actLocalAccType.setAdapter(adapter);
+        actLocalAccType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedAccountType = (String)adapterView.getItemAtPosition(i);
+                Log.e("abhi", "onCreate: ------------"+selectedAccountType );
+            }
+        });
+        setUpRestAdapter();
+        getMyLocalBanks();
+    }
+
+    @OnClick(R.id.add_local_bank_button)
+    public void addLocalBank()
+    {
+        if (isBankSelected) {
+            userAccountName = PrefUtils.getFirstName(this).concat(PrefUtils.getLastName(this));
+            userAccountNumber = etLocalBankAccountNumber.getText().toString();
+            userAccountType = selectedAccountType;
+            userBranch = spBranchSelectedItem;
+            userLocalBankId =spLocalBank;
+
+            if (isRegistrationValid()) {
+                Log.e("abhi", "requestMoney: valid............");
+                //addLocalBankDetails();
+            }
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"Add Bank Details ",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    private boolean isRegistrationValid() {
+
+        if (userAccountNumber == null || userAccountNumber.equals("")  || userBranch.equals("")|| userBranch.equals("Select Branch")
+                || userLocalBankId.equals("")|| userLocalBankId.equals("Select Local Bank")||selectedAccountType.equals("")|| selectedAccountType.equals("Select Local Bank"))
+
+        {
+
+            if (userAccountNumber == null || userAccountNumber.equals("") )
+                etLocalBankAccountNumber.setError(getString(R.string.error_compulsory_field));
+
+            if (userLocalBankId == null || userLocalBankId.equals("")|| userLocalBankId.equals("Select Local Bank"))
+                Toast.makeText(getApplicationContext(),"Select Local Bank",Toast.LENGTH_SHORT).show();
+
+            if (userBranch == null || userBranch.equals("")|| userBranch.equals("Select Branch"))
+                Toast.makeText(getApplicationContext(),"Select Branch ",Toast.LENGTH_SHORT).show();
+
+
+            if (selectedAccountType == null || selectedAccountType.equals(""))
+                Toast.makeText(getApplicationContext(),"Select Account Type ",Toast.LENGTH_SHORT).show();
+
+
+
+
+
+            return false;
+        } else
+            return true;
+
+    }
+
     @Override
     public int getLayoutResourceId() {
         return R.layout.activity_add_bank;
@@ -172,41 +306,204 @@ public class AddBankActivity extends BaseActivity {
         ButterKnife.bind(this);
         tvAppTitle.setText(R.string.add_bank_account);
         notificationIcon.setVisibility(View.GONE);
-
-      /*  etUserEmailId.setText(PrefUtils.getEmail(AddBankActivity.this));
-        etUserFirstName.setText(PrefUtils.getFirstName(AddBankActivity.this));
-        etUserLastName.setText(PrefUtils.getLastName(AddBankActivity.this));
-        etUserPhoneNumber.setText(PrefUtils.getPhone(AddBankActivity.this));
-        etUserTitle.setText(PrefUtils.getUserTitle(AddBankActivity.this));
-        etUserAddress.setText(PrefUtils.getUserAdd(AddBankActivity.this));
-        etUserCity.setText(PrefUtils.getUserCity(AddBankActivity.this));
-        etUserZip.setText(PrefUtils.getUserZip(AddBankActivity.this));
-        etUserPassport.setText(PrefUtils.getUserPassport(AddBankActivity.this));
-        etUserTinNumber.setText(PrefUtils.getUserTinNumber(AddBankActivity.this));
-        etUserBio.setText(PrefUtils.getUserBio(AddBankActivity.this));
-       // spCountryDropdown;
-        if (PrefUtils.getCountry(AddBankActivity.this) == null)
-        {
-            spCountrySelectedItem = "Select Country";
-        }
-        else {
-            spCountrySelectedItem = PrefUtils.getCountry(AddBankActivity.this);
-        }
-
-        if (PrefUtils.getUserState(AddBankActivity.this) == null)
-        {
-            spStateSelectedItem = "Select State";
-        }
-        else {
-            spStateSelectedItem = PrefUtils.getUserState(AddBankActivity.this);
-        }
-
+        etLocalBankAccountHolder.setText(PrefUtils.getFirstName(this).concat(PrefUtils.getLastName(this)));
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.account_type, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        actLocalAccType.setAdapter(adapter);
+        actLocalAccType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedAccountType = (String)adapterView.getItemAtPosition(i);
+                Log.e("abhi", "onCreate: ------------"+selectedAccountType );
+            }
+        });
         setUpRestAdapter();
-        getCountryDropDownList();*/
-       // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        getMyLocalBanks();
     }
 
-   /* private void getCountryDropDownList() {
+    @OnClick(R.id.local_acctype_spinner)
+    public void userAccountType()
+    {
+
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(actLocalAccType.getWindowToken(), 0);
+        actLocalAccType.showDropDown();
+
+    }
+
+
+
+    private void getMyLocalBanks() {
+        LoadingDialog.showLoadingDialog(this,"Loading...");
+        Call<LocalBankAccountResponse> call = MyLocalBankAdapter.localBankListData(new LocalBankList("localbanklist","83Ide@$321!"));
+        if (NetworkUtils.isNetworkConnected(this)) {
+            call.enqueue(new Callback<LocalBankAccountResponse>() {
+
+                @Override
+                public void onResponse(Call<LocalBankAccountResponse> call, Response<LocalBankAccountResponse> response) {
+
+                    if (response.isSuccessful()) {
+                        setLocalBankDetails(response);
+                        LoadingDialog.cancelLoading();
+
+
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<LocalBankAccountResponse> call, Throwable t) {
+                    LoadingDialog.cancelLoading();
+                }
+
+
+            });
+
+        } else {
+            SnakBarUtils.networkConnected(this);
+        }
+    }
+
+
+
+    private void setLocalBankDetails(Response<LocalBankAccountResponse> response) {
+        myLocalBankAccountList = new ArrayList<>();
+        myLocalBanknameList = new ArrayList<>();
+        myLocalBanknameList.add("Select Local Bank");
+        for (int i = 0; i < response.body().getLocalbanks().size(); i++) {
+            Localbank localbank = new Localbank();
+            localbank.setId(response.body().getLocalbanks().get(i).getId());
+            localbank.setBankname(response.body().getLocalbanks().get(i).getBankname());
+            /*localbank.setLocalbankname(response.body().getLocalbanks().get(i).getLocalbankname());
+            localbank.setBranchname(response.body().getLocalbanks().get(i).getBranchname());
+            localbank.setTransit(response.body().getLocalbanks().get(i).getTransit());
+            localbank.setIsdefault(response.body().getLocalbanks().get(i).getIsdefault());*/
+            myLocalBankAccountList.add(localbank);
+            myLocalBanknameList.add(response.body().getLocalbanks().get(i).getBankname());
+
+        }
+
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                R.layout.spinner_item_layout, myLocalBanknameList);
+        spLocalBankNameDropdown.setAdapter(dataAdapter);
+
+        spLocalBankNameDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                spLocalBank = spLocalBankNameDropdown.getSelectedItem().toString();
+
+
+
+                if (!spLocalBank.equals("Select Local Bank")) {
+                    for (int j=0;j<myLocalBankAccountList.size();j++)
+                    {
+                        if ((myLocalBankAccountList.get(j).getBankname()).equals(spLocalBank))
+                        {
+                            userLocalBankId = myLocalBankAccountList.get(j).getId();
+                        }
+                    }
+                    getBranchNameDropdown(userLocalBankId);
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
+    private void getBranchNameDropdown(String userLocalBankId) {
+
+        LoadingDialog.showLoadingDialog(this,"Loading...");
+        Call<LocalBankBranchResponse> call = MyLocalBankBranchAdapter.localBankBranchData(new LocalBankBranch("getbankbranches","83Ide@$321!",userLocalBankId));
+        if (NetworkUtils.isNetworkConnected(this)) {
+            call.enqueue(new Callback<LocalBankBranchResponse>() {
+
+                @Override
+                public void onResponse(Call<LocalBankBranchResponse> call, Response<LocalBankBranchResponse> response) {
+
+                    if (response.isSuccessful()) {
+
+                            Log.e("abhi", "onResponse: ..........."+response.body().getBranches().size() );
+                           setBranchListDropDown(response);
+
+                        LoadingDialog.cancelLoading();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<LocalBankBranchResponse> call, Throwable t) {
+                    LoadingDialog.cancelLoading();
+                }
+
+
+            });
+
+        } else {
+            SnakBarUtils.networkConnected(this);
+        }
+    }
+
+    private void setBranchListDropDown(Response<LocalBankBranchResponse> response) {
+        branchList = new ArrayList<>();
+        showBranchList = new ArrayList<>();
+        showBranchList.add("Select Branch");
+
+        for (int i = 0; i < response.body().getBranches().size(); i++) {
+            Branch branch = new Branch();
+
+            branch.setId(response.body().getBranches().get(i).getId());
+            branch.setBranchname(response.body().getBranches().get(i).getBranchname());
+            branch.setTransit(response.body().getBranches().get(i).getTransit());
+            branchList.add(branch);
+            showBranchList.add(response.body().getBranches().get(i).getBranchname().concat("(").concat(response.body().getBranches().get(i).getTransit()).concat(")"));
+
+        }
+
+        final ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item_layout, showBranchList);
+        spLocalBranchDropdown.setAdapter(categoryAdapter);
+
+        spLocalBranchDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                spBranchSelectedItem = spLocalBranchDropdown.getSelectedItem().toString();
+                isBankSelected =true;
+                Log.e("abhi", "onItemSelected:.................branch "+spBranchSelectedItem );
+                if (!spBranchSelectedItem.equals("Select Branch")) {
+                    for (int j=0;j<branchList.size();j++)
+                    {
+                        if ((branchList.get(j).getBranchname()).equals(spBranchSelectedItem))
+                        {
+                            userBranch = branchList.get(j).getId();
+                        }
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void setUpRestAdapter() {
+        MyLocalBankBranchAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.getLocalBanksBranchClient.class, BASE_URL, this);
+        MyLocalBankAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.getLocalBanksListClient.class, BASE_URL, this);
+        countryListAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.getCountryListClient.class, BASE_URL, this);
+        stateListAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.getStateListClient.class, BASE_URL, this);
+    }
+
+
+    private void getCountryDropDownList() {
         LoadingDialog.showLoadingDialog(this,"Loading...");
         Call<CountryListResponse> call = countryListAdapter.countryListData(new CountryList("countryList","83Ide@$321!"));
         if (NetworkUtils.isNetworkConnected(AddBankActivity.this)) {
@@ -240,8 +537,7 @@ public class AddBankActivity extends BaseActivity {
 
     private void setCountryListDropDown(Response<CountryListResponse> response) {
         showCountryList = new ArrayList<>();
-
-        showCountryList.add(spCountrySelectedItem);
+        showCountryList.add("Select Country");
         countryList = new ArrayList<>();
         for (int i = 0; i < response.body().getCountries().size(); i++) {
             Country country = new Country();
@@ -316,7 +612,7 @@ public class AddBankActivity extends BaseActivity {
 
     private void setStateListDropDown(Response<StateListResponse> response) {
         showStateList = new ArrayList<>();
-        showStateList.add(spStateSelectedItem);
+        showStateList.add("Select State");
         stateList = new ArrayList<>();
         for (int i = 0; i < response.body().getStates().size(); i++) {
             State state = new State();
@@ -355,56 +651,62 @@ public class AddBankActivity extends BaseActivity {
         });
     }
 
-    private void setUpRestAdapter() {
-        EditProfileAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.editProfileClient.class, BASE_URL, this);
-        countryListAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.getCountryListClient.class, BASE_URL, this);
-        stateListAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.getStateListClient.class, BASE_URL, this);
+    private boolean isInterRegistrationValid() {
+
+        if (userInterBankAdd == null || userInterBankAdd.equals("") || userInterBankCity == null || userInterBankCity.equals("") ||userState == null || userState.equals("")|| userState.equals("Select State") || userInterBankName == null || userInterBankName.equals("") || userCountry == null
+                || userCountry.equals("")|| userCountry.equals("Select Country")||userInterAccountType == null || userInterAccountType.equals("")||
+                userInterBankZip == null || userInterBankZip.equals("") ||selectedAccountType.equals("")|| selectedAccountType.equals("Select Local Bank")|| userInterBankPhone == null || userInterBankPhone.equals("")
+                || userInterBankAccNum == null || userInterBankAccNum.equals("")|| userInterBankRoutingNumber == null || userInterBankRoutingNumber.equals("")|| userInterBankSwift == null || userInterBankSwift.equals(""))
+
+        {
+
+            if (userInterBankName == null || userInterBankName.equals("") )
+                etInterBankName.setError(getString(R.string.error_compulsory_field));
+
+            if (userState == null || userState.equals("")|| userState.equals("Select State"))
+                Toast.makeText(getApplicationContext(),"Select State ",Toast.LENGTH_SHORT).show();
+
+
+            if (userCountry == null || userCountry.equals("")|| userCountry.equals("Select Country"))
+                Toast.makeText(getApplicationContext(),"Select Country ",Toast.LENGTH_SHORT).show();
+
+
+
+
+            if (userInterAccountType == null || userInterAccountType.equals(""))
+                Toast.makeText(getApplicationContext(),"Select Account Type ",Toast.LENGTH_SHORT).show();
+
+            if (userInterBankAdd == null || userInterBankAdd.equals("") )
+                etInterBankAdd.setError(getString(R.string.error_compulsory_field));
+
+            if (userInterBankCity == null || userInterBankCity.equals("") )
+                etInterBankCity.setError(getString(R.string.error_compulsory_field));
+
+            if (userInterBankZip == null || userInterBankZip.equals("") )
+                etInterBankZip.setError(getString(R.string.error_compulsory_field));
+
+            if (userInterBankPhone == null || userInterBankPhone.equals("") )
+                etInterBankPhone.setError(getString(R.string.error_compulsory_field));
+
+            if (userInterBankAccNum == null || userInterBankAccNum.equals("") )
+                etInterBankAccNum.setError(getString(R.string.error_compulsory_field));
+
+            if (userInterBankRoutingNumber == null || userInterBankRoutingNumber.equals("") )
+                etInterBankRoutingNum.setError(getString(R.string.error_compulsory_field));
+
+            if (userInterBankSwift == null || userInterBankSwift.equals("") )
+                etInterBankSwiftCode.setError(getString(R.string.error_compulsory_field));
+
+
+
+
+
+
+
+            return false;
+        } else
+            return true;
+
     }
 
-
-    private void editProfileDetails() {
-        LoadingDialog.showLoadingDialog(this,"Loading...");
-        Call<EditProfileResponse> call = EditProfileAdapter.editProfileData(new EditProfile("updatemyprofile", PrefUtils.getUserId(this),"83Ide@$321!",userTitle,userFirstName,userLastName,userAddress,userPhone,userEmail,userBio,userTinnumber,usernibpassport,userZip,userCity,userCountry,userState));
-        if (NetworkUtils.isNetworkConnected(AddBankActivity.this)) {
-            call.enqueue(new Callback<EditProfileResponse>() {
-
-                @Override
-                public void onResponse(Call<EditProfileResponse> call, Response<EditProfileResponse> response) {
-
-                    if (response.isSuccessful()) {
-
-
-                        if (response.body().getTokenid() !=null) {
-
-                            if (response.body().getType() == 1) {
-                                Log.e("abhi", "onResponse: "+response.body().getMsg() );
-                                Toast.makeText(getApplicationContext(),response.body().getMsg(),Toast.LENGTH_SHORT).show();
-                                LoadingDialog.cancelLoading();
-                                finish();
-                            }
-                            else {
-                                Toast.makeText(getApplicationContext(),response.body().getMsg(),Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(),"Invalid Details",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<EditProfileResponse> call, Throwable t) {
-                    LoadingDialog.cancelLoading();
-                }
-
-
-            });
-
-        } else {
-            SnakBarUtils.networkConnected(AddBankActivity.this);
-            LoadingDialog.cancelLoading();
-        }
-    }*/
 }

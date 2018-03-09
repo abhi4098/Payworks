@@ -104,8 +104,9 @@ public class ProfileHomePageFragment extends Fragment {
     @OnClick(R.id.ll_request_money)
     public void requestMoney() {
 
-        Intent activityChangeIntent = new Intent(getActivity(), RequestMoneyActivity.class);
-        startActivity(activityChangeIntent);
+        /*Intent activityChangeIntent = new Intent(getActivity(), RequestMoneyActivity.class);
+        startActivity(activityChangeIntent);*/
+        Toast.makeText(getActivity(),"its comming soon",Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.ll_add_money)
@@ -119,8 +120,9 @@ public class ProfileHomePageFragment extends Fragment {
     @OnClick(R.id.ll_send_money)
     public void sendMoney() {
 
-        Intent activityChangeIntent = new Intent(getActivity(), RecievedMoneyRequestActivity.class);
-        startActivity(activityChangeIntent);
+       /* Intent activityChangeIntent = new Intent(getActivity(), RecievedMoneyRequestActivity.class);
+        startActivity(activityChangeIntent);*/
+       Toast.makeText(getActivity(),"its comming soon",Toast.LENGTH_SHORT).show();
     }
 
     public ProfileHomePageFragment() {
@@ -128,32 +130,6 @@ public class ProfileHomePageFragment extends Fragment {
     }
 
 
-   /* @Override
-    public void onResume() {
-        super.onResume();
-      *//*  QUERY_NOTIFICATION_COUNT = 0;
-        PrefUtils.setActiveConsultationScreenVisible(getActivity(), true);
-        getActivity().registerReceiver(networkReceiver, new IntentFilter("internet_connectivity_check"));
-        getActivity().registerReceiver(queryReceiver, new IntentFilter(DocFirebaseMessagingService.INTENT_FILTER));
-        getActivity().registerReceiver(chatMessageReceiver, new IntentFilter(ChatBroadCastReceiver.CHAT_FILTER));
-        if (NetworkUtils.isNetworkConnected(getActivity())) {
-            getOpenQuerynumber();
-        } else {
-            setScreenFromDatabse();
-            if (getActivity() != null)
-                SnakBarUtils.networkConnected(getActivity());
-        }*//*
-    }
-*/
-
-    /*@Override
-    public void onPause() {
-        super.onPause();
-       *//* PrefUtils.setActiveConsultationScreenVisible(getActivity(), false);
-        getActivity().unregisterReceiver(queryReceiver);
-        getActivity().unregisterReceiver(chatMessageReceiver);
-        getActivity().unregisterReceiver(networkReceiver);*//*
-    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -167,46 +143,6 @@ public class ProfileHomePageFragment extends Fragment {
 
     }
 
-/*
-    private void getWalletBalance() {
-        LoadingDialog.showLoadingDialog(getActivity(),"Loading...");
-        Call<MyProfileResponse> call = UserWalletAdapter.userWallet(new MyProfile("walletbalance", PrefUtils.getUserId(getActivity()),"83Ide@$321!"));
-        if (NetworkUtils.isNetworkConnected(getActivity())) {
-            call.enqueue(new Callback<MyProfileResponse>() {
-
-                @Override
-                public void onResponse(Call<MyProfileResponse> call, Response<MyProfileResponse> response) {
-
-                    if (response.isSuccessful()) {
-                        Log.e(TAG, "onResponse: " +response.body() );
-                        //tvWalletBalance.setText(response.body().toString());
-                        LoadingDialog.cancelLoading();
-
-
-
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<MyProfileResponse> call, Throwable t) {
-                    Log.e(TAG, "onFailure: ------------" +t.toString());
-                    LoadingDialog.cancelLoading();
-                }
-
-
-            });
-
-        } else {
-            SnakBarUtils.networkConnected(getActivity());
-            LoadingDialog.cancelLoading();
-        }
-    }
-
-    private void setUpRestAdapter() {
-        UserWalletAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.UserWalletClient.class, ApiEndPoints.BASE_URL, getActivity());
-       // QueryNotificationAdapterForHome = ApiAdapter.createRestAdapter(RetrofitInterface.QueryNotificationClient.class, ApiEndPoints.BASE_URL, getActivity());
-    }
-*/
 
 
     private void getUserTransactions() {
