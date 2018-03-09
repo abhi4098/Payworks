@@ -41,11 +41,16 @@ public class Registration {
     @Expose
     private String companyname;
 
+    @SerializedName("address")
+    @Expose
+    private String address;
 
-    public Registration(String email, String fname,String lname,String pass,String country,String type,String token,String phone,String companybox,String companyname) {
+
+    public Registration(String email, String fname,String lname,String pass,String country,String type,String token,String phone,String companybox,String companyname,String address) {
         this.email = email;
         this.fname = fname;
         this.lname = lname;
+        this.address = address;
         this.pass = pass;
         this.country = country;
         this.type = type;

@@ -55,6 +55,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     ImageView notificationIcon;
 
     EditText etUserFirstName;
+    EditText etUserAddress;
     EditText etUserEmailId;
     EditText etUserLastName;
     //EditText etUserCountry;
@@ -71,7 +72,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     ArrayList<Country> countryList = null;
     ArrayList<String> showCountryList = null;
     String userCheckBox ="0";
-    String userFirstname,userLastName,userPhone,userEmail,userCountry,userPassword,userFullName,userCompanyName;
+    String userFirstname,userLastName,userPhone,userEmail,userCountry,userPassword,userAddress,userCompanyName;
     private RetrofitInterface.UserRegistrationClient registrationAdapter;
     private RetrofitInterface.getCountryListClient countryListAdapter;
 
@@ -104,6 +105,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         etUserFirstName = (EditText) findViewById(R.id.user_first_name);
+        etUserAddress = (EditText) findViewById(R.id.user_add);
         etUserLastName = (EditText) findViewById(R.id.user_last_name);
         etUserPhoneNumber = (EditText) findViewById(R.id.user_phone_num);
         etUserEmailId = (EditText) findViewById(R.id.user_email);
@@ -150,6 +152,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         userCompanyName = etCompanyName.getText().toString();
+        userAddress = etUserAddress.getText().toString();
         userFirstname = etUserFirstName.getText().toString();
         userLastName = etUserLastName.getText().toString();
         userEmail = etUserEmailId.getText().toString();
@@ -209,7 +212,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
         if (userFirstname == null || userFirstname.equals("") || userLastName == null || userLastName.equals("") ||
                 userPhone == null || userPhone.equals("") ||userCountry.equals("select Country")|| userCountry.equals("Select")|| userCountry == null || userPassword.equals("") ||
-                userPassword == null || userEmail.equals("") || userEmail == null   || !isValidEmail(userEmail))
+                userPassword == null || userEmail.equals("") || userEmail == null   || !isValidEmail(userEmail)||userAddress == null || userAddress.equals(""))
 
         {
 
@@ -224,6 +227,9 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
             if ( userPassword == null || userPassword.equals(""))
                 etUserPassword.setError(getString(R.string.error_compulsory_field));
+
+            if ( userAddress == null || userAddress.equals(""))
+                etUserAddress.setError(getString(R.string.error_compulsory_field));
 
             if ( userEmail == null || userEmail.equals(""))
                 etUserEmailId.setError(getString(R.string.error_compulsory_field));
@@ -246,7 +252,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
     private void getRegistrationDetails() {
         LoadingDialog.showLoadingDialog(this,"Loading...");
-        Call<RegistrationResponse> call = registrationAdapter.userRegistration(new Registration(userEmail, userFirstname, userLastName, userPassword, userCountry,"registration","83Ide@$321!",userPhone,userCheckBox,userCompanyName));
+        Call<RegistrationResponse> call = registrationAdapter.userRegistration(new Registration(userEmail, userFirstname, userLastName, userPassword, userCountry,"registration","83Ide@$321!",userPhone,userCheckBox,userCompanyName,userAddress));
         if (NetworkUtils.isNetworkConnected(RegistrationActivity.this)) {
             call.enqueue(new Callback<RegistrationResponse>() {
 

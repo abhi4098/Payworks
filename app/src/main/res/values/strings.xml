@@ -122,6 +122,7 @@
     <string name="account_holder_name">Account Holder</string>
     <string name="account_number">Account Number</string>
     <string name="bank_address">Bank Address</string>
+    <string name="enter_the_address">Enter Address</string>
 
     <string-array name="priority_array">
         <item>Normal</item>
