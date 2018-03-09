@@ -27,8 +27,12 @@ import com.payworks.generated.model.CountryList;
 import com.payworks.generated.model.CountryListResponse;
 import com.payworks.generated.model.EditProfile;
 import com.payworks.generated.model.EditProfileResponse;
+import com.payworks.generated.model.InterBankAddition;
+import com.payworks.generated.model.InterBankAdditionResponse;
 import com.payworks.generated.model.LocalBankAccount;
 import com.payworks.generated.model.LocalBankAccountResponse;
+import com.payworks.generated.model.LocalBankAddition;
+import com.payworks.generated.model.LocalBankAdditionResponse;
 import com.payworks.generated.model.LocalBankBranchResponse;
 import com.payworks.generated.model.LocalBankList;
 import com.payworks.generated.model.Localbank;
@@ -64,6 +68,9 @@ public class AddBankActivity extends BaseActivity {
     String spBranchSelectedItem,selectedAccountType,userAccountName,userAccountNumber,selectedInterAccountType ;
     private RetrofitInterface.getCountryListClient countryListAdapter;
     private RetrofitInterface.getStateListClient stateListAdapter;
+
+    private RetrofitInterface.myLocalBankAdditionClient myLocalAdditionAdapter;
+    private RetrofitInterface.myInterBankAdditionClient myInterAdditonAdapter;
 
     ArrayList<Country> countryList = null;
     ArrayList<String> showCountryList = null;
@@ -160,7 +167,7 @@ public class AddBankActivity extends BaseActivity {
             userInterBankCity = etInterBankCity.getText().toString();
             userInterBankZip = etInterBankZip.getText().toString();
             userInterBankPhone = etInterBankPhone.getText().toString();
-            userAccountNumber = etInterBankAccNum.getText().toString();
+            userInterBankAccNum = etInterBankAccNum.getText().toString();
             userInterBankAccHolder = PrefUtils.getFirstName(this).concat(PrefUtils.getLastName(this));
             userInterBankRoutingNumber = etInterBankRoutingNum.getText().toString();
             userInterBankSwift = etInterBankSwiftCode.getText().toString();
@@ -171,12 +178,46 @@ public class AddBankActivity extends BaseActivity {
 
             if (isInterRegistrationValid()) {
                 Log.e("abhi", "requestMoney: valid............");
-                //addLocalBankDetails();
+                addInterBankDetails();
             }
         }
         else
         {
             Toast.makeText(getApplicationContext(),"Add Bank Details ",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void addInterBankDetails() {
+        LoadingDialog.showLoadingDialog(this,"Loading...");
+        Call<InterBankAdditionResponse> call = myInterAdditonAdapter.myinterAdditionData(new InterBankAddition("addbankaccount",PrefUtils.getUserId(this),"83Ide@$321!","international",userInterBankName,userInterBankAdd,userInterBankAccHolder,userInterBankAccNum,userInterAccountType,userCountry,userState,userInterBankPhone,userInterBankRoutingNumber,userInterBankSwift));
+        if (NetworkUtils.isNetworkConnected(this)) {
+            call.enqueue(new Callback<InterBankAdditionResponse>() {
+
+                @Override
+                public void onResponse(Call<InterBankAdditionResponse> call, Response<InterBankAdditionResponse> response) {
+
+                    if (response.isSuccessful()) {
+                        if (response.body().getType() ==1) {
+                            Log.e("abhi", "onResponse: "+response.body().getMsg());
+                            finish();
+                        }
+                        LoadingDialog.cancelLoading();
+
+
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<InterBankAdditionResponse> call, Throwable t) {
+                    LoadingDialog.cancelLoading();
+                }
+
+
+            });
+
+        } else {
+            SnakBarUtils.networkConnected(this);
         }
     }
 
@@ -235,12 +276,47 @@ public class AddBankActivity extends BaseActivity {
 
             if (isRegistrationValid()) {
                 Log.e("abhi", "requestMoney: valid............");
-                //addLocalBankDetails();
+                addLocalBankDetails();
             }
         }
         else
         {
             Toast.makeText(getApplicationContext(),"Add Bank Details ",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void addLocalBankDetails() {
+
+        LoadingDialog.showLoadingDialog(this,"Loading...");
+        Call<LocalBankAdditionResponse> call = myLocalAdditionAdapter.myLocalAdditionData(new LocalBankAddition("addbankaccount",PrefUtils.getUserId(this),"83Ide@$321!","local",userLocalBankId,userBranch,userAccountName,userAccountNumber,userAccountType));
+        if (NetworkUtils.isNetworkConnected(this)) {
+            call.enqueue(new Callback<LocalBankAdditionResponse>() {
+
+                @Override
+                public void onResponse(Call<LocalBankAdditionResponse> call, Response<LocalBankAdditionResponse> response) {
+
+                    if (response.isSuccessful()) {
+                        if (response.body().getType() ==1) {
+                            Log.e("abhi", "onResponse: "+response.body().getMsg());
+                            finish();
+                        }
+                        LoadingDialog.cancelLoading();
+
+
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<LocalBankAdditionResponse> call, Throwable t) {
+                    LoadingDialog.cancelLoading();
+                }
+
+
+            });
+
+        } else {
+            SnakBarUtils.networkConnected(this);
         }
     }
 
@@ -510,6 +586,8 @@ public class AddBankActivity extends BaseActivity {
         MyLocalBankAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.getLocalBanksListClient.class, BASE_URL, this);
         countryListAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.getCountryListClient.class, BASE_URL, this);
         stateListAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.getStateListClient.class, BASE_URL, this);
+        myLocalAdditionAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.myLocalBankAdditionClient.class, BASE_URL, this);
+        myInterAdditonAdapter = ApiAdapter.createRestAdapter(RetrofitInterface.myInterBankAdditionClient.class, BASE_URL, this);
     }
 
 
@@ -666,7 +744,7 @@ public class AddBankActivity extends BaseActivity {
 
         if (userInterBankAdd == null || userInterBankAdd.equals("") || userInterBankCity == null || userInterBankCity.equals("") ||userState == null || userState.equals("")|| userState.equals("Select State") || userInterBankName == null || userInterBankName.equals("") || userCountry == null
                 || userCountry.equals("")|| userCountry.equals("Select Country")||userInterAccountType == null || userInterAccountType.equals("")||
-                userInterBankZip == null || userInterBankZip.equals("") ||selectedAccountType.equals("")|| selectedAccountType.equals("Select Local Bank")|| userInterBankPhone == null || userInterBankPhone.equals("")
+                userInterBankZip == null || userInterBankZip.equals("") ||userInterAccountType.equals("")|| userInterAccountType.equals("Select Local Bank")|| userInterBankPhone == null || userInterBankPhone.equals("")
                 || userInterBankAccNum == null || userInterBankAccNum.equals("")|| userInterBankRoutingNumber == null || userInterBankRoutingNumber.equals("")|| userInterBankSwift == null || userInterBankSwift.equals(""))
 
         {

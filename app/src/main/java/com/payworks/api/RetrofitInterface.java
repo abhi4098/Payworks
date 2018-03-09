@@ -43,8 +43,12 @@ import com.payworks.generated.model.GoogleLogin;
 import com.payworks.generated.model.GoogleLoginResponse;
 import com.payworks.generated.model.ImageNameUpdate;
 import com.payworks.generated.model.ImageNameUpdateResponse;
+import com.payworks.generated.model.InterBankAddition;
+import com.payworks.generated.model.InterBankAdditionResponse;
 import com.payworks.generated.model.LocalBankAccount;
 import com.payworks.generated.model.LocalBankAccountResponse;
+import com.payworks.generated.model.LocalBankAddition;
+import com.payworks.generated.model.LocalBankAdditionResponse;
 import com.payworks.generated.model.LocalBankBranchResponse;
 import com.payworks.generated.model.LocalBankList;
 import com.payworks.generated.model.Login;
@@ -358,6 +362,18 @@ public class RetrofitInterface {
     public interface myBillsClient {
         @POST("getmybills")
         Call<MyBillsResponse> myBillsData(@Body MyBills myBills);
+
+    }
+
+    public interface myLocalBankAdditionClient {
+        @POST("addbankaccount.html")
+        Call<LocalBankAdditionResponse> myLocalAdditionData(@Body LocalBankAddition localBankAddition);
+
+    }
+
+    public interface myInterBankAdditionClient {
+        @POST("addbankaccount.html")
+        Call<InterBankAdditionResponse> myinterAdditionData(@Body InterBankAddition interBankAddition);
 
     }
 

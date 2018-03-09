@@ -162,5 +162,10 @@ public class MyBankAccountFragment extends Fragment {
 
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        setUpRestAdapter();
+        getBankAccountDetails();
+    }
 }
